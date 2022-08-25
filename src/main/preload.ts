@@ -19,3 +19,28 @@ contextBridge.exposeInMainWorld('electron', {
     },
   },
 });
+
+export type Channels2 = 'myApi';
+contextBridge.exposeInMainWorld('myApi', {
+  send: (channel: Channels2, data: unknown) => {
+    // whitelist channels
+    const validChannels = ['latest-query'];
+    if (validChannels.includes(channel)) {
+      ipcRenderer.send(channel, data);
+    }
+  },
+  receive: (channel: Channels2, func: any) => {
+    const validChannels = ['sql-return-latest'];
+    if (validChannels.includes(channel)) {
+      // Deliberately strip event as it includes `sender`
+      ipcRenderer.on(channel, (event, ...args) => func(...args));
+    }
+  },
+  removeListeners: (channel: Channels2) => {
+    const validChannels = ['sql-return-latest'];
+    if (validChannels.includes(channel)) {
+      // Deliberately strip event as it includes `sender`
+      ipcRenderer.removeAllListeners(channel);
+    }
+  },
+});

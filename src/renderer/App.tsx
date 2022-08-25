@@ -1,5 +1,4 @@
 import React, { useState, useEffect, createContext } from 'react';
-import { ipcRenderer } from 'electron';
 import styled from 'styled-components';
 import HeaderComponent from './components/header/HeaderComponent';
 import SearchComponent from './components/header/SearchComponent';
@@ -32,32 +31,6 @@ function App() {
     );
   };
   // console.log("App zibox2Client: " + zibox2Client);
-
-  // const [data, setData] = useState([]);
-  // useEffect(() => {
-  //   ipcRenderer.send(
-  //     // ipcRenderer.send("latest-query", "select * from call");
-  //     'latest-query',
-  //     'select * from call'
-  //   );
-  // }, []);
-
-  //@ts-ignore
-  // window.standardApi.receive("sql-return-latest", (data) => {
-  //     // ipcRenderer.on("sql-return-latest", (event, arg) => {
-  //     console.log(`Received data from main process`);
-  //     // console.table(data);
-  //     setData(data);
-  //     // setData(arg);
-  //     //@ts-ignore
-  //     window.standardApi.removeListeners("sql-return-latest");
-  //     // ipcRenderer.removeListeners("sql-return-latest");
-  // });
-
-  // ipcRenderer.on("sql-return-latest", (event, arg) => {
-  //     setData(arg);
-  //     ipcRenderer.removeAllListeners("sql-return-latest");
-  // });
 
   return (
     <AppDiv>

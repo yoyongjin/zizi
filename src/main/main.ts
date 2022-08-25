@@ -140,3 +140,12 @@ app
     });
   })
   .catch(console.log);
+
+const { getData, getData2 } = require('../../db/getdata');
+
+ipcMain.on('latest-query', (event, arg) => {
+  console.log('query from renderer : ', arg);
+  getData2(arg)
+    .then((res: any) => event.sender.send('sql-return-latest', res))
+    .catch((error: any) => console.log(error));
+});

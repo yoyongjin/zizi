@@ -12,6 +12,14 @@ declare global {
         once(channel: string, func: (...args: unknown[]) => void): void;
       };
     };
+    myApi: {
+      send(channel: string, data: string): void;
+      receive(
+        channel: string,
+        func: (...args: unknown[]) => void
+      ): (() => void) | undefined;
+      removeListeners(channel: string): void;
+    };
   }
 }
 
