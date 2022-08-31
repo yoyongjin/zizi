@@ -4,8 +4,9 @@ import HeaderComponent from './components/header/HeaderComponent';
 import SearchComponent from './components/header/SearchComponent';
 import SideComponent from './components/side/SideComponent';
 import BodyComponent from './components/body/BodyComponent';
-// import { ZiBox } from './zibox.ts';
 import './App.css';
+
+require('./zibox2-bundle');
 
 const AppDiv = styled.div`
   height: 100%;
@@ -17,6 +18,11 @@ const ContentDiv = styled.div`
   width: 100%;
   height: 92.3%;
 `;
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+const test = new window.Zibox2();
+console.log(test);
 
 function App() {
   // ZiBox.getInstance();
