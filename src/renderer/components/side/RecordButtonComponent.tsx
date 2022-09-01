@@ -28,56 +28,27 @@ const EndRecordButtonSpan = styled.span`
 `;
 
 const RecordButtonComponent = (props: any) => {
-  const { recordState, changeRecordState } = props;
+  const { recordState, setRecordState } = props;
   // console.log("RecordButtonComponent zibox2Client: " + props.zibox2Client);
   console.log(`RecordButtonComponent.tsx - Record state: ${recordState}`);
   console.log(`asdf:${ZiBox.getInstance().checkRecStatus()}`);
 
-  const recordingStart = () => {
-    console.log(`RecordButtonComponent.tsx - Recording start(recordingStart)`);
-
-    // const deviceInfos = props.zibox2Client.getDevices();
-    // console.log("micDevices: " + deviceInfos.micDevices);
-    // console.log("speakerDevices: " + deviceInfos.speakerDevices);
-
-    // props.zibox2Client.recordingStart();
-    // ZiBox.getInstance().recordingStart();
-    changeRecordState();
-  };
-
-  const recordingStop = () => {
-    console.log('Recording stop');
-    // props.zibox2Client.recordingStop();
-    // ZiBox.getInstance().recordingStop();
-    changeRecordState();
-  };
-
-  const recording = async () => {
-    console.log('Recording function');
-    window.recordChannel.send('send-recordStart', true);
+  const toggleRecord = async () => {
     console.log(`1RecStatus: ${ZiBox.getInstance().checkRecStatus()}`);
-    let result;
     if (ZiBox.getInstance().checkRecStatus()) {
       // 녹취 중 O
-      // result = ZiBox.getInstance().recordingStop();
-      // if (result) {
-      //   console.log('Recording Stop & Save..');
-      //   ZiBox.getInstance().recSave();
-      // }
+      await ZiBox.getInstance().recordingStop();
     } else {
       // 녹취 중 X
-      // result = await ZiBox.getInstance().recordingStart();
-      window.recordChannel.send('send-recordStart', true);
+      await ZiBox.getInstance().recordingStart(`${Date.now()}.wav`);
     }
-    // console.log(`2RecStatus: ${ZiBox.getInstance().checkRecStatus()}`);
-    // if (result) {
-    //   console.log('Recording State Change..');
-    //   props.setRecordState(ZiBox.getInstance().checkRecStatus());
-    // }
+
+    console.log(`2RecStatus: ${ZiBox.getInstance().checkRecStatus()}`);
+    setRecordState(ZiBox.getInstance().checkRecStatus());
   };
 
   return (
-    <RecordButtonDiv onClick={recording}>
+    <RecordButtonDiv onClick={toggleRecord}>
       {recordState ? (
         <EndRecordButtonSpan>Save & End Call Recording</EndRecordButtonSpan>
       ) : (

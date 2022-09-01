@@ -29,12 +29,12 @@ declare global {
       removeListeners(channel: string): void;
     };
     recordChannel: {
-      send(channel: string, data: boolean): void;
-      receive(
-        channel: string,
-        func: (...args: unknown[]) => void
-      ): (() => void) | undefined;
-      removeListeners(channel: string): void;
+      startRecord(
+        fileName: string,
+        deviceId: string | number,
+        callback: any
+      ): void;
+      stopRecord(callback: any): void;
     };
   }
 }

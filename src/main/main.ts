@@ -181,7 +181,15 @@ ipcMain.on('send-run-query', (event: IpcMainEvent, query: string) => {
   });
 });
 
-ipcMain.on('send-recordStart', (event, arg) => {
-  console.log('send-recordstart => recording start : ', arg);
-  // node audio recorder
+ipcMain.on(
+  'send-record-start',
+  (event: IpcMainEvent, fileName: string, deviceId: string | number) => {
+    console.log('start recording');
+    event.reply('send-record-start', true);
+  }
+);
+
+ipcMain.on('send-record-stop', (event: IpcMainEvent) => {
+  console.log('stop recording');
+  event.reply('send-record-stop', true);
 });
