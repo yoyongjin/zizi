@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 /* eslint global-require: off, no-console: off, promise/always-return: off */
 
 /**
@@ -9,9 +10,11 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, IpcMainEvent } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import sqlite from 'sqlite3';
+import isDev from 'electron-is-dev';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
@@ -22,6 +25,34 @@ class AppUpdater {
     autoUpdater.checkForUpdatesAndNotify();
   }
 }
+
+const sqlite3 = sqlite.verbose();
+console.log(`__dirname: ${__dirname}`);
+console.log(
+  `path join __dirname: ${path.join(
+    __dirname,
+    './extraResources/standard_database.db'
+  )}`
+);
+console.log(`process.resourcesPath: ${process.resourcesPath}`);
+console.log(
+  `path join process.resourcesPath: ${path.join(
+    process.resourcesPath,
+    'extraResources/standard_database.db'
+  )}`
+);
+const db = new sqlite3.Database(
+  isDev
+    ? path.join('', './extraResources/standard_database.db') // my root folder if in dev mode
+    : path.join(process.resourcesPath, 'extraResources/standard_database.db'), // the resources path if in production build
+  (err) => {
+    if (err) {
+      console.log(`@@@@@@@@@@@@@@@@@@@@@@@@@@@@Database Error: ${err}`);
+    } else {
+      console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@Database Loaded');
+    }
+  }
+);
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -141,11 +172,16 @@ app
   })
   .catch(console.log);
 
-const { getData, getData2 } = require('../../db/getdata');
+ipcMain.on('send-run-query', (event: IpcMainEvent, query: string) => {
+  console.log('send-selectAll => query from renderer : ', query);
+  console.log('select result');
 
-ipcMain.on('latest-query', (event, arg) => {
-  console.log('query from renderer : ', arg);
-  getData2(arg)
-    .then((res: any) => event.sender.send('sql-return-latest', res))
-    .catch((error: any) => console.log(error));
+  db.all(query, (err, data) => {
+    event.reply('send-run-query', data);
+  });
+});
+
+ipcMain.on('send-recordStart', (event, arg) => {
+  console.log('send-recordstart => recording start : ', arg);
+  // node audio recorder
 });

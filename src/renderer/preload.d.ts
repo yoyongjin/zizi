@@ -20,6 +20,22 @@ declare global {
       ): (() => void) | undefined;
       removeListeners(channel: string): void;
     };
+    ipcDbChannel: {
+      sendQureyToMain(query: string, callback: any): void;
+      receive(
+        channel: string,
+        func: (...args: unknown[]) => void
+      ): (() => void) | undefined;
+      removeListeners(channel: string): void;
+    };
+    recordChannel: {
+      send(channel: string, data: boolean): void;
+      receive(
+        channel: string,
+        func: (...args: unknown[]) => void
+      ): (() => void) | undefined;
+      removeListeners(channel: string): void;
+    };
   }
 }
 

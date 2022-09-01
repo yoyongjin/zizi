@@ -68,32 +68,27 @@ const ListComponent = () => {
   const [data, setData] = useState([]);
   useEffect(() => {
     console.log('App.tsx - ipcRenderer.send');
-    window.myApi.send('latest-query', 'select * from call');
+    window.ipcDbChannel.sendQureyToMain('select * from call', (list) => {
+      list.sort((item1: any, item2: any) => item2.id - item1.id);
+      setData(list);
+    });
   }, []);
 
-  window.myApi.receive('sql-return-latest', (data2: any) => {
-    console.log(`App.tsx - ipcRenderer.on: ${data2}`);
-    console.table(data2);
-    console.log(`data[0]: ${data2[0]}`);
-    console.log(`data[1]: ${data2[1]}`);
-    setData(data2);
-    window.myApi.removeListeners('sql-return-latest');
-  });
   return (
     <ListDiv>
       <ListTitleComponent />
       {data &&
         data.map((d: any) => (
-          <ContentUl key={d.id}>
-            <PlayeLi key={d.id}>
-              <PlayImg key={d.id} src={playImg} />
+          <ContentUl key={d.Id}>
+            <PlayeLi>
+              <PlayImg src={playImg} />
             </PlayeLi>
-            <DateLi key={d.id}>{d.Date}</DateLi>
-            <TimeLi key={d.id}>{d.Time}</TimeLi>
-            <PhoneNumberLi key={d.id}>{d.PhoneNumber}</PhoneNumberLi>
-            <MemoLi key={d.id}>{d.Memo}</MemoLi>
-            <CheckboxLi key={d.id}>
-              <input key={d.id} type="checkbox" />
+            <DateLi>{d.Date}</DateLi>
+            <TimeLi>{d.Time}</TimeLi>
+            <PhoneNumberLi>{d.PhoneNumber}</PhoneNumberLi>
+            <MemoLi>{d.Memo}</MemoLi>
+            <CheckboxLi>
+              <input type="checkbox" />
             </CheckboxLi>
           </ContentUl>
           // <ListContentComponent />

@@ -20,26 +20,39 @@ contextBridge.exposeInMainWorld('electron', {
   },
 });
 
-export type Channels2 = 'myApi';
-contextBridge.exposeInMainWorld('myApi', {
-  send: (channel: Channels2, data: unknown) => {
-    // whitelist channels
-    const validChannels = ['latest-query'];
+export type IpcDbChannel = 'ipcDbChannel';
+
+contextBridge.exposeInMainWorld('ipcDbChannel', {
+  sendQureyToMain: (query: string, callback: any) => {
+    console.log('send-selectAll..');
+    ipcRenderer.once('send-run-query', (_, data) => {
+      callback(data);
+    });
+    ipcRenderer.send('send-run-query', query);
+  },
+});
+
+export type RecordChannel = 'recordChannel';
+
+contextBridge.exposeInMainWorld('recordChannel', {
+  send: (channel: RecordChannel, args: boolean) => {
+    const validChannels = ['send-recordStart'];
     if (validChannels.includes(channel)) {
-      ipcRenderer.send(channel, data);
+      console.log('send-recordStart..');
+      ipcRenderer.send(channel, args);
     }
   },
-  receive: (channel: Channels2, func: any) => {
-    const validChannels = ['sql-return-latest'];
+  receive: (channel: RecordChannel, func: any) => {
+    const validChannels = ['receive-selectAll'];
     if (validChannels.includes(channel)) {
-      // Deliberately strip event as it includes `sender`
+      console.log('receive-selectAll..');
       ipcRenderer.on(channel, (event, ...args) => func(...args));
     }
   },
-  removeListeners: (channel: Channels2) => {
-    const validChannels = ['sql-return-latest'];
+  removeListeners: (channel: RecordChannel) => {
+    const validChannels = ['receive-selectAll'];
     if (validChannels.includes(channel)) {
-      // Deliberately strip event as it includes `sender`
+      console.log('remove receive-selectAll..');
       ipcRenderer.removeAllListeners(channel);
     }
   },
