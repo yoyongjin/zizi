@@ -18,6 +18,30 @@ import isDev from 'electron-is-dev';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
+const http = require('http');
+
+const server = http.createServer(app);
+const { Server } = require('socket.io');
+
+const io = new Server(server);
+
+io.on('connection', (socket: any) => {
+  console.log('a user connected');
+  console.log(`connection state: ${socket.connected}`);
+
+  socket.on('message', (msg: any) => {
+    console.log(`message: ${JSON.stringify(msg)}`);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
+
+server.listen(3000, () => {
+  console.log('listening on *:3000');
+});
+
 class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';

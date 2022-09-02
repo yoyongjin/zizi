@@ -14,7 +14,7 @@ const BodyComponent = () => {
     <BodyDiv>
       <TitleComponent />
       <ListComponent />
-      <PagingComponent />
+      {/* <PagingComponent /> */}
     </BodyDiv>
   );
 };

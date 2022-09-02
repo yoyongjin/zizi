@@ -10,9 +10,7 @@ const PagingDiv = styled.div`
 const pagingComponent = () => {
   return (
     <PagingDiv>
-      <span>
-        {'<<  < '} 1 2 3 4 5 {' >  >>'}
-      </span>
+      <span>{/* {'<<  < '} 1 2 3 4 5 {' >  >>'} */}</span>
     </PagingDiv>
   );
 };
