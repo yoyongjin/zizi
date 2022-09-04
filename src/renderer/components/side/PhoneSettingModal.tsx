@@ -71,10 +71,9 @@ const ModalSetButtonSpan = styled.span`
 ReactModal.setAppElement('#root');
 
 const PhoneSettingModal = (props: any) => {
-  // const { modalState, setModalState, phoneSet } = props;
   const dispatch = useDispatch();
   const modalState = useSelector(
-    (state: any) => state.recordStateReducer.recordState
+    (state: any) => state.modalStateReducer.modalState
   );
   const connectState = useSelector(
     (state: any) => state.connectStateReducer.connectState

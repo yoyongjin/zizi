@@ -5,7 +5,6 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
   recordingStart,
   recordingStop,
-  getRecordState,
 } from 'renderer/store/modules/recordReducer';
 import ZiBox from '../../zibox';
 
@@ -37,33 +36,31 @@ const EndRecordButtonSpan = styled.span`
 const RecordButtonComponent = () => {
   const dispatch = useDispatch();
   const recordState = useSelector(
-    (state) => state.recordStateReducer.recordState
+    (state: any) => state.recordStateReducer.recordState
   );
 
   console.log(`RecordButtonComponent.tsx - Record state: ${recordState}`);
-  // console.log(`Rendering.. :${ZiBox.getInstance().checkRecStatus()}`);
+  console.log(`Rendering.. ${ZiBox.getInstance().checkRecStatus()}`);
 
   const toggleRecord = async () => {
-    // console.log(`1RecStatus: ${ZiBox.getInstance().checkRecStatus()}`);
-    // if (ZiBox.getInstance().checkRecStatus()) {
-    if (recordState) {
+    console.log(`1RecStatus: ${ZiBox.getInstance().checkRecStatus()}`);
+    if (ZiBox.getInstance().checkRecStatus()) {
       // 녹취 중 O
       dispatch(recordingStop());
       console.log(`RecordButtonComponent.tsx - Record stop: ${recordState}`);
-      // await ZiBox.getInstance().recordingStop();
+      await ZiBox.getInstance().recordingStop();
     } else {
       // 녹취 중 X
       dispatch(recordingStart());
       console.log(`RecordButtonComponent.tsx - Record start: ${recordState}`);
-      // await ZiBox.getInstance().recordingStart(`${Date.now()}.wav`);
+      await ZiBox.getInstance().recordingStart(`${Date.now()}.wav`);
     }
 
-    // console.log(`2RecStatus: ${ZiBox.getInstance().checkRecStatus()}`);
+    console.log(`2RecStatus: ${ZiBox.getInstance().checkRecStatus()}`);
   };
 
   return (
     <RecordButtonDiv onClick={toggleRecord}>
-      {/* <RecordButtonDiv onClick={() => dispatch(recordingStart())}> */}
       {recordState ? (
         <EndRecordButtonSpan>Save & End Call Recording</EndRecordButtonSpan>
       ) : (

@@ -16,10 +16,12 @@ const initialState = {
 export default function modalStateReducer(state = initialState, action: any) {
   switch (action.type) {
     case MODAL_OPEN:
+      console.log('modalStateReducer - MODAL_OPEN');
       return {
         modalState: true,
       };
     case MODAL_CLOSE:
+      console.log('modalStateReducer - MODAL_CLOSE');
       return {
         modalState: false,
       };

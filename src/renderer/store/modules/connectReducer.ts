@@ -16,10 +16,12 @@ const initialState = {
 export default function connectStateReducer(state = initialState, action: any) {
   switch (action.type) {
     case CONNECT_Y:
+      console.log('connectStateReducer - CONNECT_Y');
       return {
         connectState: true,
       };
     case CONNECT_N:
+      console.log('connectStateReducer - CONNECT_N');
       return {
         connectState: false,
       };

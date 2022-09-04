@@ -15,7 +15,6 @@ interface SideDivProps {
 
 const SideDiv = styled.div<SideDivProps>`
   width: 228px;
-  //height: 550px;
   padding: 20px 28px 0 20px;
   background-color: #3a3a40;
   box-sizing: border-box;
@@ -24,19 +23,16 @@ const SideDiv = styled.div<SideDivProps>`
 `;
 
 const SideComponent = (props: any) => {
-  // const [connectState, setConnectState] = useState(false);
-  // const [modalState, setModalState] = useState(false);
   const dispatch = useDispatch();
   const recordState = useSelector(
     (state: any) => state.recordStateReducer.recordState
   );
   const connectState = useSelector(
-    (state: any) => state.recordStateReducer.recordState
+    (state: any) => state.connectStateReducer.connectState
   );
 
-  console.log(`SideComponent.tsx - Connect state: ${connectState}`);
   console.log(`SideComponent.tsx - Record state: ${recordState}`);
-  // console.log(`SideComponent.tsx - Modal state: ${modalState}`);
+  console.log(`SideComponent.tsx - Connect state: ${connectState}`);
 
   useEffect(() => {
     console.log(
@@ -44,48 +40,14 @@ const SideComponent = (props: any) => {
     );
   }, [recordState]);
 
-  // const changeModalState = () => {
-  //   setModalState(!modalState);
-  //   console.log(
-  //     `SideComponent.tsx - Change Modal state(changeModalState): ${modalState}`
-  //   );
-  // };
-
-  // const changeConnectState = () => {
-  //   setConnectState(!connectState);
-  //   console.log(
-  //     `SideComponent.tsx - Change Connect state(changeConnectState): ${connectState}`
-  //   );
-  // };
-
-  // const phoneSet = () => {
-  // setModalState(!modalState);
-  // setConnectState(true);
-  // console
-  //   .log
-  // `SideComponent.tsx - Set Modal, Connect state(phoneSet): ${modalState}, ${connectState}`
-  //     ();
-  // };
-
   return (
     <SideDiv
       connectState={connectState}
       onClick={() => (connectState ? dispatch(connectN()) : '')}
     >
-      {connectState ? (
-        <ConnectComponent />
-      ) : (
-        <DisConnectComponent
-        // recordState={recordState}
-        // setModalState={setModalState}
-        />
-      )}
+      {connectState ? <ConnectComponent /> : <DisConnectComponent />}
 
-      <PhoneSettingModal
-      // modalState={modalState}
-      // setModalState={setModalState}
-      // phoneSet={phoneSet}
-      />
+      <PhoneSettingModal />
 
       {recordState ? <SaveCallRecordingComponent /> : ''}
 

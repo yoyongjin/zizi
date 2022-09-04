@@ -48,9 +48,7 @@ const GearImg = styled.img`
   object-fit: contain;
 `;
 
-// const DisConnectComponent = (props: any) => {
 const DisConnectComponent = () => {
-  // const { recordState, setModalState } = props;
   const dispatch = useDispatch();
   const recordState = useSelector(
     (state: any) => state.recordStateReducer.recordState
