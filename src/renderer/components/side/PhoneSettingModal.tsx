@@ -1,5 +1,9 @@
+/* eslint-disable no-console */
 import ReactModal from 'react-modal';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { modalOpen, modalClose } from 'renderer/store/modules/modalReducer';
+import { connectY, connectN } from 'renderer/store/modules/connectReducer';
 
 const ModalHeaderDiv = styled.div`
   margin: 14px 0 0 19px;
@@ -67,11 +71,19 @@ const ModalSetButtonSpan = styled.span`
 ReactModal.setAppElement('#root');
 
 const PhoneSettingModal = (props: any) => {
-  const { modalState, setModalState, phoneSet } = props;
+  // const { modalState, setModalState, phoneSet } = props;
+  const dispatch = useDispatch();
+  const modalState = useSelector(
+    (state: any) => state.recordStateReducer.recordState
+  );
+  const connectState = useSelector(
+    (state: any) => state.connectStateReducer.connectState
+  );
+
   return (
     <ReactModal
       isOpen={modalState}
-      onRequestClose={() => setModalState(false)}
+      onRequestClose={() => dispatch(modalClose())}
       style={{
         overlay: {
           position: 'fixed',
@@ -108,7 +120,16 @@ const PhoneSettingModal = (props: any) => {
       <ModalBottomDiv>
         <ModalInputDiv />
         <ModalSetButtonDiv>
-          <ModalSetButtonSpan onClick={() => phoneSet()}>
+          {/* <ModalSetButtonSpan onClick={() => phoneSet()}> */}
+          <ModalSetButtonSpan
+            onClick={() => {
+              dispatch(modalClose());
+              dispatch(connectY());
+              console.log(
+                `PhoneSettingModal.tsx - Modal, Connect state(phoneSet): ${modalState}, ${connectState}`
+              );
+            }}
+          >
             Set
           </ModalSetButtonSpan>
         </ModalSetButtonDiv>

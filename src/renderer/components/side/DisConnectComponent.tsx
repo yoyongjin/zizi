@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { modalOpen, modalClose } from 'renderer/store/modules/modalReducer';
 import phoneOffImg from '../../../../assets/phone_off@3x.png';
 import wifiOffImg from '../../../../assets/wifi_off@3x.png';
 import gearImg from '../../../../assets/gear@3x.png';
@@ -46,12 +48,18 @@ const GearImg = styled.img`
   object-fit: contain;
 `;
 
-const DisConnectComponent = (props: any) => {
-  const { recordState, setModalState } = props;
+// const DisConnectComponent = (props: any) => {
+const DisConnectComponent = () => {
+  // const { recordState, setModalState } = props;
+  const dispatch = useDispatch();
+  const recordState = useSelector(
+    (state: any) => state.recordStateReducer.recordState
+  );
+
   return (
     <DisConnectDiv
       recordState={recordState}
-      onClick={() => (recordState ? '' : setModalState(true))}
+      onClick={() => (recordState ? '' : dispatch(modalOpen()))}
     >
       <PhoneImg src={phoneOffImg} />
       <WifiOffImg src={wifiOffImg} />

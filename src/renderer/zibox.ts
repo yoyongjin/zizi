@@ -1,4 +1,4 @@
-// import { Zibox2 } from './zibox2-bundle';
+/* eslint-disable no-console */
 require('./zibox2-bundle');
 
 declare global {
@@ -9,19 +9,7 @@ declare global {
 }
 
 export default class ZiBox {
-  // private instance = null;
-
-  // private ziboxInstance: any = null;
   static ziboxInstance: any = null;
-
-  // constructor() {
-  //     console.log('ZiBox constructor');
-  //     if (this.instance) {
-  //         return this.instance;
-  //     }
-
-  //     this.instance = this;
-  // }
 
   static getInstance() {
     console.log('ZiBox getInstance');
@@ -30,7 +18,6 @@ export default class ZiBox {
     }
 
     ZiBox.ziboxInstance = new window.Zibox2();
-    // ZiBox.ziboxInstance = new Zibox2();
     return ZiBox.ziboxInstance;
   }
 }

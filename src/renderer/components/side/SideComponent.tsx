@@ -1,5 +1,8 @@
+/* eslint-disable no-console */
 import React, { useState, useEffect, Fragment } from 'react';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { connectY, connectN } from 'renderer/store/modules/connectReducer';
 import DisConnectComponent from './DisConnectComponent';
 import ConnectComponent from './ConnectComponent';
 import PhoneSettingModal from './PhoneSettingModal';
@@ -21,15 +24,19 @@ const SideDiv = styled.div<SideDivProps>`
 `;
 
 const SideComponent = (props: any) => {
-  // const { zibox2Client } = props;
-  // console.log("SideComponent zibox2Client: " + zibox2Client);
-  const [connectState, setConnectState] = useState(false);
-  const [recordState, setRecordState] = useState(false);
-  const [modalState, setModalState] = useState(false);
+  // const [connectState, setConnectState] = useState(false);
+  // const [modalState, setModalState] = useState(false);
+  const dispatch = useDispatch();
+  const recordState = useSelector(
+    (state: any) => state.recordStateReducer.recordState
+  );
+  const connectState = useSelector(
+    (state: any) => state.recordStateReducer.recordState
+  );
 
   console.log(`SideComponent.tsx - Connect state: ${connectState}`);
   console.log(`SideComponent.tsx - Record state: ${recordState}`);
-  console.log(`SideComponent.tsx - Modal state: ${modalState}`);
+  // console.log(`SideComponent.tsx - Modal state: ${modalState}`);
 
   useEffect(() => {
     console.log(
@@ -37,65 +44,52 @@ const SideComponent = (props: any) => {
     );
   }, [recordState]);
 
-  const changeRecordState = () => {
-    setRecordState(!recordState);
-    console.log(
-      `SideComponent.tsx - Change Record state(changeRecordState): ${recordState}`
-    );
-  };
+  // const changeModalState = () => {
+  //   setModalState(!modalState);
+  //   console.log(
+  //     `SideComponent.tsx - Change Modal state(changeModalState): ${modalState}`
+  //   );
+  // };
 
-  const changeModalState = () => {
-    setModalState(!modalState);
-    console.log(
-      `SideComponent.tsx - Change Modal state(changeModalState): ${modalState}`
-    );
-  };
+  // const changeConnectState = () => {
+  //   setConnectState(!connectState);
+  //   console.log(
+  //     `SideComponent.tsx - Change Connect state(changeConnectState): ${connectState}`
+  //   );
+  // };
 
-  const changeConnectState = () => {
-    setConnectState(!connectState);
-    console.log(
-      `SideComponent.tsx - Change Connect state(changeConnectState): ${connectState}`
-    );
-  };
-
-  const phoneSet = () => {
-    setModalState(!modalState);
-    setConnectState(true);
-    console.log(
-      `SideComponent.tsx - Set Modal, Connect state(phoneSet): ${modalState}, ${connectState}`
-    );
-  };
+  // const phoneSet = () => {
+  // setModalState(!modalState);
+  // setConnectState(true);
+  // console
+  //   .log
+  // `SideComponent.tsx - Set Modal, Connect state(phoneSet): ${modalState}, ${connectState}`
+  //     ();
+  // };
 
   return (
     <SideDiv
       connectState={connectState}
-      onClick={() => (connectState ? setConnectState(false) : '')}
+      onClick={() => (connectState ? dispatch(connectN()) : '')}
     >
       {connectState ? (
         <ConnectComponent />
       ) : (
         <DisConnectComponent
-          recordState={recordState}
-          setModalState={setModalState}
+        // recordState={recordState}
+        // setModalState={setModalState}
         />
       )}
 
       <PhoneSettingModal
-        modalState={modalState}
-        setModalState={setModalState}
-        phoneSet={phoneSet}
+      // modalState={modalState}
+      // setModalState={setModalState}
+      // phoneSet={phoneSet}
       />
 
       {recordState ? <SaveCallRecordingComponent /> : ''}
 
-      {connectState ? (
-        ''
-      ) : (
-        <RecordButtonComponent
-          recordState={recordState}
-          setRecordState={setRecordState}
-        />
-      )}
+      {connectState ? '' : <RecordButtonComponent />}
     </SideDiv>
   );
 };
