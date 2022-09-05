@@ -44,6 +44,12 @@ const SideComponent = (props: any) => {
     (state: any) => state.connectStateReducer.connectState
   );
 
+  window.electron.ipcRenderer.on('send-connect-y', (arg: any) => {
+    // eslint-disable-next-line no-console
+    console.log(`SideComponent.tsx - Connected socket id:${arg}`);
+    dispatch(connectY());
+  });
+
   console.log(`SideComponent.tsx - Record state: ${recordState}`);
   console.log(`SideComponent.tsx - Connect state: ${connectState}`);
 
@@ -57,7 +63,7 @@ const SideComponent = (props: any) => {
   // calling IPC exposed from preload script
   window.electron.ipcRenderer.once('ipc-example', (arg: any) => {
     // eslint-disable-next-line no-console
-    console.log(`serverIp: ${arg}`);
+    console.log(`SideComponent.tsx - serverIp: ${arg}`);
     setServerIp(arg);
   });
 

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import Pagination from 'react-js-pagination';
 import ListTitleComponent from './ListTitleComponent';
-import ListContentComponent from './ListContentComponent';
+// import ListContentComponent from './ListContentComponent';
 import playImg from '../../../../assets/play@3x.png';
 
 const ListDiv = styled.div`

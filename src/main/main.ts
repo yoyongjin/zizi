@@ -16,31 +16,7 @@ import log from 'electron-log';
 import sqlite from 'sqlite3';
 import isDev from 'electron-is-dev';
 import MenuBuilder from './menu';
-import { resolveHtmlPath, getIPAddress } from './util';
-
-const http = require('http');
-
-const server = http.createServer(app);
-const { Server } = require('socket.io');
-
-const io = new Server(server);
-
-io.on('connection', (socket: any) => {
-  console.log('a user connected');
-  console.log(`connection state: ${socket.connected}`);
-
-  socket.on('message', (msg: any) => {
-    console.log(`message: ${JSON.stringify(msg)}`);
-  });
-
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
-  });
-});
-
-server.listen(3000, () => {
-  console.log('listening on *:3000');
-});
+import { resolveHtmlPath } from './util';
 
 class AppUpdater {
   constructor() {
@@ -165,6 +141,35 @@ const createWindow = async () => {
   // eslint-disable-next-line
   new AppUpdater();
 };
+
+const http = require('http');
+
+const server = http.createServer(app);
+const { Server } = require('socket.io');
+
+const io = new Server(server);
+
+io.on('connection', (socket: any) => {
+  console.log('a user connected');
+  console.log(`connection state: ${socket.connected}`);
+  console.log(`connected socket id: ${socket.id}`);
+
+  if (mainWindow != null) {
+    mainWindow.webContents.send('send-connect-y', socket.id);
+  }
+
+  socket.on('message', (msg: any) => {
+    console.log(`message: ${JSON.stringify(msg)}`);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
+
+server.listen(3000, () => {
+  console.log('listening on *:3000');
+});
 
 /**
  * Add event listeners...
