@@ -46,14 +46,14 @@ const RecordButtonComponent = () => {
     console.log(`1RecStatus: ${ZiBox.getInstance().checkRecStatus()}`);
     if (ZiBox.getInstance().checkRecStatus()) {
       // 녹취 중 O
+      await ZiBox.getInstance().recordingStop();
       dispatch(recordingStop());
       console.log(`RecordButtonComponent.tsx - Record stop: ${recordState}`);
-      await ZiBox.getInstance().recordingStop();
     } else {
       // 녹취 중 X
+      await ZiBox.getInstance().recordingStart(`${Date.now()}.wav`);
       dispatch(recordingStart());
       console.log(`RecordButtonComponent.tsx - Record start: ${recordState}`);
-      await ZiBox.getInstance().recordingStart(`${Date.now()}.wav`);
     }
 
     console.log(`2RecStatus: ${ZiBox.getInstance().checkRecStatus()}`);

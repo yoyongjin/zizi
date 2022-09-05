@@ -20,6 +20,19 @@ const SideDiv = styled.div<SideDivProps>`
   box-sizing: border-box;
   display: block;
   cursor: ${(props) => (props.connectState ? 'pointer' : '')};
+  position: relative;
+`;
+
+const IpDiv = styled.div`
+  padding: 0 28px 0 20px;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  display: block;
+  position: absolute;
+  bottom: 20px;
 `;
 
 const SideComponent = (props: any) => {
@@ -40,6 +53,14 @@ const SideComponent = (props: any) => {
     );
   }, [recordState]);
 
+  const [serverIp, setServerIp] = useState(null);
+  // calling IPC exposed from preload script
+  window.electron.ipcRenderer.once('ipc-example', (arg: any) => {
+    // eslint-disable-next-line no-console
+    console.log(`serverIp: ${arg}`);
+    setServerIp(arg);
+  });
+
   return (
     <SideDiv
       connectState={connectState}
@@ -52,6 +73,7 @@ const SideComponent = (props: any) => {
       {recordState ? <SaveCallRecordingComponent /> : ''}
 
       {connectState ? '' : <RecordButtonComponent />}
+      <IpDiv>Your ip : {serverIp}</IpDiv>
     </SideDiv>
   );
 };

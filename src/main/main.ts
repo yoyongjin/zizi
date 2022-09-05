@@ -16,7 +16,7 @@ import log from 'electron-log';
 import sqlite from 'sqlite3';
 import isDev from 'electron-is-dev';
 import MenuBuilder from './menu';
-import { resolveHtmlPath } from './util';
+import { resolveHtmlPath, getIPAddress } from './util';
 
 const http = require('http');
 
@@ -51,40 +51,34 @@ class AppUpdater {
 }
 
 const sqlite3 = sqlite.verbose();
-console.log(`__dirname: ${__dirname}`);
-console.log(
-  `path join __dirname: ${path.join(
-    __dirname,
-    './extraResources/standard_database.db'
-  )}`
-);
-console.log(`process.resourcesPath: ${process.resourcesPath}`);
-console.log(
-  `path join process.resourcesPath: ${path.join(
-    process.resourcesPath,
-    'extraResources/standard_database.db'
-  )}`
-);
+// console.log(`__dirname: ${__dirname}`);
+// console.log(
+//   `path join __dirname: ${path.join(
+//     __dirname,
+//     './extraResources/standard_database.db'
+//   )}`
+// );
+// console.log(`process.resourcesPath: ${process.resourcesPath}`);
+// console.log(
+//   `path join process.resourcesPath: ${path.join(
+//     process.resourcesPath,
+//     'extraResources/standard_database.db'
+//   )}`
+// );
 const db = new sqlite3.Database(
   isDev
     ? path.join('', './extraResources/standard_database.db') // my root folder if in dev mode
     : path.join(process.resourcesPath, 'extraResources/standard_database.db'), // the resources path if in production build
   (err) => {
     if (err) {
-      console.log(`@@@@@@@@@@@@@@@@@@@@@@@@@@@@Database Error: ${err}`);
+      console.log(`Database Error: ${err}`);
     } else {
-      console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@Database Loaded');
+      console.log('Database Loaded');
     }
   }
 );
 
 let mainWindow: BrowserWindow | null = null;
-
-ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
-  event.reply('ipc-example', msgTemplate('pong'));
-});
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -195,6 +189,21 @@ app
     });
   })
   .catch(console.log);
+
+ipcMain.on('ipc-example', async (event, arg) => {
+  // const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
+  // console.log(msgTemplate(arg));
+  console.log(arg);
+  // event.reply('ipc-example', msgTemplate('pong'));
+
+  require('dns').lookup(
+    require('os').hostname(),
+    function (err: any, add: any, fam: any) {
+      console.log(`Server ip : ${add}`);
+      event.reply('ipc-example', add);
+    }
+  );
+});
 
 ipcMain.on('send-run-query', (event: IpcMainEvent, query: string) => {
   console.log('send-selectAll => query from renderer : ', query);
