@@ -36,6 +36,10 @@ declare global {
       ): void;
       stopRecord(callback: any): void;
     };
+    connectChannel: {
+      sendSeverIp(serverIp: string, callback: any): void;
+      sendConnectY(socketId: string, callback: any): void;
+    };
   }
 }
 

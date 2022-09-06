@@ -121,7 +121,7 @@ const ListComponent = () => {
   };
 
   useEffect(() => {
-    console.log('App.tsx - ipcRenderer.send');
+    console.log('ListComponent.tsx - ipcRenderer.sendQureyToMain');
     window.ipcDbChannel.sendQureyToMain('select * from call', (list: any) => {
       list.sort((item1: any, item2: any) => item2.id - item1.id);
       setData(list);

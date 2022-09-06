@@ -44,8 +44,27 @@ contextBridge.exposeInMainWorld('recordChannel', {
   },
   stopRecord: (callback: any) => {
     ipcRenderer.once('send-record-stop', (_, data) => {
+      console.log('recordChannel - stopRecord - send-connect-y');
       callback(data);
     });
     ipcRenderer.send('send-record-stop');
+  },
+});
+
+export type ConnectChannel = 'connectChannel';
+
+contextBridge.exposeInMainWorld('connectChannel', {
+  sendSeverIp: (serverIp: string, callback: any) => {
+    ipcRenderer.once('send-serverip', (_, data) => {
+      console.log(`connectChannel - sendSeverIp - send-serverip: ${data}`);
+      callback(data);
+    });
+    ipcRenderer.send('send-serverip', serverIp);
+  },
+  sendConnectY: (socketId: string | number, callback: any) => {
+    ipcRenderer.on('send-connect-y', (_, data) => {
+      console.log(`connectChannel - sendConnectY - send-connect-y: ${data}`);
+      callback(data);
+    });
   },
 });

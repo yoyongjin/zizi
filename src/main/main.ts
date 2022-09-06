@@ -196,23 +196,25 @@ app
   .catch(console.log);
 
 ipcMain.on('ipc-example', async (event, arg) => {
-  // const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  // console.log(msgTemplate(arg));
-  console.log(arg);
-  // event.reply('ipc-example', msgTemplate('pong'));
+  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
+  console.log(msgTemplate(arg));
+  event.reply('ipc-example', msgTemplate('pong'));
+});
 
+ipcMain.on('send-serverip', async (event: IpcMainEvent) => {
   require('dns').lookup(
     require('os').hostname(),
     function (err: any, add: any, fam: any) {
-      console.log(`Server ip : ${add}`);
-      event.reply('ipc-example', add);
+      console.log(`ipcMain.on - send-serverip : ${add}`);
+      if (mainWindow != null) {
+        event.reply('send-serverip', add);
+      }
     }
   );
 });
 
 ipcMain.on('send-run-query', (event: IpcMainEvent, query: string) => {
-  console.log('send-selectAll => query from renderer : ', query);
-  console.log('select result');
+  console.log('ipcMain.on - send-selectAll => query from renderer : ', query);
 
   db.all(query, (err, data) => {
     event.reply('send-run-query', data);
@@ -222,12 +224,12 @@ ipcMain.on('send-run-query', (event: IpcMainEvent, query: string) => {
 ipcMain.on(
   'send-record-start',
   (event: IpcMainEvent, fileName: string, deviceId: string | number) => {
-    console.log('start recording');
+    console.log('ipcMain.on - send-record-start');
     event.reply('send-record-start', true);
   }
 );
 
 ipcMain.on('send-record-stop', (event: IpcMainEvent) => {
-  console.log('stop recording');
+  console.log('ipcMain.on - send-record-stop');
   event.reply('send-record-stop', true);
 });

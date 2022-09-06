@@ -3,6 +3,7 @@ import React, { useState, useEffect, Fragment } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { connectY, connectN } from 'renderer/store/modules/connectReducer';
+import { IpcRendererEvent } from 'electron';
 import DisConnectComponent from './DisConnectComponent';
 import ConnectComponent from './ConnectComponent';
 import PhoneSettingModal from './PhoneSettingModal';
@@ -37,6 +38,7 @@ const IpDiv = styled.div`
 
 const SideComponent = (props: any) => {
   const dispatch = useDispatch();
+  const [ip, setIp] = useState('');
   const recordState = useSelector(
     (state: any) => state.recordStateReducer.recordState
   );
@@ -44,28 +46,20 @@ const SideComponent = (props: any) => {
     (state: any) => state.connectStateReducer.connectState
   );
 
-  window.electron.ipcRenderer.on('send-connect-y', (arg: any) => {
-    // eslint-disable-next-line no-console
-    console.log(`SideComponent.tsx - Connected socket id:${arg}`);
+  useEffect(() => {
+    window.connectChannel.sendSeverIp('send-serverip', (serverIp: string) => {
+      console.log('SideComponent.tsx - Connected server ip:', serverIp);
+      setIp(serverIp);
+    });
+  }, []);
+
+  window.connectChannel.sendConnectY('send-connect-y', (socketId: string) => {
+    console.log('SideComponent.tsx - Connected socket id:', socketId);
     dispatch(connectY());
   });
 
   console.log(`SideComponent.tsx - Record state: ${recordState}`);
   console.log(`SideComponent.tsx - Connect state: ${connectState}`);
-
-  useEffect(() => {
-    console.log(
-      `SideComponent.tsx - Change Record state(useEffect): ${recordState}`
-    );
-  }, [recordState]);
-
-  const [serverIp, setServerIp] = useState(null);
-  // calling IPC exposed from preload script
-  window.electron.ipcRenderer.once('ipc-example', (arg: any) => {
-    // eslint-disable-next-line no-console
-    console.log(`SideComponent.tsx - serverIp: ${arg}`);
-    setServerIp(arg);
-  });
 
   return (
     <SideDiv
@@ -79,7 +73,7 @@ const SideComponent = (props: any) => {
       {recordState ? <SaveCallRecordingComponent /> : ''}
 
       {connectState ? '' : <RecordButtonComponent />}
-      <IpDiv>Your ip : {serverIp}</IpDiv>
+      <IpDiv>Your ip : {ip}</IpDiv>
     </SideDiv>
   );
 };
