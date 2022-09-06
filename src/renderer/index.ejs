@@ -7,4 +7,10 @@
   <body>
     <div id="root"></div>
   </body>
+  <script>
+    document.addEventListener('ziboxDeviceChanged', (e) =>
+      console.log(e.detail)
+    );
+    console.log('hi');
+  </script>
 </html>

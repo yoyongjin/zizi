@@ -44,15 +44,21 @@ const RecordButtonComponent = () => {
 
   const toggleRecord = async () => {
     console.log(`1RecStatus: ${ZiBox.getInstance().checkRecStatus()}`);
-    if (ZiBox.getInstance().checkRecStatus()) {
+    // if (ZiBox.getInstance().checkRecStatus()) { // 지박스 연결 시
+    if (recordState) {
       // 녹취 중 O
-      await ZiBox.getInstance().recordingStop();
       dispatch(recordingStop());
+      // await ZiBox.getInstance().recordingStop();
+      const result = await ZiBox.getInstance().recordingStop();
+      if (result) {
+        console.log('Recording Stop & Save..');
+        ZiBox.getInstance().recSave();
+      }
       console.log(`RecordButtonComponent.tsx - Record stop: ${recordState}`);
     } else {
       // 녹취 중 X
-      await ZiBox.getInstance().recordingStart(`${Date.now()}.wav`);
       dispatch(recordingStart());
+      await ZiBox.getInstance().recordingStart(`${Date.now()}.wav`);
       console.log(`RecordButtonComponent.tsx - Record start: ${recordState}`);
     }
 
