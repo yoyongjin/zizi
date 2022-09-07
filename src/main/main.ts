@@ -169,10 +169,12 @@ io.on('connection', (socket: any) => {
   통화 연결 (3 : CONNECTED)
   통화 종료 (0 : IDLE)
   */
+  let cnt = 0;
   socket.on('message', (msg: any) => {
     console.log(
       '====================================================================================================================================='
     );
+
     // console.log(`original message: ${msg}`);
     // const str = JSON.stringify(msg);
     // console.log(`stringify message: ${str}`);
@@ -192,6 +194,7 @@ io.on('connection', (socket: any) => {
     const messageObj = JSON.parse(originalObj.message);
 
     if (messageObj.type === 'state') {
+      console.log(`cnt:${cnt++}`);
       const callObj = JSON.parse(messageObj.filename);
       switch (messageObj.state) {
         case 2:
@@ -218,6 +221,7 @@ io.on('connection', (socket: any) => {
           }
           break;
         default:
+          break;
       }
     }
 
