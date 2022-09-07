@@ -35,8 +35,8 @@ declare global {
       //   callback: any
       // ): void;
       // stopRecord(callback: any): void;
-      startRecord(_: any, callback: any): void;
-      stopRecord(_: any, callback: any): void;
+      startRecord(userKey: string, callback: any): void;
+      stopRecord(userKey: string, callback: any): void;
     };
     connectChannel: {
       sendSeverIp(serverIp: string, callback: any): void;

@@ -205,7 +205,7 @@ io.on('connection', (socket: any) => {
           );
           if (mainWindow != null) {
             console.log('ipcMain.on - send-record-start');
-            // mainWindow.webContents.send('send-record-start');
+            mainWindow.webContents.send('send-record-start', originalObj.key);
           }
           break;
         case 0:
@@ -214,7 +214,7 @@ io.on('connection', (socket: any) => {
           );
           if (mainWindow != null) {
             console.log('ipcMain.on - send-record-stop');
-            // mainWindow.webContents.send('send-record-stop');
+            mainWindow.webContents.send('send-record-stop', originalObj.key);
           }
           break;
         default:

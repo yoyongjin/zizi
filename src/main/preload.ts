@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
 export type Channels = 'ipc-example';
@@ -49,14 +50,16 @@ contextBridge.exposeInMainWorld('recordChannel', {
   //   });
   //   ipcRenderer.send('send-record-stop');
   // },
-  startRecord: (callback: any) => {
-    ipcRenderer.on('send-record-start', async () => {
-      console.log(`recordChannel - startRecord - send-record-start`);
+  startRecord: (userKey: string | number, callback: any) => {
+    ipcRenderer.on('send-record-start', (_, data) => {
+      console.log(`recordChannel - startRecord - send-record-start: ${data}`);
+      callback(data);
     });
   },
-  stopRecord: (callback: any) => {
-    ipcRenderer.on('send-record-stop', async () => {
-      console.log(`recordChannel - stopRecord - send-record-stop`);
+  stopRecord: (userKey: string | number, callback: any) => {
+    ipcRenderer.on('send-record-stop', (_, data) => {
+      console.log(`recordChannel - stopRecord - send-record-stop: ${data}`);
+      callback(data);
     });
   },
 });
