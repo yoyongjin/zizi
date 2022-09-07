@@ -34,20 +34,30 @@ contextBridge.exposeInMainWorld('ipcDbChannel', {
 export type RecordChannel = 'recordChannel';
 
 contextBridge.exposeInMainWorld('recordChannel', {
-  startRecord: (fileName: string, deviceId: string | number, callback: any) => {
-    ipcRenderer.once('send-record-start', (_, data) => {
-      callback(data);
+  // startRecord: (fileName: string, deviceId: string | number, callback: any) => {
+  //   ipcRenderer.once('send-record-start', (_, data) => {
+  //     callback(data);
+  //   });
+  //   // console.log(fileName);
+  //   // console.log(deviceId);
+  //   ipcRenderer.send('send-record-start', fileName, deviceId);
+  // },
+  // stopRecord: (callback: any) => {
+  //   ipcRenderer.once('send-record-stop', (_, data) => {
+  //     console.log('recordChannel - stopRecord - send-connect-y');
+  //     callback(data);
+  //   });
+  //   ipcRenderer.send('send-record-stop');
+  // },
+  startRecord: (callback: any) => {
+    ipcRenderer.on('send-record-start', async () => {
+      console.log(`recordChannel - startRecord - send-record-start`);
     });
-    // console.log(fileName);
-    // console.log(deviceId);
-    ipcRenderer.send('send-record-start', fileName, deviceId);
   },
   stopRecord: (callback: any) => {
-    ipcRenderer.once('send-record-stop', (_, data) => {
-      console.log('recordChannel - stopRecord - send-connect-y');
-      callback(data);
+    ipcRenderer.on('send-record-stop', async () => {
+      console.log(`recordChannel - stopRecord - send-record-stop`);
     });
-    ipcRenderer.send('send-record-stop');
   },
 });
 

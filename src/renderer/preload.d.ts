@@ -1,4 +1,4 @@
-import { Channels } from 'main/preload';
+import { Channels, RecordChannel } from 'main/preload';
 
 declare global {
   interface Window {
@@ -29,12 +29,14 @@ declare global {
       removeListeners(channel: string): void;
     };
     recordChannel: {
-      startRecord(
-        fileName: string,
-        deviceId: string | number,
-        callback: any
-      ): void;
-      stopRecord(callback: any): void;
+      // startRecord(
+      //   fileName: string,
+      //   deviceId: string | number,
+      //   callback: any
+      // ): void;
+      // stopRecord(callback: any): void;
+      startRecord(_: any, callback: any): void;
+      stopRecord(_: any, callback: any): void;
     };
     connectChannel: {
       sendSeverIp(serverIp: string, callback: any): void;

@@ -158,8 +158,72 @@ io.on('connection', (socket: any) => {
     mainWindow.webContents.send('send-connect-y', socket.id);
   }
 
+  /*
+  (io : O / 발신 state)
+  통화 시작 (2 : OFFHOOK)
+  통화 연결 (3 : CONNECTED)
+  통화 종료 (0 : IDLE)
+
+  (io : I / 수신 state)
+  통화 시작 (2 : OFFHOOK)
+  통화 연결 (3 : CONNECTED)
+  통화 종료 (0 : IDLE)
+  */
   socket.on('message', (msg: any) => {
-    console.log(`message: ${JSON.stringify(msg)}`);
+    console.log(
+      '====================================================================================================================================='
+    );
+    // console.log(`original message: ${msg}`);
+    // const str = JSON.stringify(msg);
+    // console.log(`stringify message: ${str}`);
+    // console.log(`stringify replaceAll message: ${str.replaceAll('\\', '')}`);
+    // const obj = JSON.parse(msg);
+    // const message = JSON.parse(obj.message);
+    // console.log(
+    //   `parse message: ${obj.key}, ${obj.message},${message.volume},${message.type}`
+    // );
+    // console.log(
+    //   `stringify replaceAll message: ${JSON.stringify(msg).replaceAll(
+    //     '\\',
+    //     ''
+    //   )}`
+    // );
+    const originalObj = JSON.parse(msg);
+    const messageObj = JSON.parse(originalObj.message);
+
+    if (messageObj.type === 'state') {
+      const callObj = JSON.parse(messageObj.filename);
+      switch (messageObj.state) {
+        case 2:
+          console.log(
+            `[${callObj.callStartDateTime}] Call start: ${originalObj.key} -> ${callObj.remoteNumber}`
+          );
+          break;
+        case 3:
+          console.log(
+            `[${callObj.callConnectedDateTime}] Call connected: ${originalObj.key} -> ${callObj.remoteNumber}`
+          );
+          if (mainWindow != null) {
+            console.log('ipcMain.on - send-record-start');
+            // mainWindow.webContents.send('send-record-start');
+          }
+          break;
+        case 0:
+          console.log(
+            `[${callObj.callEndDateTime}] Call stop: ${originalObj.key} -> ${callObj.remoteNumber} / ${callObj.talkTime} sec (${callObj.callTime} sec)`
+          );
+          if (mainWindow != null) {
+            console.log('ipcMain.on - send-record-stop');
+            // mainWindow.webContents.send('send-record-stop');
+          }
+          break;
+        default:
+      }
+    }
+
+    console.log(
+      '====================================================================================================================================='
+    );
   });
 
   socket.on('disconnect', () => {
@@ -221,15 +285,15 @@ ipcMain.on('send-run-query', (event: IpcMainEvent, query: string) => {
   });
 });
 
-ipcMain.on(
-  'send-record-start',
-  (event: IpcMainEvent, fileName: string, deviceId: string | number) => {
-    console.log('ipcMain.on - send-record-start');
-    event.reply('send-record-start', true);
-  }
-);
+// ipcMain.on(
+//   'send-record-start',
+//   (event: IpcMainEvent, fileName: string, deviceId: string | number) => {
+//     console.log('ipcMain.on - send-record-start');
+//     event.reply('send-record-start', true);
+//   }
+// );
 
-ipcMain.on('send-record-stop', (event: IpcMainEvent) => {
-  console.log('ipcMain.on - send-record-stop');
-  event.reply('send-record-stop', true);
-});
+// ipcMain.on('send-record-stop', (event: IpcMainEvent) => {
+//   console.log('ipcMain.on - send-record-stop');
+//   event.reply('send-record-stop', true);
+// });
