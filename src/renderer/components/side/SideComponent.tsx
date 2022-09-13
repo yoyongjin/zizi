@@ -25,7 +25,8 @@ const SideDiv = styled.div<SideDivProps>`
 `;
 
 const IpDiv = styled.div`
-  padding: 0 28px 0 20px;
+  /* padding: 0 28px 0 20px; */
+  width: 180px;
   justify-content: center;
   align-items: center;
   font-size: 14px;
@@ -39,6 +40,8 @@ const IpDiv = styled.div`
 const SideComponent = (props: any) => {
   const dispatch = useDispatch();
   const [ip, setIp] = useState('');
+  const [manualRecord, setManualRecord] = useState(false);
+
   const recordState = useSelector(
     (state: any) => state.recordStateReducer.recordState
   );
@@ -64,16 +67,23 @@ const SideComponent = (props: any) => {
   return (
     <SideDiv
       connectState={connectState}
-      onClick={() => (connectState ? dispatch(connectN()) : '')}
+      // onClick={() => (connectState ? dispatch(connectN()) : '')}
     >
       {connectState ? <ConnectComponent /> : <DisConnectComponent />}
 
       <PhoneSettingModal />
 
-      {recordState ? <SaveCallRecordingComponent /> : ''}
+      {manualRecord ? <SaveCallRecordingComponent /> : ''}
 
-      {connectState ? '' : <RecordButtonComponent />}
-      <IpDiv>Your ip : {ip}</IpDiv>
+      {connectState ? (
+        ''
+      ) : (
+        <RecordButtonComponent
+          manualRecord={manualRecord}
+          setManualRecord={setManualRecord}
+        />
+      )}
+      <IpDiv>IP Address : {ip}</IpDiv>
     </SideDiv>
   );
 };

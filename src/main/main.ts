@@ -223,51 +223,41 @@ io.on('connection', (socket: any) => {
             console.log('ipcMain.on - send-record-stop');
             mainWindow.webContents.send('send-record-stop', originalObj.key);
 
-            console.log(callObj.callType);
-            console.log(callObj.remoteNumber);
-            console.log(callObj.callStartDateTime);
-            console.log(callObj.callConnectedDateTime);
-            console.log(callObj.callEndDateTime);
-            console.log(callObj.callTime);
-            console.log(callObj.talkTime);
+            // console.log(callObj.callType);
+            // console.log(callObj.remoteNumber);
+            // console.log(callObj.callStartDateTime);
+            // console.log(callObj.callConnectedDateTime);
+            // console.log(callObj.callEndDateTime);
+            // console.log(callObj.callTime);
+            // console.log(callObj.talkTime);
             const callDate = callObj.callStartDateTime.substring(0, 8);
             const callTime = callObj.callStartDateTime.substring(8, 14);
             console.log(
-              `${callDate.substring(0, 4)}.${callDate.substring(
-                4,
-                6
-              )}.${callDate.substring(6, 8)}`
+              `${callObj.callType}, ${callObj.remoteNumber},${callObj.callStartDateTime},${callObj.callConnectedDateTime},${callObj.callEndDateTime},${callObj.callTime},${callObj.talkTime}`
             );
-            console.log(
-              `${callTime.substring(0, 2)}:${callTime.substring(
-                2,
-                4
-              )}:${callTime.substring(4, 6)}`
-            );
-
-            db.run(
-              'INSERT INTO call(Date, Time, PhoneNumber) VALUES(?, ?, ?)',
-              [
-                `${callDate.substring(0, 4)}.${callDate.substring(
-                  4,
-                  6
-                )}.${callDate.substring(6, 8)}`,
-                `${callTime.substring(0, 2)}:${callTime.substring(
-                  2,
-                  4
-                )}:${callTime.substring(4, 6)}`,
-                callObj.remoteNumber,
-              ],
-              function (err) {
-                if (err) {
-                  return console.log(err.message);
-                }
-                // get the last insert id
-                console.log(
-                  `A row has been inserted with rowid ${this.lastID}`
-                );
-              }
-            );
+            // db.run(
+            //   'INSERT INTO call(Date, Time, PhoneNumber) VALUES(?, ?, ?)',
+            //   [
+            //     `${callDate.substring(0, 4)}.${callDate.substring(
+            //       4,
+            //       6
+            //     )}.${callDate.substring(6, 8)}`,
+            //     `${callTime.substring(0, 2)}:${callTime.substring(
+            //       2,
+            //       4
+            //     )}:${callTime.substring(4, 6)}`,
+            //     callObj.remoteNumber,
+            //   ],
+            //   function (err) {
+            //     if (err) {
+            //       return console.log(err.message);
+            //     }
+            //     // get the last insert id
+            //     console.log(
+            //       `A row has been inserted with rowid ${this.lastID}`
+            //     );
+            //   }
+            // );
           }
           break;
         default:
