@@ -3,6 +3,31 @@ import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
 export type Channels = 'ipc-example';
 
+contextBridge.exposeInMainWorld('getDisplayMediaId', () => {
+  return new Promise((resolve) => {
+    ipcRenderer.once('get-media-source-id', (_, displayMediaId) => {
+      resolve(displayMediaId);
+    });
+    ipcRenderer.send('get-media-source-id');
+  });
+});
+
+contextBridge.exposeInMainWorld(
+  'saveFile',
+  (fileName: string, data: ArrayBuffer) => {
+    return new Promise((resolve, reject) => {
+      ipcRenderer.once('save-file', (_, err) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(true);
+      });
+      ipcRenderer.send('save-file', fileName, new Int16Array(data));
+    });
+  }
+);
+
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer: {
     sendMessage(channel: Channels, args: unknown[]) {
