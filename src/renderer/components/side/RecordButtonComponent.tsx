@@ -41,7 +41,7 @@ const RecordButtonComponent = (props: any) => {
   );
 
   console.log(`RecordButtonComponent.tsx - Record state: ${recordState}`);
-  console.log(`Rendering.. ${ZiBox.getInstance().checkRecStatus()}`);
+  console.log(`@@@@Rendering.. ${ZiBox.getInstance().checkRecStatus()}`);
 
   const init = React.useRef<boolean>(false);
 

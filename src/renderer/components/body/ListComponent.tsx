@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import Pagination from 'react-js-pagination';
 import ListTitleComponent from './ListTitleComponent';
 // import ListContentComponent from './ListContentComponent';
@@ -120,6 +121,11 @@ const ListComponent = () => {
     setItems(Number(e.target.value));
   };
 
+  const recordState = useSelector(
+    (state: any) => state.recordStateReducer.recordState
+  );
+  console.log(`####ListComponent Rendering..`);
+
   useEffect(() => {
     console.log('ListComponent.tsx - ipcRenderer.sendQureyToMain');
     window.ipcDbChannel.sendQureyToMain('select * from call', (list: any) => {
@@ -133,7 +139,7 @@ const ListComponent = () => {
       <ListTitleComponent />
       {data &&
         data
-          .slice(items * (page - 1), items * (page - 1) + items)
+          // .slice(items * (page - 1), items * (page - 1) + items)
           .map((d: any) => {
             return (
               <ContentUl key={d.Id}>

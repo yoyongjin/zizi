@@ -235,29 +235,29 @@ io.on('connection', (socket: any) => {
             console.log(
               `${callObj.callType}, ${callObj.remoteNumber},${callObj.callStartDateTime},${callObj.callConnectedDateTime},${callObj.callEndDateTime},${callObj.callTime},${callObj.talkTime}`
             );
-            // db.run(
-            //   'INSERT INTO call(Date, Time, PhoneNumber) VALUES(?, ?, ?)',
-            //   [
-            //     `${callDate.substring(0, 4)}.${callDate.substring(
-            //       4,
-            //       6
-            //     )}.${callDate.substring(6, 8)}`,
-            //     `${callTime.substring(0, 2)}:${callTime.substring(
-            //       2,
-            //       4
-            //     )}:${callTime.substring(4, 6)}`,
-            //     callObj.remoteNumber,
-            //   ],
-            //   function (err) {
-            //     if (err) {
-            //       return console.log(err.message);
-            //     }
-            //     // get the last insert id
-            //     console.log(
-            //       `A row has been inserted with rowid ${this.lastID}`
-            //     );
-            //   }
-            // );
+            db.run(
+              'INSERT INTO call(Date, Time, PhoneNumber) VALUES(?, ?, ?)',
+              [
+                `${callDate.substring(0, 4)}.${callDate.substring(
+                  4,
+                  6
+                )}.${callDate.substring(6, 8)}`,
+                `${callTime.substring(0, 2)}:${callTime.substring(
+                  2,
+                  4
+                )}:${callTime.substring(4, 6)}`,
+                callObj.remoteNumber,
+              ],
+              function (err) {
+                if (err) {
+                  return console.log(err.message);
+                }
+                // get the last insert id
+                console.log(
+                  `A row has been inserted with rowid ${this.lastID}`
+                );
+              }
+            );
           }
           break;
         default:
