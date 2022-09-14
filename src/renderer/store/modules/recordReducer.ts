@@ -18,11 +18,13 @@ export default function recordStateReducer(state = initialState, action: any) {
     case RECORDING_START:
       console.log('recordStateReducer - RECORDING_START');
       return {
+        ...state,
         recordState: true,
       };
     case RECORDING_STOP:
       console.log('recordStateReducer - RECORDING_STOP');
       return {
+        ...state,
         recordState: false,
       };
     default:

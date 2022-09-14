@@ -122,7 +122,8 @@ const ListComponent = () => {
   };
 
   const recordState = useSelector(
-    (state: any) => state.recordStateReducer.recordState
+    // (state: any) => state.recordStateReducer.recordState
+    (state: any) => state.recorder.recordState
   );
   console.log(`####ListComponent Rendering..`);
 
@@ -132,7 +133,7 @@ const ListComponent = () => {
       list.sort((item1: any, item2: any) => item2.id - item1.id);
       setData(list);
     });
-  }, []);
+  }, [recordState]);
 
   return (
     <ListDiv>

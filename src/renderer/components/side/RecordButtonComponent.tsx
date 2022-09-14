@@ -2,10 +2,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import {
-  recordingStart,
-  recordingStop,
-} from 'renderer/store/modules/recordReducer';
+// import {
+//   recordingStart,
+//   recordingStop,
+// } from 'renderer/store/modules/recordReducer';
+import { recordToggle } from '../../store/recordSlice';
 import ZiBox from '../../zibox';
 
 const RecordButtonDiv = styled.div`
@@ -37,7 +38,8 @@ const RecordButtonComponent = (props: any) => {
   const { manualRecord, setManualRecord } = props;
   const dispatch = useDispatch();
   const recordState = useSelector(
-    (state: any) => state.recordStateReducer.recordState
+    // (state: any) => state.recordStateReducer.recordState
+    (state: any) => state.recorder.recordState
   );
 
   console.log(`RecordButtonComponent.tsx - Record state: ${recordState}`);
@@ -52,9 +54,10 @@ const RecordButtonComponent = (props: any) => {
       window.recordChannel.startRecord(
         'send-record-start',
         async (userKey: string) => {
-          console.log('SideComponent.tsx - Auto startRecord');
+          console.log('RecordButtonComponent.tsx - Auto startRecord');
           if (!ZiBox.getInstance().checkRecStatus()) {
-            dispatch(recordingStart());
+            // dispatch(recordingStart());
+            dispatch(recordToggle(true));
             await ZiBox.getInstance().recordingStart(`${Date.now()}.wav`);
             console.log(
               `RecordButtonComponent.tsx - Auto Record start: ${recordState}`
@@ -66,9 +69,10 @@ const RecordButtonComponent = (props: any) => {
       window.recordChannel.stopRecord(
         'send-record-stop',
         async (userKey: string) => {
-          console.log('SideComponent.tsx - Auto stopRecord');
+          console.log('RecordButtonComponent.tsx - Auto stopRecord');
           if (ZiBox.getInstance().checkRecStatus()) {
-            dispatch(recordingStop());
+            // dispatch(recordingStop());
+            dispatch(recordToggle(false));
             console.log('Stop!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
             const result = await ZiBox.getInstance().recordingStop();
             if (result) {
@@ -92,7 +96,7 @@ const RecordButtonComponent = (props: any) => {
       // 녹취 중 O
       // await ZiBox.getInstance().recordingStop();
       setManualRecord(false);
-      dispatch(recordingStop());
+      dispatch(recordToggle(false));
       const result = await ZiBox.getInstance().recordingStop();
       if (result) {
         console.log('Recording Stop & Save..');
@@ -102,7 +106,7 @@ const RecordButtonComponent = (props: any) => {
     } else {
       // 녹취 중 X
       setManualRecord(true);
-      dispatch(recordingStart());
+      dispatch(recordToggle(true));
       await ZiBox.getInstance().recordingStart(`${Date.now()}.wav`);
       console.log(`RecordButtonComponent.tsx - Record start: ${recordState}`);
     }

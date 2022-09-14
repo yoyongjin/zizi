@@ -2,8 +2,9 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { connectY, connectN } from 'renderer/store/modules/connectReducer';
 import { IpcRendererEvent } from 'electron';
+// import { connectY, connectN } from 'renderer/store/modules/connectReducer';
+import { connectToggle, init } from '../../store/connectSlice';
 import DisConnectComponent from './DisConnectComponent';
 import ConnectComponent from './ConnectComponent';
 import PhoneSettingModal from './PhoneSettingModal';
@@ -43,13 +44,18 @@ const SideComponent = (props: any) => {
   const [manualRecord, setManualRecord] = useState(false);
 
   const recordState = useSelector(
-    (state: any) => state.recordStateReducer.recordState
+    // (state: any) => state.recordStateReducer.recordState
+    (state: any) => state.recorder.recordState
   );
   const connectState = useSelector(
-    (state: any) => state.connectStateReducer.connectState
+    // (state: any) => state.connectStateReducer.connectState
+    (state: any) => state.connector.connectState
   );
+  console.log(`####SideComponent Rendering..`);
 
   useEffect(() => {
+    // console.log('side..');
+    // dispatch(init);
     window.connectChannel.sendSeverIp('send-serverip', (serverIp: string) => {
       console.log('SideComponent.tsx - Connected server ip:', serverIp);
       setIp(serverIp);
@@ -58,7 +64,7 @@ const SideComponent = (props: any) => {
 
   window.connectChannel.sendConnectY('send-connect-y', (socketId: string) => {
     console.log('SideComponent.tsx - Connected socket id:', socketId);
-    dispatch(connectY());
+    dispatch(connectToggle(true));
   });
 
   console.log(`SideComponent.tsx - Record state: ${recordState}`);
