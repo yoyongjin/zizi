@@ -235,6 +235,15 @@ io.on('connection', (socket: any) => {
             console.log(
               `${callObj.callType}, ${callObj.remoteNumber},${callObj.callStartDateTime},${callObj.callConnectedDateTime},${callObj.callEndDateTime},${callObj.callTime},${callObj.talkTime}`
             );
+            console.log(
+              `${callObj.remoteNumber.substring(
+                0,
+                3
+              )}-${callObj.remoteNumber.substring(
+                3,
+                7
+              )}-${callObj.remoteNumber.substring(7, 11)}`
+            );
             db.run(
               'INSERT INTO call(Date, Time, PhoneNumber) VALUES(?, ?, ?)',
               [
@@ -246,7 +255,13 @@ io.on('connection', (socket: any) => {
                   2,
                   4
                 )}:${callTime.substring(4, 6)}`,
-                callObj.remoteNumber,
+                `${callObj.remoteNumber.substring(
+                  0,
+                  3
+                )}-${callObj.remoteNumber.substring(
+                  3,
+                  7
+                )}-${callObj.remoteNumber.substring(7, 11)}`,
               ],
               function (err) {
                 if (err) {
