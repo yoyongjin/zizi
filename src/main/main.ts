@@ -15,8 +15,10 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import sqlite from 'sqlite3';
 import isDev from 'electron-is-dev';
+import fs from 'fs';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+import Record from './utils/record';
 
 class AppUpdater {
   constructor() {
@@ -282,6 +284,17 @@ ipcMain.on('send-run-query', (event: IpcMainEvent, query: string) => {
 
   db.all(query, (err, data) => {
     event.reply('send-run-query', data);
+  });
+});
+
+ipcMain.on('get-media-source-id', async (event) => {
+  const mediaSourceId = await Record.getDisplayMediaSourceId();
+  event.reply('get-media-source-id', mediaSourceId);
+});
+
+ipcMain.on('save-file', async (event, fileName, buffer) => {
+  fs.writeFile(fileName, buffer, (err) => {
+    event.reply('save-file', err);
   });
 });
 
