@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import TitleComponent from './TitleComponent';
 import ListComponent from './ListComponent';
-import PagingComponent from './PagingComponent';
+// import PagingComponent from './PagingComponent';
 
 const BodyDiv = styled.div`
   background: white;

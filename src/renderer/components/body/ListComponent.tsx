@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 // import Pagination from 'react-js-pagination';
-import Paging from '../side/Paging';
+import PagingBoxComponenet from './PagingBoxComponenet';
 import ListTitleComponent from './ListTitleComponent';
 // import ListContentComponent from './ListContentComponent';
 import playImg from '../../../../assets/play@3x.png';
@@ -166,7 +166,7 @@ const ListComponent = () => {
             // <ListContentComponent />
           );
         })}
-      <Paging
+      <PagingBoxComponenet
         totalCount={data.length}
         dataPerPage={dataPerPage}
         pageRangeDisplayed={5}

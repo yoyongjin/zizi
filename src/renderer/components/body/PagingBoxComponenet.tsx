@@ -46,7 +46,7 @@ const PaginationBox = styled.div`
   }
 `;
 
-const Paging = (props: any) => {
+const PagingBoxComponenet = (props: any) => {
   const {
     totalCount,
     dataPerPage,
@@ -68,4 +68,4 @@ const Paging = (props: any) => {
     </PaginationBox>
   );
 };
-export default Paging;
+export default PagingBoxComponenet;
