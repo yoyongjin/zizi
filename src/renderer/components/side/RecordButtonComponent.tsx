@@ -6,6 +6,7 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 //   recordingStart,
 //   recordingStop,
 // } from 'renderer/store/modules/recordReducer';
+import Record from 'renderer/utils/Record';
 import { recordToggle } from '../../store/recordSlice';
 import ZiBox from '../../zibox';
 
@@ -46,6 +47,7 @@ const RecordButtonComponent = (props: any) => {
   console.log(`@@@@Rendering.. ${ZiBox.getInstance().checkRecStatus()}`);
 
   const init = React.useRef<boolean>(false);
+  const recorder = React.useRef<any>(new Record());
 
   React.useEffect(() => {
     if (init.current) return;
@@ -89,29 +91,38 @@ const RecordButtonComponent = (props: any) => {
   }, []);
 
   const toggleRecord = async () => {
-    console.log(`1RecStatus: ${ZiBox.getInstance().checkRecStatus()}`);
-    // 지박스 연결 시
-    if (manualRecord && ZiBox.getInstance().checkRecStatus()) {
-      // if (recordState) {
-      // 녹취 중 O
-      // await ZiBox.getInstance().recordingStop();
-      setManualRecord(false);
-      dispatch(recordToggle(false));
-      const result = await ZiBox.getInstance().recordingStop();
-      if (result) {
-        console.log('Recording Stop & Save..');
-        ZiBox.getInstance().recSave();
-      }
-      console.log(`RecordButtonComponent.tsx - Record stop: ${recordState}`);
-    } else {
-      // 녹취 중 X
+    if (!recorder.current.recording) {
+      await recorder.current.start();
       setManualRecord(true);
       dispatch(recordToggle(true));
-      await ZiBox.getInstance().recordingStart(`${Date.now()}.wav`);
-      console.log(`RecordButtonComponent.tsx - Record start: ${recordState}`);
+    } else {
+      recorder.current.stop(`${Date.now()}`);
+      setManualRecord(false);
+      dispatch(recordToggle(false));
     }
 
-    console.log(`2RecStatus: ${ZiBox.getInstance().checkRecStatus()}`);
+    // console.log(`1RecStatus: ${ZiBox.getInstance().checkRecStatus()}`);
+    // // 지박스 연결 시
+    // if (manualRecord && ZiBox.getInstance().checkRecStatus()) {
+    //   // if (recordState) {
+    //   // 녹취 중 O
+    //   // await ZiBox.getInstance().recordingStop();
+    //   setManualRecord(false);
+    //   dispatch(recordToggle(false));
+    //   const result = await ZiBox.getInstance().recordingStop();
+    //   if (result) {
+    //     console.log('Recording Stop & Save..');
+    //     ZiBox.getInstance().recSave();
+    //   }
+    //   console.log(`RecordButtonComponent.tsx - Record stop: ${recordState}`);
+    // } else {
+    //   // 녹취 중 X
+    //   setManualRecord(true);
+    //   dispatch(recordToggle(true));
+    //   await ZiBox.getInstance().recordingStart(`${Date.now()}.wav`);
+    //   console.log(`RecordButtonComponent.tsx - Record start: ${recordState}`);
+    // }
+    // console.log(`2RecStatus: ${ZiBox.getInstance().checkRecStatus()}`);
   };
 
   return (

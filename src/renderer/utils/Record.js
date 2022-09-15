@@ -5,23 +5,27 @@ const SAMPLE_RATE = 48000;
 class Record {
   constructor() {
     this.micCtx = null;
-    this.speakerCtx = null;
+    // this.speakerCtx = null;
 
     this.micBuffer = [];
-    this.speakerBuffer = [];
+    // this.speakerBuffer = [];
 
     this.recording = false;
   }
 
   connect(ctx, stream, buffer) {
     const source = ctx.createMediaStreamSource(stream);
-    const processor = ctx.createScriptProcessor(4096, 1, 1);
+
+    const processor = ctx.createScriptProcessor(4096, 2, 2);
 
     let closed = false;
 
     processor.onaudioprocess = (e) => {
       if (this.recording) {
-        buffer.push([...e.inputBuffer.getChannelData(0)]);
+        buffer.push([
+          [...e.inputBuffer.getChannelData(0)],
+          [...e.inputBuffer.getChannelData(1)],
+        ]);
       } else {
         // eslint-disable-next-line no-lonely-if
         if (!closed) {
@@ -40,15 +44,11 @@ class Record {
   }
 
   createWav(fileName) {
-    const buffers = [this.micBuffer, this.speakerBuffer];
-
-    const length = Math.min(
-      ...buffers.map((buffer) =>
-        buffer.reduce((p, c) => {
-          return p + c.length;
-        }, 0)
-      )
-    );
+    const length = this.micBuffer
+      .map((lrBuffer) => lrBuffer[0])
+      .reduce((p, c) => {
+        return p + c.length;
+      }, 0);
 
     const resAudioBuffer = new AudioContext().createBuffer(
       2,
@@ -56,14 +56,14 @@ class Record {
       SAMPLE_RATE
     );
 
-    for (let c = 0; c < 1; c += 1) {
-      const buffer = buffers[c];
-      const channel = resAudioBuffer.getChannelData(c);
+    for (let channel = 0; channel < 2; channel += 1) {
       let i = 0;
+      const channelData = resAudioBuffer.getChannelData(channel);
       // eslint-disable-next-line no-restricted-syntax
-      for (const buf of buffer) {
+      for (const lrData of this.micBuffer) {
+        const buf = lrData[channel];
         for (let j = 0; j < buf.length; j += 1) {
-          channel[i] = buf[j];
+          channelData[i] = buf[j];
           i += 1;
         }
       }
@@ -95,14 +95,17 @@ class Record {
     this.micCtx = new AudioContext({
       sampleRate: SAMPLE_RATE,
     });
+    /*
     this.speakerCtx = new AudioContext({
       sampleRate: SAMPLE_RATE,
     });
+    */
 
     this.micBuffer = [];
-    this.speakerBuffer = [];
+    // this.speakerBuffer = [];
 
     this.recording = true;
+    /*
     const mediaSourceId = await window.getDisplayMediaId();
 
     let devicePromise = null;
@@ -146,17 +149,28 @@ class Record {
     }
 
     await Promise.resolve(devicePromise);
+    */
 
-    const [outStream, inStream] = await Promise.all([
-      navigator.mediaDevices.getUserMedia(desktopConfig),
+    const [/* speakerStream, */ micStream] = await Promise.all([
+      // navigator.mediaDevices.getUserMedia(desktopConfig),
       navigator.mediaDevices.getUserMedia({
-        audio: true,
+        audio: {
+          mandatory: {
+            echoCancellation: false,
+            autoGainControl: false,
+            noiseSuppression: false,
+            channelCount: 2,
+          },
+          optional: [],
+        },
         video: false,
       }),
     ]);
 
-    this.connect(this.speakerCtx, outStream, this.speakerBuffer);
-    this.connect(this.micCtx, inStream, this.micBuffer);
+    console.log(micStream.getTracks()[0].getCapabilities());
+
+    // this.connect(this.speakerCtx, speakerStream, this.speakerBuffer);
+    this.connect(this.micCtx, micStream, this.micBuffer);
   }
 }
 

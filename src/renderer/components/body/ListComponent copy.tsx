@@ -1,12 +1,7 @@
-/* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/no-shadow */
-/* eslint-disable react/jsx-no-duplicate-props */
-/* eslint-disable react-hooks/exhaustive-deps */
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-// import Pagination from 'react-js-pagination';
-import Paging from '../side/Paging';
+import Pagination from 'react-js-pagination';
 import ListTitleComponent from './ListTitleComponent';
 // import ListContentComponent from './ListContentComponent';
 import playImg from '../../../../assets/play@3x.png';
@@ -116,63 +111,62 @@ const PaginationBox = styled.div`
 
 const ListComponent = () => {
   const [data, setData] = useState([]);
-  const [currentData, setCurrentData] = useState([]); // 보여줄 data
-  const [page, setPage] = useState(1); // 현재 페이지
-  const handlePageChange = (page: any) => {
-    setPage(page);
+  const [page, setPage] = useState(1);
+  const [items, setItems] = useState(5);
+
+  const handlePageChange = (page2: any) => {
+    setPage(page2);
   };
-  const [dataPerPage] = useState(10); // 페이지당 data 개수
-  const indexOfLastData = page * dataPerPage;
-  const indexOfFirstData = indexOfLastData - dataPerPage;
+  const itemChange = (e: any) => {
+    setItems(Number(e.target.value));
+  };
 
   const recordState = useSelector(
     // (state: any) => state.recordStateReducer.recordState
     (state: any) => state.recorder.recordState
   );
-  console.log(`####ListComponent Rendering..${recordState}`);
+  console.log(`####ListComponent Rendering..`);
 
   useEffect(() => {
-    console.log('Renderling ListComponent.tsx - ipcRenderer.sendQureyToMain');
+    console.log('ListComponent.tsx - ipcRenderer.sendQureyToMain');
     window.ipcDbChannel.sendQureyToMain('select * from call', (list: any) => {
       list.sort((item1: any, item2: any) => item2.id - item1.id);
-      console.log(`list: ${list}`);
       setData(list);
-      console.log(`data: ${data}`);
-      console.log(`indexOfFirstData: ${indexOfFirstData}`);
-      console.log(`indexOfLastData: ${indexOfLastData}`);
-      setCurrentData(list.slice(indexOfFirstData, indexOfLastData));
-      console.log(`currentData: ${currentData}`);
     });
-  }, [recordState, indexOfFirstData, indexOfLastData, page]);
+  }, [recordState]);
 
   return (
     <ListDiv>
       <ListTitleComponent />
-      {currentData &&
-        currentData.map((d: any) => {
-          return (
-            <ContentUl key={d.Id}>
-              <PlayeLi>
-                <PlayImg src={playImg} />
-              </PlayeLi>
-              <DateLi>{d.Date}</DateLi>
-              <TimeLi>{d.Time}</TimeLi>
-              <PhoneNumberLi>{d.PhoneNumber}</PhoneNumberLi>
-              <MemoLi>{d.Memo}</MemoLi>
-              <CheckboxLi>
-                <input type="checkbox" />
-              </CheckboxLi>
-            </ContentUl>
-            // <ListContentComponent />
-          );
-        })}
-      <Paging
-        totalCount={data.length}
-        dataPerPage={dataPerPage}
-        pageRangeDisplayed={5}
-        handlePageChange={handlePageChange}
-        page={page}
-      />
+      {data &&
+        data
+          // .slice(items * (page - 1), items * (page - 1) + items)
+          .map((d: any) => {
+            return (
+              <ContentUl key={d.Id}>
+                <PlayeLi>
+                  <PlayImg src={playImg} />
+                </PlayeLi>
+                <DateLi>{d.Date}</DateLi>
+                <TimeLi>{d.Time}</TimeLi>
+                <PhoneNumberLi>{d.PhoneNumber}</PhoneNumberLi>
+                <MemoLi>{d.Memo}</MemoLi>
+                <CheckboxLi>
+                  <input type="checkbox" />
+                </CheckboxLi>
+              </ContentUl>
+              // <ListContentComponent />
+            );
+          })}
+      <PaginationBox>
+        <Pagination
+          activePage={1}
+          itemsCountPerPage={5}
+          totalItemsCount={300}
+          pageRangeDisplayed={2}
+          onChange={handlePageChange}
+        />
+      </PaginationBox>
     </ListDiv>
   );
 };

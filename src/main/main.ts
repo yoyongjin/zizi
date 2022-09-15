@@ -342,6 +342,7 @@ ipcMain.on('send-run-query', (event: IpcMainEvent, query: string) => {
   console.log('ipcMain.on - send-selectAll => query from renderer : ', query);
 
   db.all(query, (err, data) => {
+    console.log('db select success..');
     event.reply('send-run-query', data);
   });
 });

@@ -51,6 +51,7 @@ export type IpcDbChannel = 'ipcDbChannel';
 contextBridge.exposeInMainWorld('ipcDbChannel', {
   sendQureyToMain: (query: string, callback: any) => {
     ipcRenderer.once('send-run-query', (_, data) => {
+      console.log(`preload data: ${data}`);
       callback(data);
     });
     ipcRenderer.send('send-run-query', query);
