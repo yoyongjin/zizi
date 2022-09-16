@@ -134,14 +134,14 @@ const ListComponent = () => {
   useEffect(() => {
     console.log('Renderling ListComponent.tsx - ipcRenderer.sendQureyToMain');
     window.ipcDbChannel.sendQureyToMain('select * from call', (list: any) => {
-      list.sort((item1: any, item2: any) => item2.id - item1.id);
-      console.log(`list: ${list}`);
+      list.sort((item1: any, item2: any) => item2.Id - item1.Id);
+      // console.log(`list: ${list}`);
       setData(list);
-      console.log(`data: ${data}`);
-      console.log(`indexOfFirstData: ${indexOfFirstData}`);
-      console.log(`indexOfLastData: ${indexOfLastData}`);
+      // console.log(`data: ${data}`);
+      // console.log(`indexOfFirstData: ${indexOfFirstData}`);
+      // console.log(`indexOfLastData: ${indexOfLastData}`);
       setCurrentData(list.slice(indexOfFirstData, indexOfLastData));
-      console.log(`currentData: ${currentData}`);
+      // console.log(`currentData: ${currentData}`);
     });
   }, [recordState, indexOfFirstData, indexOfLastData, page]);
 

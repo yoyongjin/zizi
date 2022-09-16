@@ -4,6 +4,8 @@ import ListComponent from './ListComponent';
 // import PagingComponent from './PagingComponent';
 
 const BodyDiv = styled.div`
+  box-sizing: border-box;
+  width: 972px;
   background: white;
   flex-grow: 1;
   padding: 20px 15px 32px 37px;

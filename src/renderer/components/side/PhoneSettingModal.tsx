@@ -7,69 +7,69 @@ import { useDispatch, useSelector } from 'react-redux';
 import { connectToggle } from '../../store/connectSlice';
 import { modalToggle } from '../../store/modalSlice';
 
-const ModalHeaderDiv = styled.div`
-  margin: 14px 0 0 19px;
-`;
-
-const ModalTitleSpan = styled.span`
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: -0.8px;
-  text-align: left;
-  color: #fff;
-`;
-
-const ModalContentDiv = styled.div`
-  margin: 29px 113px 0 41px;
-`;
-
-const ModalContentSpan = styled.span`
-  font-size: 12px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 2.5;
-  letter-spacing: -0.6px;
-  text-align: left;
-  color: #fff;
-  width: 446px;
-  box-sizing: content-box;
-`;
-
-const ModalBottomDiv = styled.div`
-  margin: 24px 0 0 48px;
+const ModalHeaderContainer = styled.section`
   display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 15px;
+  /* background-color: purple; */
+  height: 35px;
 `;
-
-const ModalInputDiv = styled.div`
-  width: 180px;
-  height: 36px;
-  border-radius: 8px;
-  border: solid 1px #3a3a40;
+const ModalContentContainer = styled.div`
+  display: flex;
+  margin-top: 29px;
+  /* background-color: lightcoral; */
+  padding-right: 7 0px;
+`;
+const ModalQRContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* background-color: yellow; */
+  padding: 0 50px;
+`;
+const QRImage = styled.div`
+  width: 71px;
+  height: 71px;
   background-color: #fff;
 `;
 
-const ModalSetButtonDiv = styled.div`
-  width: 76px;
-  height: 36px;
-  margin-left: 9px;
-  border-radius: 8px;
-  background-color: #1f9fae;
-  cursor: pointer;
+const ConnectInfoContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* background-color: #ccc; */
+  height: 106px;
 `;
 
-const ModalSetButtonSpan = styled.span`
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 2.29;
-  letter-spacing: -0.7px;
+const ModalHeaderText = styled.p`
+  margin: 0;
+  font: normal normal 600 16px/20px Segoe UI;
+  color: #fff;
+  margin-left: 2px;
+  /* background-color: #ccc;  */
+`;
+
+const ConnectInfoText = styled.p`
+  font: normal normal normal 12px/1rem Segoe UI;
+  padding: 0;
+  margin: 0;
+
+  color: #fff;
+  /* background-color: red; */
+`;
+
+const DownloadText = styled.p`
+  font: normal normal normal 12px/1rem Segoe UI;
   color: #fff;
 `;
-
+const Box = styled.div`
+  width: 11.67px;
+  height: 11.7px;
+  margin-bottom: 5px;
+  /* background-color: blue; */
+`;
 ReactModal.setAppElement('#root');
 
 const PhoneSettingModal = (props: any) => {
@@ -98,7 +98,7 @@ const PhoneSettingModal = (props: any) => {
         },
         content: {
           width: '600px',
-          height: '300px',
+          height: '207px',
           margin: '148px 0 0 333px ',
           padding: '0',
           inset: '0',
@@ -109,34 +109,26 @@ const PhoneSettingModal = (props: any) => {
         },
       }}
     >
-      <ModalHeaderDiv>
-        <ModalTitleSpan>Phone Setting</ModalTitleSpan>
-      </ModalHeaderDiv>
-      <ModalContentDiv>
-        <ModalContentSpan>
-          1. 통화녹음을 하고자 하는 휴대전화를 ZiBox2가 연결된 PC와 같은
-          인터넷망으로 WIFI 접속 2. 휴대전화에서 ZiBox2 어플리케이션을 실행 (
-          미설치 시 다음 링크에서 다운로드 후 설치 ) 3. ZiBox2 어플리케이션에서
-          고유번호 확인 후 아래에 입력
-        </ModalContentSpan>
-      </ModalContentDiv>
-      <ModalBottomDiv>
-        <ModalInputDiv />
-        <ModalSetButtonDiv>
-          {/* <ModalSetButtonSpan onClick={() => phoneSet()}> */}
-          <ModalSetButtonSpan
-            onClick={() => {
-              dispatch(modalToggle(false));
-              dispatch(connectToggle(true));
-              console.log(
-                `PhoneSettingModal.tsx - Modal, Connect state(phoneSet): ${modalState}, ${connectState}`
-              );
-            }}
-          >
-            Set
-          </ModalSetButtonSpan>
-        </ModalSetButtonDiv>
-      </ModalBottomDiv>
+      <ModalHeaderContainer>
+        <ModalHeaderText>휴대전화 연결하기</ModalHeaderText>
+        <Box>X</Box>
+      </ModalHeaderContainer>
+      <ModalContentContainer>
+        <ModalQRContainer>
+          <QRImage>QR Image</QRImage>
+          <DownloadText>APP Download</DownloadText>
+        </ModalQRContainer>
+        <ConnectInfoContainer>
+          <ConnectInfoText>Step1. 휴대전화 앱을 설치하세요.</ConnectInfoText>
+          <ConnectInfoText>
+            Step2. 앱을 실행한 후 연결할 PC의 IP주소를 입력하세요.
+          </ConnectInfoText>
+          <ConnectInfoText>현재 PC의 IP주소: 2222222222222222</ConnectInfoText>
+          <ConnectInfoText>
+            연결이 완료되면 자동으로 통화 녹음이 실행됩니다.
+          </ConnectInfoText>
+        </ConnectInfoContainer>
+      </ModalContentContainer>
     </ReactModal>
   );
 };

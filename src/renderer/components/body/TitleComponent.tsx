@@ -18,7 +18,7 @@ const TitleSpan = styled.span`
 
 const SearchForm = styled.form`
   box-sizing: border-box;
-  padding: 5px 15px;
+  padding: 5px 15px 5px 0px;
   align-items: center;
   background-color: #d4d6d9;
   display: flex;
@@ -28,8 +28,14 @@ const SearchForm = styled.form`
   border-radius: 8px;
   opacity: 1;
 `;
-
-const SearchDateInput = styled.input`
+interface SearchSpanProps {
+  searchItem: string;
+}
+interface SearchDateInputProps {
+  dateStartEnd: string;
+}
+const SearchDateInput = styled.input<SearchDateInputProps>`
+  margin-left: ${(props) => (props.dateStartEnd === 'START' ? '7px' : '3px')};
   box-sizing: border-box;
   width: 90px;
   height: 24px;
@@ -37,6 +43,7 @@ const SearchDateInput = styled.input`
   border-radius: 6px;
 `;
 const SearchPhoneNumInput = styled.input`
+  margin-left: 7px;
   box-sizing: border-box;
   width: 122px;
   height: 24px;
@@ -44,6 +51,7 @@ const SearchPhoneNumInput = styled.input`
   border-radius: 6px;
 `;
 const SearchMemoInput = styled.input`
+  margin-left: 7px;
   box-sizing: border-box;
   width: 188px;
   height: 24px;
@@ -51,17 +59,37 @@ const SearchMemoInput = styled.input`
   border-radius: 6px;
 `;
 
-const SearchSpan = styled.span`
+const SearchSpan = styled.span<SearchSpanProps>`
+  /* margin-left: ${(props) =>
+    props.searchItem === 'DATE' ? '13px' : '15px'}; */
+  margin-left: ${(props) => {
+    switch (props.searchItem) {
+      case 'DATE':
+        return '13px';
+      case 'TILDE':
+        return '2px';
+      default:
+        return '15px';
+    }
+  }};
+  /* font: normal normal 600 13px/20px Segoe UI; */
   font: normal normal 600 13px/20px Segoe UI;
   color: #707070;
   opacity: 1;
 `;
 
-const SearchDate = styled.div``;
-const SearchPhoneNum = styled.div``;
-const SearchMemo = styled.div``;
+const SearchDate = styled.div`
+  /* margin-left: 13px; */
+`;
+const SearchPhoneNum = styled.div`
+  /* margin-left: 15px; */
+`;
+const SearchMemo = styled.div`
+  /* margin-left: 15px; */
+`;
 
 const SearchBtn = styled.button`
+  margin-left: 15px;
   padding: 0;
   background: #707070;
   border-radius: 6px;
@@ -81,19 +109,19 @@ const TitleComponent = () => {
       <TitleSpan>Call Recording List</TitleSpan>
       <SearchForm>
         <SearchDate>
-          <SearchSpan>Date</SearchSpan>
-          <SearchDateInput />
-          <SearchSpan>~</SearchSpan>
-          <SearchDateInput />
+          <SearchSpan searchItem="DATE">Date</SearchSpan>
+          <SearchDateInput dateStartEnd="START" />
+          <SearchSpan searchItem="TILDE">~</SearchSpan>
+          <SearchDateInput dateStartEnd="END" />
         </SearchDate>
         <SearchPhoneNum>
-          <SearchSpan>
+          <SearchSpan searchItem="PHONENUM">
             Phone No.
             <SearchPhoneNumInput />
           </SearchSpan>
         </SearchPhoneNum>
         <SearchMemo>
-          <SearchSpan>
+          <SearchSpan searchItem="MEMO">
             #<SearchMemoInput />
           </SearchSpan>
         </SearchMemo>
