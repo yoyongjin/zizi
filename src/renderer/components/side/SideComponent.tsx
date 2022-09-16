@@ -67,6 +67,11 @@ const SideComponent = (props: any) => {
     dispatch(connectToggle(true));
   });
 
+  window.connectChannel.sendConnectN('send-connect-n', (socketId: string) => {
+    console.log('SideComponent.tsx - Disconnected socket id:', socketId);
+    dispatch(connectToggle(false));
+  });
+
   console.log(`SideComponent.tsx - Record state: ${recordState}`);
   console.log(`SideComponent.tsx - Connect state: ${connectState}`);
 

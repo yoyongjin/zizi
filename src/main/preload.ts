@@ -106,4 +106,10 @@ contextBridge.exposeInMainWorld('connectChannel', {
       callback(data);
     });
   },
+  sendConnectN: (socketId: string | number, callback: any) => {
+    ipcRenderer.on('send-connect-n', (_, data) => {
+      console.log(`connectChannel - sendConnectN - send-connect-n: ${data}`);
+      callback(data);
+    });
+  },
 });

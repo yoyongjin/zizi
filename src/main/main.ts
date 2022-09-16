@@ -153,7 +153,7 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require('socket.io');
 
-const io = new Server(server);
+const io = new Server(server, { pingInterval: 1000, pingTimeout: 2000 });
 
 io.on('connection', (socket: any) => {
   console.log('a user connected');
@@ -288,7 +288,11 @@ io.on('connection', (socket: any) => {
   });
 
   socket.on('disconnect', () => {
-    console.log('user disconnected');
+    console.log(`user disconnected: ${socket.id}`);
+
+    if (mainWindow != null) {
+      mainWindow.webContents.send('send-connect-n', socket.id);
+    }
   });
 });
 

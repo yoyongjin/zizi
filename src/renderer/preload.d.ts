@@ -41,6 +41,7 @@ declare global {
     connectChannel: {
       sendSeverIp(serverIp: string, callback: any): void;
       sendConnectY(socketId: string, callback: any): void;
+      sendConnectN(socketId: string, callback: any): void;
     };
   }
 }
