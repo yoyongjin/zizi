@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // import { connectY, connectN } from 'renderer/store/modules/connectReducer';
 import { connectToggle } from '../../store/connectSlice';
 import { modalToggle } from '../../store/modalSlice';
+import closeImg from '../../../../assets/close@3x.png';
 
 const ModalHeaderContainer = styled.section`
   display: flex;
@@ -21,6 +22,7 @@ const ModalContentContainer = styled.div`
   /* background-color: lightcoral; */
   padding-right: 7 0px;
 `;
+
 const ModalQRContainer = styled.section`
   display: flex;
   flex-direction: column;
@@ -64,11 +66,12 @@ const DownloadText = styled.p`
   font: normal normal normal 12px/1rem Segoe UI;
   color: #fff;
 `;
-const Box = styled.div`
-  width: 11.67px;
-  height: 11.7px;
-  margin-bottom: 5px;
-  /* background-color: blue; */
+
+const CloseButton = styled.img`
+  width: 20px;
+  height: 20px;
+  margin: 0 0 1px 10px;
+  object-fit: contain;
 `;
 ReactModal.setAppElement('#root');
 
@@ -111,7 +114,8 @@ const PhoneSettingModal = (props: any) => {
     >
       <ModalHeaderContainer>
         <ModalHeaderText>휴대전화 연결하기</ModalHeaderText>
-        <Box>X</Box>
+
+        <CloseButton src={closeImg} />
       </ModalHeaderContainer>
       <ModalContentContainer>
         <ModalQRContainer>

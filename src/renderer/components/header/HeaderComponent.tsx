@@ -3,8 +3,10 @@ import LogoComponent from './LogoComponent';
 import MenuComponent from './MenuComponent';
 
 const HeaderDiv = styled.div`
-  min-height: 30px;
-  height: 7.7%;
+  margin: 0;
+  padding: 0;
+  width: 1200px;
+  height: 50px;
   background-color: #4878c1;
   display: flex;
   align-items: center;

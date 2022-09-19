@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import recordImg from '../../../../assets/rec_sta@2x.png';
 
 const SaveCallRecordingDiv = styled.div`
   margin-top: 24px;
@@ -9,11 +10,9 @@ const TimeDiv = styled.div`
   font-size: 14px;
   font-weight: 600;
   letter-spacing: normal;
-  text-align: center;
   color: #fff;
   height: fit-content;
   width: fit-content;
-  margin-left: 73px;
 `;
 
 const PhoneNumberDiv = styled.div`
@@ -51,11 +50,26 @@ const MemoInputDiv = styled.div`
   border-radius: 8px;
   border: solid 1px #707070;
 `;
+const RecordingTimeContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-right: 4px;
+  align-items: center;
+  gap: 18px;
+`;
+const RecordImg = styled.img`
+  width: 15px;
+  height: 15px;
+  margin-top: 2px;
+`;
 
 const SaveCallRecordingComponent = () => {
   return (
     <SaveCallRecordingDiv>
-      <TimeDiv>03:24</TimeDiv>
+      <RecordingTimeContainer>
+        <RecordImg src={recordImg} />
+        <TimeDiv>03:24</TimeDiv>
+      </RecordingTimeContainer>
       <PhoneNumberDiv>
         <PhoneNumberSpan>Phone number</PhoneNumberSpan>
       </PhoneNumberDiv>

@@ -38,6 +38,10 @@ const CheckboxLi = styled.li`
   display: flex;
 `;
 
+const Checkbox = styled.input`
+  border: 2px solid #000;
+`;
+
 const TitleUl = styled.ul`
   list-style: none;
   display: flex;
@@ -48,11 +52,13 @@ const TitleUl = styled.ul`
   font-weight: 600;
   color: #3a3a40;
   margin: 0;
-  margin-bottom: 13.5px;
+  margin-bottom: 6px;
   padding: 0;
-  padding-bottom: 8.5px;
+  /* padding-bottom: 8.5px; */
+  padding: 9.5px 0;
   border-bottom: 2px solid #3a3a40;
 `;
+
 const ListTitleComponent = () => {
   return (
     <TitleUl>
@@ -64,7 +70,7 @@ const ListTitleComponent = () => {
       <PhoneNumberLi>Phone number</PhoneNumberLi>
       <MemoLi>#</MemoLi>
       <CheckboxLi>
-        <input type="checkbox" />
+        <Checkbox type="checkbox" />
       </CheckboxLi>
     </TitleUl>
   );

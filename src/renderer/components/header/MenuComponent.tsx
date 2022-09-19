@@ -68,7 +68,7 @@ const MenuComponent = (props: any) => {
   const { changeSearchState, searchState } = props;
   return (
     <MenuDiv>
-      <SettingButton>
+      {/* <SettingButton>
         <SettingSpan>SETTING</SettingSpan>
       </SettingButton>
       <SearchDiv onClick={changeSearchState}>
@@ -78,7 +78,7 @@ const MenuComponent = (props: any) => {
         ) : (
           <SearchRightButton src={triangleDownImg} />
         )}
-      </SearchDiv>
+      </SearchDiv> */}
       <HideButton src={hideImg} />
       <CloseButton src={closeImg} />
     </MenuDiv>

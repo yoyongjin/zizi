@@ -100,8 +100,8 @@ const createWindow = async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1200,
-    height: 650,
+    width: 1215,
+    height: 665,
     minWidth: 370,
     minHeight: 470,
     maxWidth: 1200,
@@ -113,6 +113,8 @@ const createWindow = async () => {
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
     },
+    // autoHideMenuBar: true,
+    // frame: false,
   });
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));

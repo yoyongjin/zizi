@@ -1,16 +1,22 @@
 import styled from 'styled-components';
 
 const TitleDiv = styled.div`
-  height: 10%;
+  margin-bottom: 10px;
   justify-content: space-between;
   display: flex;
+  align-items: flex-end;
+  /* background-color: #bbb; */
+`;
+
+const TitleSpanContainer = styled.div`
+  width: 119px;
+  height: 21px;
 `;
 
 const TitleSpan = styled.span`
-  /* flex: 1; */
+  width: 119px;
   font-size: 16px;
   font-weight: 600;
-  line-height: 2;
   letter-spacing: -0.8px;
   /* text-align: left; */
   color: #3a3a40;
@@ -92,22 +98,25 @@ const SearchBtn = styled.button`
   margin-left: 15px;
   padding: 0;
   background: #707070;
+  border: none;
   border-radius: 6px;
   opacity: 1;
   width: 74px;
   height: 24px;
-  font: normal normal 600 14px/25px Segoe UI;
+  font: normal normal 600 14px Segoe UI;
   color: #fff;
 `;
 
 const TitleComponent = () => {
-  // const onChangeHandler = () => {
-
-  // }
+  const onSubmitHandler = () => {
+    console.log('');
+  };
   return (
     <TitleDiv>
-      <TitleSpan>Call Recording List</TitleSpan>
-      <SearchForm>
+      <TitleSpanContainer>
+        <TitleSpan>Call Recording List</TitleSpan>
+      </TitleSpanContainer>
+      <SearchForm onSubmit={}>
         <SearchDate>
           <SearchSpan searchItem="DATE">Date</SearchSpan>
           <SearchDateInput dateStartEnd="START" />

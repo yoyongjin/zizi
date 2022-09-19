@@ -17,6 +17,7 @@ interface SideDivProps {
 
 const SideDiv = styled.div<SideDivProps>`
   width: 228px;
+  height: 100%;
   padding: 20px 28px 0 20px;
   background-color: #3a3a40;
   box-sizing: border-box;

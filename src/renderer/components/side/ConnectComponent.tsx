@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import phoneOnImg from '../../../../assets/phone_on@3x.png';
 import wifiOnImg from '../../../../assets/wifi_on@3x.png';
 import gearImg from '../../../../assets/gear@3x.png';
+import recordImg from '../../../../assets/rec_sta@2x.png';
 
 const ConnectDiv = styled.div`
   height: 36px;
@@ -10,12 +11,12 @@ const ConnectDiv = styled.div`
   background-color: #3a3a40;
   display: flex;
   align-items: center;
-  justify-content: center;
+  /* background-color: #ccc; */
 `;
 
 const PhoneImg = styled.img`
   height: 19.7px;
-  margin-left: 19px;
+  margin-left: 15px;
   object-fit: contain;
 `;
 
@@ -40,7 +41,9 @@ const GearImg2 = styled.img`
 `;
 
 const AutoRecordingDiv = styled.div`
-  margin: 22px 0 0 34px;
+  display: flex;
+  justify-content: center;
+  margin-top: 22px;
 `;
 
 const AutoRecordingSpan = styled.span`
@@ -56,6 +59,28 @@ const LineDiv = styled.div`
   border-top: solid 1px #707070;
 `;
 
+const RecordingTimeContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-right: 4px;
+  align-items: center;
+  margin-top: 15.5px;
+  gap: 18px;
+`;
+const RecordImg = styled.img`
+  width: 15px;
+  height: 15px;
+  margin-top: 2px;
+`;
+const TimeDiv = styled.div`
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: normal;
+  color: #fff;
+  height: fit-content;
+  width: fit-content;
+`;
+
 const ConnectComponent = () => {
   return (
     <>
@@ -63,12 +88,17 @@ const ConnectComponent = () => {
         <PhoneImg src={phoneOnImg} />
         <WifiImg src={wifiOnImg} />
         <ConnectSpan>Connect</ConnectSpan>
-        <GearImg2 src={gearImg} />
+        {/* <GearImg2 src={gearImg} /> */}
       </ConnectDiv>
       <AutoRecordingDiv>
-        <AutoRecordingSpan>Auto Recording . . .</AutoRecordingSpan>
+        <AutoRecordingSpan>Auto Recording</AutoRecordingSpan>
       </AutoRecordingDiv>
+
       <LineDiv />
+      <RecordingTimeContainer>
+        <RecordImg src={recordImg} />
+        <TimeDiv>03:24</TimeDiv>
+      </RecordingTimeContainer>
     </>
   );
 };

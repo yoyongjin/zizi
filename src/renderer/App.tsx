@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 /* eslint-disable no-console */
 import React, { useState, useEffect, createContext } from 'react';
 import styled from 'styled-components';
@@ -8,14 +9,16 @@ import BodyComponent from './components/body/BodyComponent';
 import './App.css';
 
 const AppDiv = styled.div`
+  margin: 0;
+  padding: 0;
+  width: 1200px;
   height: 100%;
   background-color: #fff;
 `;
 
 const ContentDiv = styled.div`
   display: flex;
-  width: 100%;
-  height: 92.3%;
+  height: 550px;
 `;
 
 function App() {
@@ -37,7 +40,7 @@ function App() {
         searchState={searchState}
       />
       <ContentDiv>
-        {searchState ? <SearchComponent /> : ''}
+        {/* {searchState ? <SearchComponent /> : ''} */}
         <SideComponent />
         <BodyComponent />
       </ContentDiv>
