@@ -46,11 +46,15 @@ const SideComponent = (props: any) => {
 
   const recordState = useSelector(
     // (state: any) => state.recordStateReducer.recordState
-    (state: any) => state.recorder.recordState
+    (state: any) => {
+      return state.recorder.recordState;
+    }
   );
   const connectState = useSelector(
     // (state: any) => state.connectStateReducer.connectState
-    (state: any) => state.connector.connectState
+    (state: any) => {
+      return state.connector.connectState;
+    }
   );
   console.log(`####SideComponent Rendering..`);
 

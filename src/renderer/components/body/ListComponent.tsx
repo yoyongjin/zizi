@@ -8,7 +8,7 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 // import Pagination from 'react-js-pagination';
 import PagingBoxComponenet from './PagingBoxComponenet';
 import ListTitleComponent from './ListTitleComponent';
-// import ListContentComponent from './ListContentComponent';
+import ListContentComponent from './ListContentComponent';
 import playImg from '../../../../assets/play@3x.png';
 
 const ListDiv = styled.div`
@@ -68,53 +68,79 @@ const MemoLi = styled.li`
   min-width: 550px;
 `;
 
+const MemoInput = styled.input`
+  width: 98%;
+  border: none;
+`;
+
 const CheckboxLi = styled.li`
   width: 2.75%;
   display: flex;
 `;
 
 const ListComponent = (props: any) => {
+  console.log('!@#!@#!@#!@#ListComponent Rerendering...');
+  const [input, setInput] = useState('');
+
   const { currentData } = props;
 
-  const MemoInput = styled.input`
-    width: 98%;
-    border: none;
-  `;
+  const [memoId, setMemoId] = useState('');
+  const [memoContent, setMemoContent] = useState('');
+  const [updateFlag, setUpdateFlag] = useState(false);
 
-  const [memo, setMemo] = useState('');
-
-  const onFocus = (e) => {
-    console.log('onFocus event');
-    console.log(`target:${e.target.value}`);
+  const onFocus = (id, e) => {
+    console.log(`onFocus event - id: ${id} memo: ${e.target.value}`);
+    setMemoId(id);
+    setMemoContent(e.target.value);
   };
 
-  const onBlur = (e) => {
-    console.log('onBlur event');
-    console.log(`target:${e.target.value}`);
-    // console.log(`currentTarget:${e.currentTarget.value}`);
-    // console.log(`relatedTarget:${e.relatedTarget.value}`);
+  const onBlur = (id, e) => {
+    console.log(`onBlur event - id: ${id} memo: ${e.target.value}`);
+    setInput(e.target.value);
+
+    if (memoId === id && memoContent !== e.target.value) {
+      console.log('ListComponent.tsx - ipcRenderer.updateQureyToMain');
+
+      // window.ipcDbChannel.sendQureyToMain(
+      //   'select * from tb_call',
+      //   (list: any) => {
+      //     list.sort((item1: any, item2: any) => item2.Id - item1.Id);
+      //   }
+      // );
+      setUpdateFlag(true);
+    }
   };
 
   return (
     <ListDiv>
       <ListTitleComponent />
       {currentData &&
-        currentData.map((d: any) => {
+        currentData.map((data: any) => {
           return (
-            <ContentUl key={d.Id}>
-              <PlayeLi>
-                <PlayImg src={playImg} />
-              </PlayeLi>
-              <DateLi>{d.Date}</DateLi>
-              <TimeLi>{d.Time}</TimeLi>
-              <PhoneNumberLi>{d.PhoneNumber}</PhoneNumberLi>
-              <MemoLi>
-                <MemoInput value={d.Memo} onFocus={onFocus} onBlur={onBlur} />
-              </MemoLi>
-              <CheckboxLi>
-                <input type="checkbox" />
-              </CheckboxLi>
-            </ContentUl>
+            <ListContentComponent key={data.id} data={data} />
+            // <ContentUl key={d.id}>
+            //   <PlayeLi>
+            //     <PlayImg src={playImg} />
+            //   </PlayeLi>
+            //   <DateLi>{d.date}</DateLi>
+            //   <TimeLi>{d.time}</TimeLi>
+            //   <PhoneNumberLi>{d.phonenumber}</PhoneNumberLi>
+            //   <MemoLi>
+            //     <MemoInput
+            //       defaultValue={d.memo}
+            //       // value={input}
+            //       onFocus={(e) => {
+            //         onFocus(d.id, e);
+            //       }}
+            //       onBlur={(e) => {
+            //         onBlur(d.id, e);
+            //       }}
+            //     />
+            //   </MemoLi>
+            //   <CheckboxLi>
+            //     <input type="checkbox" />
+            //   </CheckboxLi>
+            // </ContentUl>
           );
         })}
     </ListDiv>

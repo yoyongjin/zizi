@@ -76,11 +76,15 @@ const PhoneSettingModal = (props: any) => {
   const dispatch = useDispatch();
   const modalState = useSelector(
     // (state: any) => state.modalStateReducer.modalState
-    (state: any) => state.modaler.modalState
+    (state: any) => {
+      return state.modaler.modalState;
+    }
   );
   const connectState = useSelector(
     // (state: any) => state.connectStateReducer.connectState
-    (state: any) => state.connector.connectState
+    (state: any) => {
+      return state.connector.connectState;
+    }
   );
 
   return (

@@ -40,7 +40,9 @@ const RecordButtonComponent = (props: any) => {
   const dispatch = useDispatch();
   const recordState = useSelector(
     // (state: any) => state.recordStateReducer.recordState
-    (state: any) => state.recorder.recordState
+    (state: any) => {
+      return state.recorder.recordState;
+    }
   );
 
   console.log(`RecordButtonComponent.tsx - Record state: ${recordState}`);

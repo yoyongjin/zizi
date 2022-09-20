@@ -14,9 +14,11 @@ const recordSlice = createSlice({
     recordToggle: (state, action) => {
       console.log(`recordSlice - toggle - action.payload: ${action.payload}`);
       state.recordState = action.payload;
+      console.log(`******state.recordState: ${state.recordState}`);
     },
     init: (state, action) => {
       state.recordState = false;
+      console.log(`******state.recordState: ${state.recordState}`);
     },
   },
 });

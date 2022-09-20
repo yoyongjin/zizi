@@ -30,22 +30,27 @@ const BodyComponent = () => {
 
   const recordState = useSelector(
     // (state: any) => state.recordStateReducer.recordState
-    (state: any) => state.recorder.recordState
+    (state: any) => {
+      return state.recorder.recordState;
+    }
   );
-  console.log(`####ListComponent Rendering..${recordState}`);
+  console.log(`####BodyComponent Rendering..${recordState}`);
 
   useEffect(() => {
     console.log('Renderling ListComponent.tsx - ipcRenderer.sendQureyToMain');
-    window.ipcDbChannel.sendQureyToMain('select * from call', (list: any) => {
-      list.sort((item1: any, item2: any) => item2.Id - item1.Id);
-      // console.log(`list: ${list}`);
-      setData(list);
-      // console.log(`data: ${data}`);
-      // console.log(`indexOfFirstData: ${indexOfFirstData}`);
-      // console.log(`indexOfLastData: ${indexOfLastData}`);
-      setCurrentData(list.slice(indexOfFirstData, indexOfLastData));
-      // console.log(`currentData: ${currentData}`);
-    });
+    window.ipcDbChannel.sendQureyToMain(
+      'select * from tb_call',
+      (list: any) => {
+        list.sort((item1: any, item2: any) => item2.id - item1.id);
+        // console.log(`list: ${list}`);
+        setData(list);
+        // console.log(`data: ${data}`);
+        // console.log(`indexOfFirstData: ${indexOfFirstData}`);
+        // console.log(`indexOfLastData: ${indexOfLastData}`);
+        setCurrentData(list.slice(indexOfFirstData, indexOfLastData));
+        // console.log(`currentData: ${currentData}`);
+      }
+    );
   }, [recordState, indexOfFirstData, indexOfLastData, page]);
 
   return (

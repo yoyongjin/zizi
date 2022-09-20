@@ -1,19 +1,21 @@
 import styled from 'styled-components';
+import { useEffect, useRef, useState } from 'react';
 import playImg from '../../../../assets/play@3x.png';
 
 const ContentUl = styled.ul`
   list-style: none;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  height: 16px;
+  /* justify-content: flex-start; */
+  height: 15px;
   font-size: 12px;
   font-weight: normal;
   color: #707070;
   margin: 0;
-  margin-bottom: 8px;
+  /* margin-bottom: 8px; */
   padding: 0;
-  padding-bottom: 7px;
+  padding: 7.5px 0;
+  /* padding-bottom: 7px; */
   border-bottom: 1px solid #707070;
 `;
 
@@ -51,21 +53,62 @@ const MemoLi = styled.li`
   min-width: 550px;
 `;
 
+const MemoInput = styled.input`
+  width: 98%;
+  border: none;
+`;
+
 const CheckboxLi = styled.li`
   width: 2.75%;
   display: flex;
 `;
 
-const ListContentComponent = () => {
+const ListContentComponent = (props: any) => {
+  const { data } = props;
+  const [memoContent, setMemoContent] = useState(data.memo);
+
+  // const onFocus = (id, e) => {
+  //   console.log(`onFocus event - id: ${id} memo: ${e.target.value}`);
+  //   setMemoId(id);
+  //   setMemoContent(e.target.value);
+  // };
+
+  const onBlur = (id, e) => {
+    console.log(`onBlur event - id: ${id} memo: ${e.target.value}`);
+
+    if (memoContent !== e.target.value) {
+      console.log('ListComponent.tsx - ipcRenderer.updateQureyToMain');
+
+      // window.ipcDbChannel.sendQureyToMain(
+      //   'select * from tb_call',
+      //   (list: any) => {
+      //     list.sort((item1: any, item2: any) => item2.Id - item1.Id);
+      //   }
+      // );
+      setMemoContent(e.target.value);
+    }
+  };
+
   return (
     <ContentUl>
       <PlayeLi>
         <PlayImg src={playImg} />
       </PlayeLi>
-      <DateLi>2022.04.08</DateLi>
-      <TimeLi>23:24:16</TimeLi>
-      <PhoneNumberLi>010-1234-5678</PhoneNumberLi>
-      <MemoLi>Phasellus risus turpis, pretium sit amet magna non</MemoLi>
+      <DateLi>{data.date}</DateLi>
+      <TimeLi>{data.time}</TimeLi>
+      <PhoneNumberLi>{data.phonenumber}</PhoneNumberLi>
+      <MemoLi>
+        <MemoInput
+          defaultValue={data.memo}
+          // value={input}
+          // onFocus={(e) => {
+          //   onFocus(data.id, e);
+          // }}
+          onBlur={(e) => {
+            onBlur(data.id, e);
+          }}
+        />
+      </MemoLi>
       <CheckboxLi>
         <input type="checkbox" />
       </CheckboxLi>

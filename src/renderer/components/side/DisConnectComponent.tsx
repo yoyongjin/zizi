@@ -78,7 +78,9 @@ const DisConnectComponent = () => {
   const dispatch = useDispatch();
   const recordState = useSelector(
     // (state: any) => state.recordStateReducer.recordState
-    (state: any) => state.recorder.recordState
+    (state: any) => {
+      return state.recorder.recordState;
+    }
   );
 
   return (

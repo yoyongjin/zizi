@@ -227,13 +227,13 @@ io.on('connection', (socket: any) => {
             console.log('ipcMain.on - send-record-stop');
             mainWindow.webContents.send('send-record-stop', originalObj.key);
 
-            // console.log(callObj.callType);
-            // console.log(callObj.remoteNumber);
-            // console.log(callObj.callStartDateTime);
-            // console.log(callObj.callConnectedDateTime);
-            // console.log(callObj.callEndDateTime);
-            // console.log(callObj.callTime);
-            // console.log(callObj.talkTime);
+            console.log(callObj.callType);
+            console.log(callObj.remoteNumber);
+            console.log(callObj.callStartDateTime);
+            console.log(callObj.callConnectedDateTime);
+            console.log(callObj.callEndDateTime);
+            console.log(callObj.callTime);
+            console.log(callObj.talkTime);
             const callDate = callObj.callStartDateTime.substring(0, 8);
             const callTime = callObj.callStartDateTime.substring(8, 14);
             // console.log(
@@ -249,7 +249,7 @@ io.on('connection', (socket: any) => {
             //   )}-${callObj.remoteNumber.substring(7, 11)}`
             // );
             db.run(
-              'INSERT INTO call(Date, Time, PhoneNumber) VALUES(?, ?, ?)',
+              'INSERT INTO tb_call(date, time, phoneNumber, filename, memo) VALUES(?, ?, ?, ?, ?)',
               [
                 `${callDate.substring(0, 4)}.${callDate.substring(
                   4,
@@ -266,6 +266,8 @@ io.on('connection', (socket: any) => {
                   3,
                   7
                 )}-${callObj.remoteNumber.substring(7, 11)}`,
+                '',
+                '',
               ],
               function (err) {
                 if (err) {
