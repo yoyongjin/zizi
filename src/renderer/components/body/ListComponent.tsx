@@ -3,7 +3,7 @@
 /* eslint-disable react/jsx-no-duplicate-props */
 /* eslint-disable react-hooks/exhaustive-deps */
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 // import Pagination from 'react-js-pagination';
 import PagingBoxComponenet from './PagingBoxComponenet';
@@ -75,40 +75,25 @@ const CheckboxLi = styled.li`
 
 const ListComponent = (props: any) => {
   const { currentData } = props;
-  // const [data, setData] = useState([]);
-  // const [currentData, setCurrentData] = useState([]); // 보여줄 data
-  // const [page, setPage] = useState(1); // 현재 페이지
-  // const handlePageChange = (page: any) => {
-  //   setPage(page);
-  // };
-  // const [dataPerPage] = useState(10); // 페이지당 data 개수
-  // const indexOfLastData = page * dataPerPage;
-  // const indexOfFirstData = indexOfLastData - dataPerPage;
-
-  // const recordState = useSelector(
-  //   // (state: any) => state.recordStateReducer.recordState
-  //   (state: any) => state.recorder.recordState
-  // );
-  // console.log(`####ListComponent Rendering..${recordState}`);
-
-  // useEffect(() => {
-  //   console.log('Renderling ListComponent.tsx - ipcRenderer.sendQureyToMain');
-  //   window.ipcDbChannel.sendQureyToMain('select * from call', (list: any) => {
-  //     list.sort((item1: any, item2: any) => item2.Id - item1.Id);
-  //     // console.log(`list: ${list}`);
-  //     setData(list);
-  //     // console.log(`data: ${data}`);
-  //     // console.log(`indexOfFirstData: ${indexOfFirstData}`);
-  //     // console.log(`indexOfLastData: ${indexOfLastData}`);
-  //     setCurrentData(list.slice(indexOfFirstData, indexOfLastData));
-  //     // console.log(`currentData: ${currentData}`);
-  //   });
-  // }, [recordState, indexOfFirstData, indexOfLastData, page]);
 
   const MemoInput = styled.input`
     width: 98%;
     border: none;
   `;
+
+  const [memo, setMemo] = useState('');
+
+  const onFocus = (e) => {
+    console.log('onFocus event');
+    console.log(`target:${e.target.value}`);
+  };
+
+  const onBlur = (e) => {
+    console.log('onBlur event');
+    console.log(`target:${e.target.value}`);
+    // console.log(`currentTarget:${e.currentTarget.value}`);
+    // console.log(`relatedTarget:${e.relatedTarget.value}`);
+  };
 
   return (
     <ListDiv>
@@ -124,23 +109,14 @@ const ListComponent = (props: any) => {
               <TimeLi>{d.Time}</TimeLi>
               <PhoneNumberLi>{d.PhoneNumber}</PhoneNumberLi>
               <MemoLi>
-                <MemoInput value={d.Memo} />
+                <MemoInput value={d.Memo} onFocus={onFocus} onBlur={onBlur} />
               </MemoLi>
-
               <CheckboxLi>
                 <input type="checkbox" />
               </CheckboxLi>
             </ContentUl>
-            // <ListContentComponent />
           );
         })}
-      {/* <PagingBoxComponenet
-        totalCount={data.length}
-        dataPerPage={dataPerPage}
-        pageRangeDisplayed={5}
-        handlePageChange={handlePageChange}
-        page={page}
-      /> */}
     </ListDiv>
   );
 };
