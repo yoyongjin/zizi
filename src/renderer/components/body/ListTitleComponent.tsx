@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useEffect, useRef, useState } from 'react';
 import titlePlayImg from '../../../../assets/play@3x.png';
 
 const TitlePlayeLi = styled.li`
@@ -59,7 +60,15 @@ const TitleUl = styled.ul`
   border-bottom: 2px solid #3a3a40;
 `;
 
-const ListTitleComponent = () => {
+const ListTitleComponent = (props: any) => {
+  const { allCheckedHandler } = props;
+  const [bChecked, setChecked] = useState(false);
+
+  const checkHandler = ({ target }) => {
+    setChecked(!bChecked);
+    allCheckedHandler(target.checked);
+  };
+
   return (
     <TitleUl>
       <TitlePlayeLi>
@@ -70,7 +79,11 @@ const ListTitleComponent = () => {
       <PhoneNumberLi>Phone number</PhoneNumberLi>
       <MemoLi>#</MemoLi>
       <CheckboxLi>
-        <Checkbox type="checkbox" />
+        <Checkbox
+          type="checkbox"
+          checked={bChecked}
+          onChange={(e) => checkHandler(e)}
+        />
       </CheckboxLi>
     </TitleUl>
   );

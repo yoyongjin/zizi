@@ -64,16 +64,27 @@ const CheckboxLi = styled.li`
 `;
 
 const ListContentComponent = (props: any) => {
-  const { data } = props;
+  const { data, checkedItemHandler, isAllChecked } = props;
+  const [bChecked, setChecked] = useState(false);
+
+  const checkHandler = ({ target }) => {
+    setChecked(!bChecked);
+    checkedItemHandler(data.id, target.checked);
+  };
+
+  const allCheckHandler = () => setChecked(isAllChecked);
+
+  useEffect(() => allCheckHandler(), [isAllChecked]);
+
   const [memoContent, setMemoContent] = useState(data.memo);
 
-  // const onFocus = (id, e) => {
+  // const onFocusHandler = (id, e) => {
   //   console.log(`onFocus event - id: ${id} memo: ${e.target.value}`);
   //   setMemoId(id);
   //   setMemoContent(e.target.value);
   // };
 
-  const onBlur = (id, e) => {
+  const onBlurHandler = (id, e) => {
     console.log(`onBlur event - id: ${id} memo: ${e.target.value}`);
 
     if (memoContent !== e.target.value) {
@@ -102,15 +113,19 @@ const ListContentComponent = (props: any) => {
           defaultValue={data.memo}
           // value={input}
           // onFocus={(e) => {
-          //   onFocus(data.id, e);
+          //   onFocusHandler(data.id, e);
           // }}
           onBlur={(e) => {
-            onBlur(data.id, e);
+            onBlurHandler(data.id, e);
           }}
         />
       </MemoLi>
       <CheckboxLi>
-        <input type="checkbox" />
+        <input
+          type="checkbox"
+          checked={bChecked}
+          onChange={(e) => checkHandler(e)}
+        />
       </CheckboxLi>
     </ContentUl>
   );
