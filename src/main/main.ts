@@ -17,7 +17,7 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import sqlite from 'sqlite3';
 import isDev from 'electron-is-dev';
-import fs from 'fs';
+import fs, { unwatchFile } from 'fs';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import Record from './utils/record';
@@ -377,6 +377,26 @@ ipcMain.on(
     );
   }
 );
+
+ipcMain.on('send-delete-query', (event: IpcMainEvent, ids: Array) => {
+  console.log('ipcMain.on - send-deleteCall => param from renderer : ', ids);
+  let result = 0;
+  ids.map((id, index) => {
+    db.run('DELETE FROM tb_call WHERE id=?', [id], function (this, err) {
+      console.log('this.changes:', this.changes);
+      if (err) {
+        return console.log(err.message);
+      }
+      console.log(`A row has been deleted with rowid ${id}`);
+      result += this.changes;
+
+      if (index === ids.length - 1) {
+        console.log('final result:', result);
+        event.reply('send-delete-query', result);
+      }
+    });
+  });
+});
 
 ipcMain.on('get-media-source-id', async (event) => {
   const mediaSourceId = await Record.getDisplayMediaSourceId();

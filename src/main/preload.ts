@@ -63,6 +63,13 @@ contextBridge.exposeInMainWorld('ipcDbChannel', {
     });
     ipcRenderer.send('send-update-query', id, memoContent);
   },
+  deleteCallQureyToMain: (ids: Array, callback: any) => {
+    ipcRenderer.once('send-delete-query', (_, data) => {
+      console.log(`preload data: ${data}`);
+      callback(data);
+    });
+    ipcRenderer.send('send-delete-query', ids);
+  },
 });
 
 export type RecordChannel = 'recordChannel';

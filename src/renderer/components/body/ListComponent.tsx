@@ -20,6 +20,7 @@ const ListComponent = () => {
   const indexOfFirstData = indexOfLastData - dataPerPage;
   const [checkedItems, setCheckedItems] = useState(new Set());
   const [isAllChecked, setIsAllChecked] = useState(false);
+  const [deleteState, setDeleteState] = useState(false);
   const recordState = useSelector((state: any) => {
     return state.recorder.recordState;
   });
@@ -46,6 +47,7 @@ const ListComponent = () => {
       setCheckedItems(new Set(currentData.map((data) => data.id)));
       setIsAllChecked(true);
     } else {
+      console.log('allCheckedHandler', isChecked);
       checkedItems.clear();
       setIsAllChecked(false);
     }
@@ -54,7 +56,19 @@ const ListComponent = () => {
     // arr.map((c, index) => console.log(`${index}@@@@allcheckedItem:${c}`));
   };
 
-  console.log(`@@@@Rendering ListComponent..${recordState}`);
+  const onDeleteHandler = () => {
+    console.log('checkedItems', checkedItems);
+    const ids = [...checkedItems];
+    // 여기 DB 삭제
+    window.ipcDbChannel.deleteCallQureyToMain(ids, (result: any) => {
+      console.log('Call delete result:', result);
+      checkedItems.clear();
+      setCheckedItems(new Set());
+      setDeleteState(!deleteState);
+    });
+  };
+
+  console.log(`^^^^Rendering ListComponent..${recordState}`);
   // console.log('****checkedItems', checkedItems);
 
   useEffect(() => {
@@ -67,7 +81,7 @@ const ListComponent = () => {
         setCurrentData(list.slice(indexOfFirstData, indexOfLastData));
       }
     );
-  }, [recordState, indexOfFirstData, indexOfLastData, page]);
+  }, [recordState, indexOfFirstData, indexOfLastData, page, deleteState]);
 
   return (
     <>
@@ -92,6 +106,7 @@ const ListComponent = () => {
         handlePageChange={handlePageChange}
         page={page}
         checkedItems={checkedItems}
+        onDeleteHandler={onDeleteHandler}
       />
     </>
   );
