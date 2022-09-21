@@ -29,9 +29,12 @@ const ListComponent = () => {
   };
   const checkedItemHandler = (id, isChecked) => {
     if (isChecked) {
-      setCheckedItems(checkedItems.add(id));
+      // setCheckedItems(checkedItems.add(id));
+      checkedItems.add(id);
+      setCheckedItems(new Set(checkedItems));
     } else if (!isChecked && checkedItems.has(id)) {
       checkedItems.delete(id);
+      setCheckedItems(new Set(checkedItems));
     }
 
     // const arr = [...checkedItems];
@@ -52,7 +55,7 @@ const ListComponent = () => {
   };
 
   console.log(`@@@@Rendering ListComponent..${recordState}`);
-  console.log('****checkedItems', checkedItems);
+  // console.log('****checkedItems', checkedItems);
 
   useEffect(() => {
     console.log('Renderling ListComponent.tsx - ipcRenderer.sendQureyToMain');
@@ -88,6 +91,7 @@ const ListComponent = () => {
         pageRangeDisplayed={5}
         handlePageChange={handlePageChange}
         page={page}
+        checkedItems={checkedItems}
       />
     </>
   );

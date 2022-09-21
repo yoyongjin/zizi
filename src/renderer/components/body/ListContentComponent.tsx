@@ -89,14 +89,16 @@ const ListContentComponent = (props: any) => {
 
     if (memoContent !== e.target.value) {
       console.log('ListComponent.tsx - ipcRenderer.updateQureyToMain');
-
-      // window.ipcDbChannel.sendQureyToMain(
-      //   'select * from tb_call',
-      //   (list: any) => {
-      //     list.sort((item1: any, item2: any) => item2.Id - item1.Id);
-      //   }
-      // );
       setMemoContent(e.target.value);
+
+      // 여기 DB 메모 업데이트
+      window.ipcDbChannel.updateMemoQureyToMain(
+        data.id,
+        e.target.value,
+        (result: any) => {
+          console.log('Memo update result:', result);
+        }
+      );
     }
   };
 

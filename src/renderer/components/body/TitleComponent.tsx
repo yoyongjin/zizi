@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const TitleDiv = styled.div`
@@ -108,30 +109,82 @@ const SearchBtn = styled.button`
 `;
 
 const TitleComponent = () => {
-  const onSubmitHandler = () => {
-    console.log('');
+  console.log('***** TitleComponent rendering...');
+
+  // const [startDate, setStartDate] = useState('');
+  // const [endDate, setEndDate] = useState('');
+  // const [phoneNum, setPhoneNum] = useState('');
+  // const [memo, setMemo] = useState('');
+
+  // const startDateHandler = (e) => {
+  //   e.preventDefault();
+  //   setStartDate(e.target.value);
+  // };
+
+  // const endDateHandler = (e) => {
+  //   e.preventDefault();
+  //   setEndDate(e.target.value);
+  // };
+
+  // const phoneNumHandler = (e) => {
+  //   e.preventDefault();
+  //   setPhoneNum(e.target.value);
+  // };
+
+  // const memoHandler = (e) => {
+  //   e.preventDefault();
+  //   setMemo(e.target.value);
+  // };
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+
+    const data = new FormData(e.target);
+    console.log('&&&&&submit');
+    console.log('startDate', data.get('startDate'));
+    console.log('endDate', data.get('endDate'));
+    console.log('phoneNum', data.get('phoneNum'));
+    console.log('memo', data.get('memo'));
+
+    // 여기 DB 조회
   };
+
   return (
     <TitleDiv>
       <TitleSpanContainer>
         <TitleSpan>Call Recording List</TitleSpan>
       </TitleSpanContainer>
-      <SearchForm onSubmit={}>
+      <SearchForm onSubmit={onSubmitHandler}>
         <SearchDate>
           <SearchSpan searchItem="DATE">Date</SearchSpan>
-          <SearchDateInput dateStartEnd="START" />
+          <SearchDateInput
+            dateStartEnd="START"
+            // onChange={startDateHandler}
+            name="startDate"
+          />
           <SearchSpan searchItem="TILDE">~</SearchSpan>
-          <SearchDateInput dateStartEnd="END" />
+          <SearchDateInput
+            dateStartEnd="END"
+            // onChange={endDateHandler}
+            name="endDate"
+          />
         </SearchDate>
         <SearchPhoneNum>
           <SearchSpan searchItem="PHONENUM">
             Phone No.
-            <SearchPhoneNumInput />
+            <SearchPhoneNumInput
+              // onChange={phoneNumHandler}
+              name="phoneNum"
+            />
           </SearchSpan>
         </SearchPhoneNum>
         <SearchMemo>
           <SearchSpan searchItem="MEMO">
-            #<SearchMemoInput />
+            #
+            <SearchMemoInput
+              // onChange={memoHandler}
+              name="memo"
+            />
           </SearchSpan>
         </SearchMemo>
         <SearchBtn>Search</SearchBtn>

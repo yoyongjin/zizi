@@ -22,6 +22,11 @@ declare global {
     };
     ipcDbChannel: {
       sendQureyToMain(query: string, callback: any): void;
+      updateMemoQureyToMain(
+        id: string,
+        memoContent: string,
+        callback: any
+      ): void;
       receive(
         channel: string,
         func: (...args: unknown[]) => void

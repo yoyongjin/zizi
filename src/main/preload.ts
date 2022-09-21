@@ -56,6 +56,13 @@ contextBridge.exposeInMainWorld('ipcDbChannel', {
     });
     ipcRenderer.send('send-run-query', query);
   },
+  updateMemoQureyToMain: (id: string, memoContent: string, callback: any) => {
+    ipcRenderer.once('send-update-query', (_, data) => {
+      console.log(`preload data: ${data}`);
+      callback(data);
+    });
+    ipcRenderer.send('send-update-query', id, memoContent);
+  },
 });
 
 export type RecordChannel = 'recordChannel';

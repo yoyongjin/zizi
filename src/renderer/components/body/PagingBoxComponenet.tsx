@@ -84,7 +84,15 @@ const PagingBoxComponenet = (props: any) => {
     pageRangeDisplayed,
     handlePageChange,
     page,
+    checkedItems,
   } = props;
+
+  const onDeleteHandler = () => {
+    console.log('checkedItems', checkedItems);
+
+    // 여기 DB 삭제
+  };
+
   return (
     <PaginationBox>
       <Pagination
@@ -117,7 +125,7 @@ const PagingBoxComponenet = (props: any) => {
         onChange={handlePageChange}
       />
       {/* page_ff@2x.png */}
-      <DeleteSpan>Delete</DeleteSpan>
+      <DeleteSpan onClick={onDeleteHandler}>Delete</DeleteSpan>
     </PaginationBox>
   );
 };

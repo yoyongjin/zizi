@@ -273,7 +273,6 @@ io.on('connection', (socket: any) => {
                 if (err) {
                   return console.log(err.message);
                 }
-                // get the last insert id
                 console.log(
                   `A row has been inserted with rowid ${this.lastID}`
                 );
@@ -354,6 +353,30 @@ ipcMain.on('send-run-query', (event: IpcMainEvent, query: string) => {
     event.reply('send-run-query', data);
   });
 });
+
+ipcMain.on(
+  'send-update-query',
+  (event: IpcMainEvent, id: string, memoContent: string) => {
+    console.log(
+      'ipcMain.on - send-updateMemo => param from renderer : ',
+      id,
+      memoContent
+    );
+
+    db.run(
+      'UPDATE tb_call SET memo=? WHERE id=?',
+      [memoContent, id],
+      function (this, err) {
+        console.log('this.changes:', this.changes);
+        if (err) {
+          return console.log(err.message);
+        }
+        console.log(`A row has been updated with rowid ${id}`);
+        event.reply('send-update-query', this.changes);
+      }
+    );
+  }
+);
 
 ipcMain.on('get-media-source-id', async (event) => {
   const mediaSourceId = await Record.getDisplayMediaSourceId();
