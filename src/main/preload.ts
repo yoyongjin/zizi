@@ -6,7 +6,7 @@ export type Channels = 'ipc-example';
 contextBridge.exposeInMainWorld('getDisplayMediaId', () => {
   return new Promise((resolve) => {
     ipcRenderer.once('get-media-source-id', (_, displayMediaId) => {
-      resolve(displayMediaId);
+      resolve(displayMediaId); // 스피커 캡쳐 용도 필요 없어짐
     });
     ipcRenderer.send('get-media-source-id');
   });

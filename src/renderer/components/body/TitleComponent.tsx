@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import SearchStartDate from './SearchStartDate';
+import SearchEndDate from './SearchEndDate';
 
 const TitleDiv = styled.div`
   margin-bottom: 10px;
@@ -23,31 +25,122 @@ const TitleSpan = styled.span`
   color: #3a3a40;
 `;
 
+// const SearchForm = styled.form`
+//   box-sizing: border-box;
+//   padding: 5px 15px 5px 0px;
+//   align-items: center;
+//   background-color: #d4d6d9;
+//   display: flex;
+//   justify-content: space-between;
+//   width: 771px;
+//   height: 34px;
+//   border-radius: 8px;
+//   opacity: 1;
+// `;
+// interface SearchSpanProps {
+//   searchItem: string;
+// }
+// interface SearchDateInputProps {
+//   dateStartEnd: string;
+// }
+// const SearchDateInput = styled.input<SearchDateInputProps>`
+//   margin-left: ${(props) => (props.dateStartEnd === 'START' ? '7px' : '3px')};
+//   box-sizing: border-box;
+//   width: 90px;
+//   height: 24px;
+//   border: 1px solid #707070;
+//   border-radius: 6px;
+// `;
+// const SearchPhoneNumInput = styled.input`
+//   margin-left: 7px;
+//   box-sizing: border-box;
+//   width: 122px;
+//   height: 24px;
+//   border: 1px solid #707070;
+//   border-radius: 6px;
+// `;
+// const SearchMemoInput = styled.input`
+//   margin-left: 7px;
+//   box-sizing: border-box;
+//   width: 188px;
+//   height: 24px;
+//   border: 1px solid #707070;
+//   border-radius: 6px;
+// `;
+
+// const SearchSpan = styled.span<SearchSpanProps>`
+//   /* margin-left: ${(props) =>
+//     props.searchItem === 'DATE' ? '13px' : '15px'}; */
+//   margin-left: ${(props) => {
+//     switch (props.searchItem) {
+//       case 'DATE':
+//         return '13px';
+//       case 'TILDE':
+//         return '2px';
+//       default:
+//         return '15px';
+//     }
+//   }};
+//   /* font: normal normal 600 13px/20px Segoe UI; */
+//   font: normal normal 600 13px/20px Segoe UI;
+//   color: #707070;
+//   opacity: 1;
+// `;
+
+// const SearchDate = styled.div`
+//   /* margin-left: 13px; */
+// `;
+// const SearchPhoneNum = styled.div`
+//   /* margin-left: 15px; */
+// `;
+// const SearchMemo = styled.div`
+//   /* margin-left: 15px; */
+// `;
+
+// const SearchBtn = styled.button`
+//   margin-left: 15px;
+//   padding: 0;
+//   background: #707070;
+//   border: none;
+//   border-radius: 6px;
+//   opacity: 1;
+//   width: 74px;
+//   height: 24px;
+//   font: normal normal 600 14px Segoe UI;
+//   color: #fff;
+// `;
+
 const SearchForm = styled.form`
-  box-sizing: border-box;
-  padding: 5px 15px 5px 0px;
-  align-items: center;
-  background-color: #d4d6d9;
   display: flex;
-  justify-content: space-between;
+  box-sizing: border-box;
   width: 771px;
   height: 34px;
+  padding: 5px 15px;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 15px;
+  background-color: #d4d6d9;
   border-radius: 8px;
   opacity: 1;
 `;
-interface SearchSpanProps {
-  searchItem: string;
-}
-interface SearchDateInputProps {
-  dateStartEnd: string;
-}
-const SearchDateInput = styled.input<SearchDateInputProps>`
-  margin-left: ${(props) => (props.dateStartEnd === 'START' ? '7px' : '3px')};
-  box-sizing: border-box;
-  width: 90px;
-  height: 24px;
-  border: 1px solid #707070;
-  border-radius: 6px;
+const SearchDate = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 230px;
+`;
+const SearchSpan = styled.span`
+  font: normal normal 600 13px/20px Segoe UI;
+  color: #707070;
+  white-space: nowrap;
+  opacity: 1;
+`;
+const SearchPhoneNum = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 7px;
+  width: 191px;
 `;
 const SearchPhoneNumInput = styled.input`
   margin-left: 7px;
@@ -57,6 +150,13 @@ const SearchPhoneNumInput = styled.input`
   border: 1px solid #707070;
   border-radius: 6px;
 `;
+const SearchMemo = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 7px;
+  width: 203px;
+`;
 const SearchMemoInput = styled.input`
   margin-left: 7px;
   box-sizing: border-box;
@@ -65,38 +165,8 @@ const SearchMemoInput = styled.input`
   border: 1px solid #707070;
   border-radius: 6px;
 `;
-
-const SearchSpan = styled.span<SearchSpanProps>`
-  /* margin-left: ${(props) =>
-    props.searchItem === 'DATE' ? '13px' : '15px'}; */
-  margin-left: ${(props) => {
-    switch (props.searchItem) {
-      case 'DATE':
-        return '13px';
-      case 'TILDE':
-        return '2px';
-      default:
-        return '15px';
-    }
-  }};
-  /* font: normal normal 600 13px/20px Segoe UI; */
-  font: normal normal 600 13px/20px Segoe UI;
-  color: #707070;
-  opacity: 1;
-`;
-
-const SearchDate = styled.div`
-  /* margin-left: 13px; */
-`;
-const SearchPhoneNum = styled.div`
-  /* margin-left: 15px; */
-`;
-const SearchMemo = styled.div`
-  /* margin-left: 15px; */
-`;
-
 const SearchBtn = styled.button`
-  margin-left: 15px;
+  /* margin-left: 15px; */
   padding: 0;
   background: #707070;
   border: none;
@@ -106,6 +176,10 @@ const SearchBtn = styled.button`
   height: 24px;
   font: normal normal 600 14px Segoe UI;
   color: #fff;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const TitleComponent = () => {
@@ -154,7 +228,7 @@ const TitleComponent = () => {
       <TitleSpanContainer>
         <TitleSpan>Call Recording List</TitleSpan>
       </TitleSpanContainer>
-      <SearchForm onSubmit={onSubmitHandler}>
+      {/* <SearchForm onSubmit={onSubmitHandler}>
         <SearchDate>
           <SearchSpan searchItem="DATE">Date</SearchSpan>
           <SearchDateInput
@@ -187,6 +261,31 @@ const TitleComponent = () => {
             />
           </SearchSpan>
         </SearchMemo>
+        <SearchBtn>Search</SearchBtn>
+      </SearchForm> */}
+      <SearchForm>
+        {/* Date input */}
+        <SearchDate>
+          <SearchSpan>Date</SearchSpan>
+          <SearchStartDate />
+          <SearchSpan>~</SearchSpan>
+          <SearchEndDate />
+        </SearchDate>
+
+        {/* PhoneNum input */}
+        <SearchPhoneNum>
+          <SearchSpan>Phone No.</SearchSpan>
+          <SearchPhoneNumInput />
+        </SearchPhoneNum>
+
+        {/* Memo input */}
+        <SearchMemo>
+          <SearchSpan>
+            #<SearchMemoInput />
+          </SearchSpan>
+        </SearchMemo>
+
+        {/* Search button */}
         <SearchBtn>Search</SearchBtn>
       </SearchForm>
     </TitleDiv>

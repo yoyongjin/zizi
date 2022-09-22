@@ -38,12 +38,9 @@ const EndRecordButtonSpan = styled.span`
 const RecordButtonComponent = (props: any) => {
   const { manualRecord, setManualRecord } = props;
   const dispatch = useDispatch();
-  const recordState = useSelector(
-    // (state: any) => state.recordStateReducer.recordState
-    (state: any) => {
-      return state.recorder.recordState;
-    }
-  );
+  const recordState = useSelector((state: any) => {
+    return state.recorder.recordState;
+  });
 
   console.log(`RecordButtonComponent.tsx - Record state: ${recordState}`);
   console.log(`@@@@Rendering.. ${ZiBox.getInstance().checkRecStatus()}`);
@@ -58,11 +55,9 @@ const RecordButtonComponent = (props: any) => {
       window.recordChannel.startRecord(
         'send-record-start',
         async (userKey: string) => {
-          console.log('RecordButtonComponent.tsx - Auto startRecord');
-          if (!ZiBox.getInstance().checkRecStatus()) {
-            // dispatch(recordingStart());
+          if (!recorder.current.recording) {
+            await recorder.current.start();
             dispatch(recordToggle(true));
-            await ZiBox.getInstance().recordingStart(`${Date.now()}.wav`);
             console.log(
               `RecordButtonComponent.tsx - Auto Record start: ${recordState}`
             );
@@ -73,16 +68,9 @@ const RecordButtonComponent = (props: any) => {
       window.recordChannel.stopRecord(
         'send-record-stop',
         async (userKey: string) => {
-          console.log('RecordButtonComponent.tsx - Auto stopRecord');
-          if (ZiBox.getInstance().checkRecStatus()) {
-            // dispatch(recordingStop());
+          if (recorder.current.recording) {
+            recorder.current.stop(`${Date.now()}`);
             dispatch(recordToggle(false));
-            console.log('Stop!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-            const result = await ZiBox.getInstance().recordingStop();
-            if (result) {
-              console.log('Recording Stop & Save..');
-              await ZiBox.getInstance().recSave();
-            }
             console.log(
               `RecordButtonComponent.tsx - Auto Record stop: ${recordState}`
             );
@@ -94,37 +82,14 @@ const RecordButtonComponent = (props: any) => {
 
   const toggleRecord = async () => {
     if (!recorder.current.recording) {
-      await recorder.current.start();
       setManualRecord(true);
       dispatch(recordToggle(true));
+      await recorder.current.start();
     } else {
-      recorder.current.stop(`${Date.now()}`);
-      setManualRecord(false);
       dispatch(recordToggle(false));
+      setManualRecord(false);
+      recorder.current.stop(`${Date.now()}`);
     }
-
-    // console.log(`1RecStatus: ${ZiBox.getInstance().checkRecStatus()}`);
-    // // 지박스 연결 시
-    // if (manualRecord && ZiBox.getInstance().checkRecStatus()) {
-    //   // if (recordState) {
-    //   // 녹취 중 O
-    //   // await ZiBox.getInstance().recordingStop();
-    //   setManualRecord(false);
-    //   dispatch(recordToggle(false));
-    //   const result = await ZiBox.getInstance().recordingStop();
-    //   if (result) {
-    //     console.log('Recording Stop & Save..');
-    //     ZiBox.getInstance().recSave();
-    //   }
-    //   console.log(`RecordButtonComponent.tsx - Record stop: ${recordState}`);
-    // } else {
-    //   // 녹취 중 X
-    //   setManualRecord(true);
-    //   dispatch(recordToggle(true));
-    //   await ZiBox.getInstance().recordingStart(`${Date.now()}.wav`);
-    //   console.log(`RecordButtonComponent.tsx - Record start: ${recordState}`);
-    // }
-    // console.log(`2RecStatus: ${ZiBox.getInstance().checkRecStatus()}`);
   };
 
   return (

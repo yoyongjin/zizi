@@ -227,13 +227,13 @@ io.on('connection', (socket: any) => {
             console.log('ipcMain.on - send-record-stop');
             mainWindow.webContents.send('send-record-stop', originalObj.key);
 
-            console.log(callObj.callType);
-            console.log(callObj.remoteNumber);
-            console.log(callObj.callStartDateTime);
-            console.log(callObj.callConnectedDateTime);
-            console.log(callObj.callEndDateTime);
-            console.log(callObj.callTime);
-            console.log(callObj.talkTime);
+            // console.log(callObj.callType);
+            // console.log(callObj.remoteNumber);
+            // console.log(callObj.callStartDateTime);
+            // console.log(callObj.callConnectedDateTime);
+            // console.log(callObj.callEndDateTime);
+            // console.log(callObj.callTime);
+            // console.log(callObj.talkTime);
             const callDate = callObj.callStartDateTime.substring(0, 8);
             const callTime = callObj.callStartDateTime.substring(8, 14);
             // console.log(

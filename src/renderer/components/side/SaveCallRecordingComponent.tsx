@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import StopWatch from './StopWatch';
 import recordImg from '../../../../assets/rec_sta@2x.png';
 
 const SaveCallRecordingDiv = styled.div`
@@ -68,7 +69,8 @@ const SaveCallRecordingComponent = () => {
     <SaveCallRecordingDiv>
       <RecordingTimeContainer>
         <RecordImg src={recordImg} />
-        <TimeDiv>03:24</TimeDiv>
+        {/* <TimeDiv>03:24</TimeDiv> */}
+        <StopWatch />
       </RecordingTimeContainer>
       <PhoneNumberDiv>
         <PhoneNumberSpan>Phone number</PhoneNumberSpan>

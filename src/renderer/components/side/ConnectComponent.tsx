@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import StopWatch from './StopWatch';
 import phoneOnImg from '../../../../assets/phone_on@3x.png';
 import wifiOnImg from '../../../../assets/wifi_on@3x.png';
 import gearImg from '../../../../assets/gear@3x.png';
@@ -97,7 +98,8 @@ const ConnectComponent = () => {
       <LineDiv />
       <RecordingTimeContainer>
         <RecordImg src={recordImg} />
-        <TimeDiv>03:24</TimeDiv>
+        {/* <TimeDiv>03:24</TimeDiv> */}
+        <StopWatch />
       </RecordingTimeContainer>
     </>
   );
