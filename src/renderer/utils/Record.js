@@ -13,6 +13,8 @@ class Record {
 
     this.recording = false;
 
+    this.startDate = null;
+
     // console.log(
     //   `!@#$!@#$micCtx:${this.micCtx}, micBuffer.length:${this.micBuffer.length}, recording:${this.recording}`
     // );
@@ -119,6 +121,8 @@ class Record {
   }
 
   async start() {
+    this.startDate = `${Date.now()}`;
+
     // console.log('!@#$!@#$start');
     this.micCtx = new AudioContext({
       sampleRate: SAMPLE_RATE,

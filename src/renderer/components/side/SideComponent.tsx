@@ -2,14 +2,10 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { IpcRendererEvent } from 'electron';
-// import { connectY, connectN } from 'renderer/store/modules/connectReducer';
-import { connectToggle, init } from '../../store/connectSlice';
+import { connectToggle } from '../../store/connectSlice';
 import DisConnectComponent from './DisConnectComponent';
 import ConnectComponent from './ConnectComponent';
-import PhoneSettingModal from './PhoneSettingModal';
 import RecordButtonComponent from './RecordButtonComponent';
-import SaveCallRecordingComponent from './SaveCallRecordingComponent';
 
 interface SideDivProps {
   connectState: boolean;
@@ -42,25 +38,16 @@ const IpDiv = styled.div`
 const SideComponent = (props: any) => {
   const dispatch = useDispatch();
   const [ip, setIp] = useState('');
-  const [manualRecord, setManualRecord] = useState(false);
 
-  const recordState = useSelector(
-    // (state: any) => state.recordStateReducer.recordState
-    (state: any) => {
-      return state.recorder.recordState;
-    }
-  );
-  const connectState = useSelector(
-    // (state: any) => state.connectStateReducer.connectState
-    (state: any) => {
-      return state.connector.connectState;
-    }
-  );
+  const recordState = useSelector((state: any) => {
+    return state.recorder.recordState;
+  });
+  const connectState = useSelector((state: any) => {
+    return state.connector.connectState;
+  });
   console.log(`####SideComponent Rendering..`);
 
   useEffect(() => {
-    // console.log('side..');
-    // dispatch(init);
     window.connectChannel.sendSeverIp('send-serverip', (serverIp: string) => {
       console.log('SideComponent.tsx - Connected server ip:', serverIp);
       setIp(serverIp);
@@ -81,24 +68,9 @@ const SideComponent = (props: any) => {
   console.log(`SideComponent.tsx - Connect state: ${connectState}`);
 
   return (
-    <SideDiv
-      connectState={connectState}
-      // onClick={() => (connectState ? dispatch(connectN()) : '')}
-    >
+    <SideDiv connectState={connectState}>
       {connectState ? <ConnectComponent /> : <DisConnectComponent />}
-
-      <PhoneSettingModal />
-
-      {manualRecord ? <SaveCallRecordingComponent /> : ''}
-
-      {connectState ? (
-        ''
-      ) : (
-        <RecordButtonComponent
-          manualRecord={manualRecord}
-          setManualRecord={setManualRecord}
-        />
-      )}
+      {connectState ? '' : <RecordButtonComponent />}
       <IpDiv>IP Address : {ip}</IpDiv>
     </SideDiv>
   );

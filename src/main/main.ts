@@ -355,6 +355,30 @@ ipcMain.on('send-run-query', (event: IpcMainEvent, query: string) => {
 });
 
 ipcMain.on(
+  'send-insert-query',
+  (event: IpcMainEvent, phonenumber: string, memoContent: string) => {
+    console.log(
+      'ipcMain.on - send-insertMenualInfo => param from renderer : ',
+      phonenumber,
+      memoContent
+    );
+
+    db.run(
+      'INSERT INTO tb_call(date, time, phoneNumber, filename, memo) VALUES(?, ?, ?, ?, ?)',
+      [phonenumber, '', memoContent],
+      function (this, err) {
+        console.log('this.changes:', this.changes);
+        if (err) {
+          return console.log(err.message);
+        }
+        console.log(`A row has been updated with rowid ${id}`);
+        event.reply('send-update-query', this.changes);
+      }
+    );
+  }
+);
+
+ipcMain.on(
   'send-update-query',
   (event: IpcMainEvent, id: string, memoContent: string) => {
     console.log(

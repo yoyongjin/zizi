@@ -22,6 +22,11 @@ declare global {
     };
     ipcDbChannel: {
       sendQureyToMain(query: string, callback: any): void;
+      insertMenualQureyToMain(
+        phonenumber: string,
+        memoContent: string,
+        callback: any
+      ): void;
       updateMemoQureyToMain(
         id: string,
         memoContent: string,

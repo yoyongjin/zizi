@@ -56,6 +56,17 @@ contextBridge.exposeInMainWorld('ipcDbChannel', {
     });
     ipcRenderer.send('send-run-query', query);
   },
+  insertMenualQureyToMain: (
+    phonenumber: string,
+    memoContent: string,
+    callback: any
+  ) => {
+    ipcRenderer.once('send-insert-query', (_, data) => {
+      console.log(`preload data: ${data}`);
+      callback(data);
+    });
+    ipcRenderer.send('send-insert-query', phonenumber, memoContent);
+  },
   updateMemoQureyToMain: (id: string, memoContent: string, callback: any) => {
     ipcRenderer.once('send-update-query', (_, data) => {
       console.log(`preload data: ${data}`);

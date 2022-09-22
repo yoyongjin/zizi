@@ -228,42 +228,7 @@ const TitleComponent = () => {
       <TitleSpanContainer>
         <TitleSpan>Call Recording List</TitleSpan>
       </TitleSpanContainer>
-      {/* <SearchForm onSubmit={onSubmitHandler}>
-        <SearchDate>
-          <SearchSpan searchItem="DATE">Date</SearchSpan>
-          <SearchDateInput
-            dateStartEnd="START"
-            // onChange={startDateHandler}
-            name="startDate"
-          />
-          <SearchSpan searchItem="TILDE">~</SearchSpan>
-          <SearchDateInput
-            dateStartEnd="END"
-            // onChange={endDateHandler}
-            name="endDate"
-          />
-        </SearchDate>
-        <SearchPhoneNum>
-          <SearchSpan searchItem="PHONENUM">
-            Phone No.
-            <SearchPhoneNumInput
-              // onChange={phoneNumHandler}
-              name="phoneNum"
-            />
-          </SearchSpan>
-        </SearchPhoneNum>
-        <SearchMemo>
-          <SearchSpan searchItem="MEMO">
-            #
-            <SearchMemoInput
-              // onChange={memoHandler}
-              name="memo"
-            />
-          </SearchSpan>
-        </SearchMemo>
-        <SearchBtn>Search</SearchBtn>
-      </SearchForm> */}
-      <SearchForm>
+      <SearchForm onSubmit={onSubmitHandler}>
         {/* Date input */}
         <SearchDate>
           <SearchSpan>Date</SearchSpan>
