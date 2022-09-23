@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import SearchStartDate from './SearchStartDate';
-import SearchEndDate from './SearchEndDate';
+// import SearchStartDate from './SearchStartDate';
+// import SearchEndDate from './SearchEndDate';
+import DateStartToEnd from './DateStartToEnd';
 
 const TitleDiv = styled.div`
   margin-bottom: 10px;
@@ -232,13 +233,10 @@ const TitleComponent = () => {
         {/* Date input */}
         <SearchDate>
           <SearchSpan>Date</SearchSpan>
-          <SearchStartDate />
-          <SearchSpan>~</SearchSpan>
-          <SearchEndDate />
+          <DateStartToEnd />
         </SearchDate>
-
-        {/* PhoneNum input */}
         <SearchPhoneNum>
+          {/* PhoneNum input */}
           <SearchSpan>Phone No.</SearchSpan>
           <SearchPhoneNumInput />
         </SearchPhoneNum>

@@ -121,7 +121,7 @@ class Record {
   }
 
   async start() {
-    this.startDate = `${Date.now()}`;
+    this.startDate = new Date();
 
     // console.log('!@#$!@#$start');
     this.micCtx = new AudioContext({

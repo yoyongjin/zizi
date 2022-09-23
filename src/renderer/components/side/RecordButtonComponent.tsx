@@ -134,6 +134,25 @@ const RecordButtonComponent = () => {
     }
   }, []);
 
+  const dateFormat = (nowDate: Date) => {
+    console.log('type:', typeof nowDate);
+    return `${nowDate.getFullYear()}${
+      nowDate.getMonth() + 1 < 10
+        ? `0${nowDate.getMonth() + 1}`
+        : nowDate.getMonth() + 1
+    }${nowDate.getDate() < 10 ? `0${nowDate.getDate()}` : nowDate.getDate()}${
+      nowDate.getHours() < 10 ? `0${nowDate.getHours()}` : nowDate.getHours()
+    }${
+      nowDate.getMinutes() < 10
+        ? `0${nowDate.getMinutes()}`
+        : nowDate.getMinutes()
+    }${
+      nowDate.getSeconds() < 10
+        ? `0${nowDate.getSeconds()}`
+        : nowDate.getSeconds()
+    }`;
+  };
+
   const toggleRecord = async () => {
     if (!recorder.current.recording) {
       setManualRecord(true);
@@ -142,25 +161,40 @@ const RecordButtonComponent = () => {
     } else {
       dispatch(recordToggle(false));
       setManualRecord(false);
-      recorder.current.stop(`${Date.now()}`);
+
+      // recorder.current.stop(`${Date.now()}`);
+      const filename = dateFormat(new Date());
+      recorder.current.stop(filename);
 
       // console.log('phonenumber:', inputPhonenumber);
       // console.log('memo:', inputMemo);
-      const { startDate } = recorder.current;
-      const date1 = `${startDate.getFullYear()}.${startDate.getMonth()}.${startDate.getDate()}`;
-      const date2 = `${startDate.getHours()}:${startDate.getminutes()}:${startDate.getSeconds()}`;
-      console.log('date1:', date1);
-      console.log('date2:', date2);
+      const startDate = dateFormat(recorder.current.startDate);
+      const substringDate = startDate.substring(0, 8);
+      const substringTime = startDate.substring(8, 14);
+      const formatDate = `${substringDate.substring(
+        0,
+        4
+      )}.${substringDate.substring(4, 6)}.${substringDate.substring(6, 8)}`;
+      const formatTime = `${substringTime.substring(
+        0,
+        2
+      )}:${substringTime.substring(2, 4)}:${substringTime.substring(4, 6)}`;
+
+      console.log('substring2:', formatDate, formatTime);
       console.log('phonenumber:', inputPhonenumber.current.value);
       console.log('memo:', inputMemo.current.value);
 
-      // window.ipcDbChannel.insertMenualQureyToMain(
-      //   inputPhonenumber.current.value,
-      //   inputMemo.current.value,
-      //   (result: any) => {
-      //     console.log('Menual info insert result:', result);
-      //   }
-      // );
+      // date, time, phoneNumber, filename, memo
+      window.ipcDbChannel.insertMenualQureyToMain(
+        formatDate,
+        formatTime,
+        inputPhonenumber.current.value,
+        filename,
+        inputMemo.current.value,
+        (result: any) => {
+          console.log('Menual info insert result:', result);
+        }
+      );
     }
   };
 
