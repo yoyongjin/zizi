@@ -30,6 +30,7 @@ const DateStartToEnd = () => {
   return (
     <DateInputContainer>
       <DatePicker
+        name="startDate"
         selected={startDate}
         onChange={(date) => setStartDate(date)}
         customInput={<SearchDateInput />}
@@ -44,6 +45,7 @@ const DateStartToEnd = () => {
       />
       <SearchSpan>~</SearchSpan>
       <DatePicker
+        name="endDate"
         selected={endDate}
         onChange={(date) => setEndDate(date)}
         customInput={<SearchDateInput />}

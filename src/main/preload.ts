@@ -56,6 +56,25 @@ contextBridge.exposeInMainWorld('ipcDbChannel', {
     });
     ipcRenderer.send('send-run-query', query);
   },
+  searchQureyToMain: (
+    startDate: string,
+    endDate: string,
+    phonenumber: string,
+    memo: string,
+    callback: any
+  ) => {
+    ipcRenderer.once('send-search-query', (_, data) => {
+      console.log(`preload data: ${data}`);
+      callback(data);
+    });
+    ipcRenderer.send(
+      'send-search-query',
+      startDate,
+      endDate,
+      phonenumber,
+      memo
+    );
+  },
   insertMenualQureyToMain: (
     date: string,
     time: string,

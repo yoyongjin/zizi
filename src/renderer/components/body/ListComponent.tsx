@@ -69,6 +69,7 @@ const ListComponent = () => {
   };
 
   console.log(`^^^^Rendering ListComponent..${recordState}`);
+
   // console.log('****checkedItems', checkedItems);
 
   useEffect(() => {

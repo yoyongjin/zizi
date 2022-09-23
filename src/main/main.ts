@@ -355,6 +355,36 @@ ipcMain.on('send-run-query', (event: IpcMainEvent, query: string) => {
 });
 
 ipcMain.on(
+  'send-search-query',
+  (
+    event: IpcMainEvent,
+    startDate: string,
+    endDate: string,
+    phonenumber: string,
+    memo: string
+  ) => {
+    console.log(
+      'ipcMain.on - send-selectSearch => query from renderer : ',
+      startDate,
+      endDate,
+      phonenumber,
+      memo
+    );
+    let query = 'select * from tb_call ';
+
+    if (!startDate && !endDate && !phonenumber && !memo) {
+      console.log(query);
+    } else {
+    }
+
+    // db.all(query, (err, data) => {
+    //   console.log('db select success..');
+    //   event.reply('send-search-query', data);
+    // });
+  }
+);
+
+ipcMain.on(
   'send-insert-query',
   (
     event: IpcMainEvent,

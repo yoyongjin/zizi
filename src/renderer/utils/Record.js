@@ -6,10 +6,8 @@ class Record {
   constructor() {
     // console.log('!@#$!@#$constructor');
     this.micCtx = null;
-    // this.speakerCtx = null;
 
     this.micBuffer = [];
-    // this.speakerBuffer = [];
 
     this.recording = false;
 
@@ -18,24 +16,6 @@ class Record {
     // console.log(
     //   `!@#$!@#$micCtx:${this.micCtx}, micBuffer.length:${this.micBuffer.length}, recording:${this.recording}`
     // );
-
-    // if (!navigator.mediaDevices?.enumerateDevices) {
-    //   console.log('enumerateDevices() not supported.');
-    // } else {
-    //   // List cameras and microphones.
-    //   navigator.mediaDevices
-    //     .enumerateDevices()
-    //     .then((devices) => {
-    //       devices.forEach((device) => {
-    //         console.log(
-    //           `${device.kind}: ${device.label} id = ${device.deviceId}`
-    //         );
-    //       });
-    //     })
-    //     .catch((err) => {
-    //       console.error(`${err.name}: ${err.message}`);
-    //     });
-    // }
   }
 
   connect(ctx, stream, buffer) {
@@ -127,61 +107,10 @@ class Record {
     this.micCtx = new AudioContext({
       sampleRate: SAMPLE_RATE,
     });
-    /*
-    this.speakerCtx = new AudioContext({
-      sampleRate: SAMPLE_RATE,
-    });
-    */
 
     this.micBuffer = [];
-    // this.speakerBuffer = [];
 
     this.recording = true;
-    /*
-    const mediaSourceId = await window.getDisplayMediaId();
-
-    let devicePromise = null;
-    let desktopConfig;
-
-    if (navigator.userAgent.indexOf('Mac') !== -1) {
-      devicePromise = navigator.mediaDevices
-        .enumerateDevices()
-        .then((devices) => {
-          const device = devices.filter(
-            (dev) =>
-              dev.kind === 'audiooutput' &&
-              dev.label === 'Soundflower (2ch)' &&
-              dev.deviceId !== 'default'
-          )[0];
-          if (device) {
-            desktopConfig = {
-              audio: {
-                deviceId: device.deviceId,
-              },
-            };
-          }
-
-          return true;
-        });
-    } else {
-      desktopConfig = {
-        audio: {
-          mandatory: {
-            chromeMediaSource: 'desktop',
-            chromeMediaSourceId: mediaSourceId,
-          },
-        },
-        video: {
-          mandatory: {
-            chromeMediaSource: 'desktop',
-            chromeMediaSourceId: mediaSourceId,
-          },
-        },
-      };
-    }
-
-    await Promise.resolve(devicePromise);
-    */
 
     let targetDeviceId = null;
     const devicesInfo = await navigator.mediaDevices.enumerateDevices();
@@ -202,6 +131,9 @@ class Record {
         targetDeviceId = device.deviceId;
       }
     });
+
+    // if (targetDeviceId === null) throw new Error();
+
     // console.log('!@#$!@#$deviceId2:', targetDeviceId);
     const [/* speakerStream, */ micStream] = await Promise.all([
       // navigator.mediaDevices.getUserMedia(desktopConfig),

@@ -4,7 +4,6 @@ import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Record from 'renderer/utils/Record';
 import { recordToggle } from '../../store/recordSlice';
-// import ZiBox from '../../zibox';
 import StopWatch from './StopWatch';
 import recordImg from '../../../../assets/rec_sta@2x.png';
 
@@ -89,15 +88,12 @@ const RecordButtonComponent = () => {
   const [manualRecord, setManualRecord] = useState(false);
   const inputPhonenumber = useRef(null);
   const inputMemo = useRef(null);
-  // const [inputPhonenumber, setInputPhonenumber] = useState('');
-  // const [inputMemo, setInputMemo] = useState('');
   const dispatch = useDispatch();
   const recordState = useSelector((state: any) => {
     return state.recorder.recordState;
   });
 
   console.log(`RecordButtonComponent.tsx - Record state: ${recordState}`);
-  // console.log(`@@@@Rendering.. ${ZiBox.getInstance().checkRecStatus()}`);
 
   const init = React.useRef<boolean>(false);
   const recorder = React.useRef<any>(new Record());
@@ -162,12 +158,9 @@ const RecordButtonComponent = () => {
       dispatch(recordToggle(false));
       setManualRecord(false);
 
-      // recorder.current.stop(`${Date.now()}`);
       const filename = dateFormat(new Date());
       recorder.current.stop(filename);
 
-      // console.log('phonenumber:', inputPhonenumber);
-      // console.log('memo:', inputMemo);
       const startDate = dateFormat(recorder.current.startDate);
       const substringDate = startDate.substring(0, 8);
       const substringTime = startDate.substring(8, 14);
@@ -180,11 +173,6 @@ const RecordButtonComponent = () => {
         2
       )}:${substringTime.substring(2, 4)}:${substringTime.substring(4, 6)}`;
 
-      console.log('substring2:', formatDate, formatTime);
-      console.log('phonenumber:', inputPhonenumber.current.value);
-      console.log('memo:', inputMemo.current.value);
-
-      // date, time, phoneNumber, filename, memo
       window.ipcDbChannel.insertMenualQureyToMain(
         formatDate,
         formatTime,
@@ -197,13 +185,6 @@ const RecordButtonComponent = () => {
       );
     }
   };
-
-  // const onChangePhonenumber = (e) => {
-  //   setInputPhonenumber(e.target.value);
-  // };
-  // const onChangeMemo = (e) => {
-  //   setInputMemo(e.target.value);
-  // };
 
   return (
     <>
