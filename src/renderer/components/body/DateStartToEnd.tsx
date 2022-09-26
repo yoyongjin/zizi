@@ -32,31 +32,35 @@ const DateStartToEnd = () => {
       <DatePicker
         name="startDate"
         selected={startDate}
+        // month
         onChange={(date) => setStartDate(date)}
         customInput={<SearchDateInput />}
-        dateFormat="yyyy/MM/dd"
+        dateFormat="yyyy.MM.dd"
         selectsStart
-        startDate={startDate}
         endDate={endDate}
-        maxDate={endDate}
         fixedHeight
-        showPreviousMonths={false}
+        focusSelectedMonth
         placeholderText="startDate"
+        maxDate={endDate}
+        disabledKeyboardNavigation
+
+        // dayClassName={(d) => ({d.getDate() === date.getDate() ? "custom-day" : "gray-day"})}
       />
       <SearchSpan>~</SearchSpan>
       <DatePicker
-        name="endDate"
         selected={endDate}
+        name="endDate"
         onChange={(date) => setEndDate(date)}
+        // onSelect={endSelectHandler}
         customInput={<SearchDateInput />}
-        dateFormat="yyyy/MM/dd"
+        dateFormat="yyyy.MM.dd"
         selectsEnd
         startDate={startDate}
         endDate={endDate}
-        minDate={startDate}
+        minDate={!endDate ? startDate : null}
         fixedHeight
-        showPreviousMonths={false}
         placeholderText="endDate"
+        disabledKeyboardNavigation
       />
     </DateInputContainer>
   );

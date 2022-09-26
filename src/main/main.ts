@@ -375,12 +375,59 @@ ipcMain.on(
     if (!startDate && !endDate && !phonenumber && !memo) {
       console.log(query);
     } else {
+      let toggleAnd = false;
+      query += ` where `;
+      query += ` ${
+        startDate
+          ? (function () {
+              toggleAnd = true;
+              return `date>='${startDate}' `;
+            })()
+          : ''
+      }`;
+      query += ` ${
+        endDate
+          ? `${
+              toggleAnd
+                ? ' and '
+                : (function () {
+                    toggleAnd = true;
+                    return '';
+                  })()
+            } date<='${endDate}' `
+          : ''
+      }`;
+      query += ` ${
+        phonenumber
+          ? `${
+              toggleAnd
+                ? ' and '
+                : (function () {
+                    toggleAnd = true;
+                    return '';
+                  })()
+            } phonenumber like '%${phonenumber}%' `
+          : ''
+      }`;
+      query += ` ${
+        memo
+          ? `${
+              toggleAnd
+                ? ' and '
+                : (function () {
+                    toggleAnd = true;
+                    return '';
+                  })()
+            } memo like '%${memo}%' `
+          : ''
+      }`;
     }
-
-    // db.all(query, (err, data) => {
-    //   console.log('db select success..');
-    //   event.reply('send-search-query', data);
-    // });
+    console.log(`###################${query}`);
+    db.all(query, (err, data) => {
+      console.log('db select success..');
+      console.log(data.length);
+      event.reply('send-search-query', data);
+    });
   }
 );
 

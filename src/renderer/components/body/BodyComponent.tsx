@@ -223,20 +223,23 @@ const BodyComponent = () => {
     console.log('memo', memo, typeof memo);
 
     // 여기 DB 조회
-    // window.ipcDbChannel.searchQureyToMain(
-    //   startDate,
-    //   endDate,
-    //   phoneNumber,
-    //   memo,
-    //   (list: any) => {
-    //     console.log(
-    //       'Renderling ListComponent.tsx - ipcRenderer.sendQureyToMain'
-    //     );
-    //     list.sort((item1: any, item2: any) => item2.id - item1.id);
-    //     setData(list);
-    //     setCurrentData(list.slice(indexOfFirstData, indexOfLastData));
-    //   }
-    // );
+    window.ipcDbChannel.searchQureyToMain(
+      startDate,
+      endDate,
+      phoneNumber,
+      memo,
+      (list: any) => {
+        console.log(
+          'Renderling ListComponent.tsx - ipcRenderer.sendQureyToMain'
+        );
+        list.sort((item1: any, item2: any) => item2.id - item1.id);
+        setData(list);
+        console.log('data: ', data);
+        setPage(1);
+        setCurrentData(list.slice(indexOfFirstData, indexOfLastData));
+        console.log('currentData: ', currentData);
+      }
+    );
   };
 
   return (
