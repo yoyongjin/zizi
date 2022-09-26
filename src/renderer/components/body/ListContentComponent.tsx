@@ -101,7 +101,16 @@ const ListContentComponent = (props: any) => {
       );
     }
   };
+  const inputRef = useRef(null);
 
+  const onEnterHandler = (id, e) => {
+    console.log(`keyCode: ${e.key}`);
+    if (e.key === 'Enter') {
+      console.log(`onEnter event - id: ${id} memo: ${e.target.value}`);
+      // onBlurHandler(id, e);
+      if (inputRef.current !== null) inputRef.current.blur();
+    }
+  };
   return (
     <ContentUl>
       <PlayeLi>
@@ -113,12 +122,16 @@ const ListContentComponent = (props: any) => {
       <MemoLi>
         <MemoInput
           defaultValue={data.memo}
+          ref={inputRef}
           // value={input}
           // onFocus={(e) => {
           //   onFocusHandler(data.id, e);
           // }}
           onBlur={(e) => {
             onBlurHandler(data.id, e);
+          }}
+          onKeyDown={(e) => {
+            onEnterHandler(data.id, e);
           }}
         />
       </MemoLi>

@@ -57,15 +57,17 @@ const ListComponent = () => {
   };
 
   const onDeleteHandler = () => {
-    console.log('checkedItems', checkedItems);
-    const ids = [...checkedItems];
-    // 여기 DB 삭제
-    window.ipcDbChannel.deleteCallQureyToMain(ids, (result: any) => {
-      console.log('Call delete result:', result);
-      checkedItems.clear();
-      setCheckedItems(new Set());
-      setDeleteState(!deleteState);
-    });
+    if (window.confirm('Are you sure you want to delete?')) {
+      console.log('checkedItems', checkedItems);
+      const ids = [...checkedItems];
+      // 여기 DB 삭제
+      window.ipcDbChannel.deleteCallQureyToMain(ids, (result: any) => {
+        console.log('Call delete result:', result);
+        checkedItems.clear();
+        setCheckedItems(new Set());
+        setDeleteState(!deleteState);
+      });
+    }
   };
 
   console.log(`^^^^Rendering ListComponent..${recordState}`);

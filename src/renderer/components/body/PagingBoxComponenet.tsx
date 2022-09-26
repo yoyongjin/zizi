@@ -70,6 +70,7 @@ const DeleteSpan = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   /* background-color: red; */
 `;
 const MovePageImgContainer = styled.div`

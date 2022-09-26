@@ -50,7 +50,7 @@ class Record {
   }
 
   createWav(fileName) {
-    // console.log('!@#$!@#$createWav');
+    console.log('!@#$!@#$createWav');
     const length = this.micBuffer
       .map((lrBuffer) => lrBuffer[0])
       .reduce((p, c) => {
@@ -78,9 +78,10 @@ class Record {
     }
 
     const wav = toWav(resAudioBuffer);
-
+    const filePath = 'D:/';
+    console.log(`*&^$%!@$!@$save path : ${filePath}${fileName}.wav`);
     window
-      .saveFile(`${fileName}.wav`, wav)
+      .saveFile(`${filePath}${fileName}.wav`, wav)
       .then(() => {
         // console.log('!@#$!@#$file saved');
         return true;
@@ -103,7 +104,7 @@ class Record {
   async start() {
     this.startDate = new Date();
 
-    // console.log('!@#$!@#$start');
+    console.log('!@#$!@#$start');
     this.micCtx = new AudioContext({
       sampleRate: SAMPLE_RATE,
     });
