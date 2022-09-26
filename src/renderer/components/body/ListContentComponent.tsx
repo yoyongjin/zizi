@@ -64,7 +64,7 @@ const CheckboxLi = styled.li`
 `;
 
 const ListContentComponent = (props: any) => {
-  const { data, checkedItemHandler, isAllChecked } = props;
+  const { data, checkedItemHandler, isAllChecked, checkedItems } = props;
   const [bChecked, setChecked] = useState(false);
 
   const checkHandler = ({ target }) => {
@@ -72,7 +72,11 @@ const ListContentComponent = (props: any) => {
     checkedItemHandler(data.id, target.checked);
   };
 
-  const allCheckHandler = () => setChecked(isAllChecked);
+  const allCheckHandler = () => {
+    // setChecked(isAllChecked);
+    if (checkedItems.has(data.id)) setChecked(true);
+    else setChecked(false);
+  };
 
   useEffect(() => allCheckHandler(), [isAllChecked]);
 

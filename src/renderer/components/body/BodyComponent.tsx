@@ -134,38 +134,36 @@ const BodyComponent = () => {
   const handlePageChange = (propPage: any) => {
     setPage(propPage);
   };
-  const checkedItemHandler = (id: any, isChecked: any) => {
-    if (isChecked) {
-      // setCheckedItems(checkedItems.add(id));
-      checkedItems.add(id);
-      setCheckedItems(new Set(checkedItems));
-    } else if (!isChecked && checkedItems.has(id)) {
-      checkedItems.delete(id);
-      setCheckedItems(new Set(checkedItems));
-    }
-
-    // const arr = [...checkedItems];
-    // arr.map((c, index) => console.log(`${index}@@@@checkedItem:${c}`));
-  };
 
   const allCheckedHandler = (isChecked: any) => {
     if (isChecked) {
       setCheckedItems(new Set(currentData.map((mapData) => mapData.id)));
       setIsAllChecked(true);
     } else {
-      console.log('allCheckedHandler', isChecked);
       checkedItems.clear();
       setIsAllChecked(false);
     }
+  };
 
-    // const arr = [...checkedItems];
-    // arr.map((c, index) => console.log(`${index}@@@@allcheckedItem:${c}`));
+  const checkedItemHandler = (id: any, isChecked: any) => {
+    if (isChecked) {
+      // setCheckedItems(checkedItems.add(id));
+      checkedItems.add(id);
+      setCheckedItems(new Set(checkedItems));
+      if (checkedItems.size === currentData.length) {
+        setIsAllChecked(true);
+      }
+    } else if (!isChecked && checkedItems.has(id)) {
+      checkedItems.delete(id);
+      if (isAllChecked) setIsAllChecked(false);
+      setCheckedItems(new Set(checkedItems));
+    }
   };
 
   const onDeleteHandler = async () => {
     // if (window.confirm('Are you sure you want to delete?')) {
+    console.log('try to delete checkedItems: ', checkedItems);
     if (await confirm('Are you sure you want to delete?')) {
-      console.log('checkedItems', checkedItems);
       const ids = [...checkedItems];
       // 여기 DB 삭제
       window.ipcDbChannel.deleteCallQureyToMain(ids, (result: any) => {
@@ -179,22 +177,22 @@ const BodyComponent = () => {
 
   console.log(`^^^^Rendering BodyComponent..${recordState}`);
   // console.log('****checkedItems', checkedItems);
-  console.log(
-    `#$@%@#$%@#$%@#$date : ${new Date(
-      new Date().getFullYear(),
-      new Date().getMonth() + 1,
-      0
-    ).getDate()}`
-  );
+  // console.log(
+  //   `#$@%@#$%@#$%@#$date : ${new Date(
+  //     new Date().getFullYear(),
+  //     new Date().getMonth() + 1,
+  //     0
+  //   ).getDate()}`
+  // );
 
-  const firstDay = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+  // const firstDay = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
 
-  const lastDay = new Date(
-    new Date().getFullYear(),
-    new Date().getMonth() + 1,
-    0
-  );
-  console.log('date: ', firstDay.getDate(), lastDay.getDate());
+  // const lastDay = new Date(
+  //   new Date().getFullYear(),
+  //   new Date().getMonth() + 1,
+  //   0
+  // );
+  // console.log('date: ', firstDay.getDate(), lastDay.getDate());
   useEffect(() => {
     console.log('Renderling ListComponent.tsx - ipcRenderer.sendQureyToMain');
     window.ipcDbChannel.sendQureyToMain(
@@ -205,6 +203,7 @@ const BodyComponent = () => {
         setCurrentData(list.slice(indexOfFirstData, indexOfLastData));
       }
     );
+    setIsAllChecked(false);
   }, [recordState, indexOfFirstData, indexOfLastData, page, deleteState]);
 
   const onSubmitHandler = (e) => {
@@ -217,10 +216,10 @@ const BodyComponent = () => {
     const memo = formData.get('memo');
     console.log('&&&&&submit');
     // if (!startDate) console.log('startDate is null');
-    console.log('startDate', startDate, typeof startDate);
-    console.log('endDate', endDate, typeof endDate);
-    console.log('phoneNum', phoneNumber, typeof phoneNumber);
-    console.log('memo', memo, typeof memo);
+    // console.log('startDate', startDate, typeof startDate);
+    // console.log('endDate', endDate, typeof endDate);
+    // console.log('phoneNum', phoneNumber, typeof phoneNumber);
+    // console.log('memo', memo, typeof memo);
 
     // 여기 DB 조회
     window.ipcDbChannel.searchQureyToMain(
@@ -272,7 +271,10 @@ const BodyComponent = () => {
         </SearchForm>
       </TitleDiv>
       <ListDiv>
-        <ListTitleComponent allCheckedHandler={allCheckedHandler} />
+        <ListTitleComponent
+          allCheckedHandler={allCheckedHandler}
+          isAllChecked={isAllChecked}
+        />
         {currentData &&
           currentData.map((currentOneData: any) => {
             return (
@@ -281,6 +283,7 @@ const BodyComponent = () => {
                 data={currentOneData}
                 checkedItemHandler={checkedItemHandler}
                 isAllChecked={isAllChecked}
+                checkedItems={checkedItems}
               />
             );
           })}

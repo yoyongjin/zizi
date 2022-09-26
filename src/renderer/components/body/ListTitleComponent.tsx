@@ -61,13 +61,17 @@ const TitleUl = styled.ul`
 `;
 
 const ListTitleComponent = (props: any) => {
-  const { allCheckedHandler } = props;
+  const { allCheckedHandler, isAllChecked } = props;
   const [bChecked, setChecked] = useState(false);
 
   const checkHandler = ({ target }) => {
     setChecked(!bChecked);
     allCheckedHandler(target.checked);
   };
+
+  useEffect(() => {
+    setChecked(isAllChecked);
+  }, [isAllChecked]);
 
   return (
     <TitleUl>
