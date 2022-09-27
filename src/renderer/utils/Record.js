@@ -78,11 +78,11 @@ class Record {
     }
 
     const wav = toWav(resAudioBuffer);
-    const filePath = `D:\\Zibox2Standard\\${fileName}.wav`;
+    const filePath = `\\zibox2-standard-test\\zibox2-standard\\public/${fileName}.wav`;
     console.log(`*&^$%!@$!@$save path : ${filePath}`);
     window
-      .saveFile(`${fileName}.wav`, wav)
-      // .saveFile(filePath, wav)
+      // .saveFile(`${fileName}.wav`, wav)
+      .saveFile(filePath, wav)
       .then(() => {
         // console.log('!@#$!@#$file saved');
         return true;

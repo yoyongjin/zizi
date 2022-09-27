@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
+import ReactAudioPlayer from 'react-audio-player';
 
 // import record from "https://hanzluo.s3-us-west-1.amazonaws.com/music/wuyuwuqing.mp3";
 
@@ -38,12 +39,16 @@ const PlayerContainer = styled.div`
 `;
 
 const RecordPlayer = (props) => {
-  const recordSrc =
-    'https://hanzluo.s3-us-west-1.amazonaws.com/music/wuyuwuqing.mp3';
+  // const recordSrc =
+  //   'https://hanzluo.s3-us-west-1.amazonaws.com/music/wuyuwuqing.mp3';
+  // const recordSrc = 'http://localhost:1212/20220927195514.wav';
+  const recordSrc = props.fileName;
   const fileName = <EmptyBox />;
+  // console.log('recordSrc: ', recordSrc);
+
   return (
     <PlayerContainer>
-      <AudioPlayer
+      {/* <AudioPlayer
         src={recordSrc}
         autoPlay
         onPlay={console.log('onplay')}
@@ -51,8 +56,9 @@ const RecordPlayer = (props) => {
         customAdditionalControls={[fileName]}
         // other props here
       />
-      <FileName>20220926120920.wav</FileName>
+      <FileName>20220926120920.wav</FileName> */}
       {/* <FileNameContainer>`${recordSrc}`</FileNameContainer> */}
+      <ReactAudioPlayer src={recordSrc} autoPlay controls />
     </PlayerContainer>
   );
 };

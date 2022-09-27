@@ -16,10 +16,12 @@ const BackDrop = styled.div`
   /* background-color: #aaa; */
 `;
 
-const RecordModal = () => {
+const RecordModal = (props) => {
+  const { fileName } = props;
+  console.log('recordSrc: ', fileName);
   return (
     <BackDrop>
-      <RecordPlayer />
+      <RecordPlayer fileName={fileName} />
     </BackDrop>
   );
 };

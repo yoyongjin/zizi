@@ -1,8 +1,14 @@
 import styled from 'styled-components';
 import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  callPlayerToggle,
+  setCallPlayerFileName,
+} from '../../store/callPlayerSlice';
 import playImg from '../../../../assets/play@3x.png';
-import ModalPortal from '../player/ModalPortal';
-import RecordModal from '../player/RecordModal';
+import CallPlayerModal from '../side/CallPlayerModal';
+// import ModalPortal from '../player/ModalPortal';
+// import RecordModal from '../player/RecordModal';
 
 const ContentUl = styled.ul`
   list-style: none;
@@ -70,7 +76,10 @@ const ListContentComponent = (props: any) => {
   const { data, checkedItemHandler, isAllChecked, checkedItems } = props;
   const [bChecked, setChecked] = useState(false);
   const [isModalOn, setIsModalOn] = useState(false);
-
+  const dispatch = useDispatch();
+  const callPlayerState = useSelector((state: any) => {
+    return state.callPlayer.callPlayerState;
+  });
   const checkHandler = ({ target }) => {
     setChecked(!bChecked);
     checkedItemHandler(data.id, target.checked);
@@ -134,10 +143,22 @@ const ListContentComponent = (props: any) => {
   return (
     <ContentUl>
       <PlayeLi>
-        <PlayImg src={playImg} onClick={modalToggleHandler} />
+        <PlayImg
+          src={playImg}
+          onClick={() => {
+            dispatch(callPlayerToggle(true));
+            dispatch(setCallPlayerFileName(data.filename));
+          }}
+        />
+        {/* <PlayImg src={playImg} onClick={modalToggleHandler} />
         <ModalPortal>
-          {isModalOn && <RecordModal onClose={modalToggleHandler} />}
-        </ModalPortal>
+          {isModalOn && (
+            <RecordModal
+              // onClose={modalToggleHandler}
+              fileName={data.filename}
+            />
+          )}
+        </ModalPortal> */}
       </PlayeLi>
       <DateLi>{data.date}</DateLi>
       <TimeLi>{data.time}</TimeLi>

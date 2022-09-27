@@ -27,9 +27,38 @@ const IpDiv = styled.div`
   width: 180px;
   justify-content: center;
   align-items: center;
-  font-size: 14px;
-  font-weight: 600;
-  color: #fff;
+  /* font-size: 14px;
+  font-weight: 600; */
+  font: normal normal normal 14px/32px Segoe UI;
+  color: #d4d6d9;
+  display: block;
+  position: absolute;
+  bottom: 116px;
+`;
+
+const PathDiv1 = styled.div`
+  /* padding: 0 28px 0 20px; */
+  width: 180px;
+  justify-content: center;
+  align-items: center;
+  /* font-size: 14px;
+  font-weight: 600; */
+  color: #d4d6d9;
+  font: normal normal normal 14px/24px Segoe UI;
+  display: block;
+  position: absolute;
+  bottom: 83px;
+`;
+
+const PathDiv2 = styled.div`
+  /* padding: 0 28px 0 20px; */
+  width: 180px;
+  justify-content: center;
+  align-items: center;
+  /* font-size: 14px;
+  font-weight: 600; */
+  color: #aaaaaa;
+  font: normal normal normal 14px/20px Segoe UI;
   display: block;
   position: absolute;
   bottom: 20px;
@@ -73,6 +102,8 @@ const SideComponent = (props: any) => {
       {connectState ? '' : <RecordButtonComponent />}
 
       <IpDiv>IP Address : {ip}</IpDiv>
+      <PathDiv1>Recording file storage :</PathDiv1>
+      <PathDiv2> D:\zibox2-standard-test\zibox2-standard\public</PathDiv2>
     </SideDiv>
   );
 };
