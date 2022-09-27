@@ -494,7 +494,7 @@ ipcMain.on(
 
     db.run(
       'INSERT INTO tb_call(date, time, phoneNumber, filename, memo) VALUES(?, ?, ?, ?, ?)',
-      [date, time, phonenumber, filename, memo],
+      [date, time, phonenumber, `${filename}.wav`, memo],
       function (this, err) {
         console.log('this.changes:', this.changes);
         if (err) {
