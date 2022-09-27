@@ -29,6 +29,16 @@ class AppUpdater {
     autoUpdater.checkForUpdatesAndNotify();
   }
 }
+// const { remote } = require('electron').remote;
+// const currentWindow = remote.getCurrentWindow();
+
+// function window_close() {
+//   currentWindow.close();
+// }
+
+// function window_minimize() {
+//   currentWindow.minimize();
+// }
 
 const sqlite3 = sqlite.verbose();
 // console.log(`__dirname: ${__dirname}`);
@@ -100,21 +110,25 @@ const createWindow = async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1215,
-    height: 665,
-    minWidth: 370,
-    minHeight: 470,
-    maxWidth: 1200,
-    maxHeight: 650,
-    icon: getAssetPath('icon.png'),
+    // width: 1215,
+    // height: 665,
+    width: 1200,
+    height: 600,
+    // minWidth: 370,
+    // minHeight: 470,
+    // maxWidth: 1200,
+    // maxHeight: 650,
+    // icon: getAssetPath('icon.png'),
+    resizable: false, // 크기 조절 허용 여부
+    center: true, // 화면 정중앙에 위치
+    autoHideMenuBar: true, // 윈도우 메뉴바 숨김 여부
+    frame: false, // 프레임 여부
     webPreferences: {
       sandbox: false,
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
     },
-    // autoHideMenuBar: true,
-    // frame: false,
   });
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
@@ -520,6 +534,17 @@ ipcMain.on('save-file', async (event, fileName, buffer) => {
   });
 });
 
+ipcMain.on('send-window-close', async (event) => {
+  // db.close();
+  console.log('-------------------------------------------window close..');
+  if (mainWindow) mainWindow.close();
+  // mainWindow = null;
+});
+
+ipcMain.on('send-window-minimize', async (event) => {
+  console.log('-------------------------------------------window minimize..');
+  if (mainWindow) mainWindow.minimize();
+});
 // ipcMain.on(
 //   'send-record-start',
 //   (event: IpcMainEvent, fileName: string, deviceId: string | number) => {

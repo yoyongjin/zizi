@@ -72,24 +72,18 @@ const CloseButton = styled.img`
   height: 20px;
   margin: 0 0 1px 10px;
   object-fit: contain;
+  cursor: pointer;
 `;
 ReactModal.setAppElement('#root');
 
-const PhoneSettingModal = (props: any) => {
+const PhoneSettingModal = () => {
   const dispatch = useDispatch();
-  const modalState = useSelector(
-    // (state: any) => state.modalStateReducer.modalState
-    (state: any) => {
-      return state.modaler.modalState;
-    }
-  );
-  const connectState = useSelector(
-    // (state: any) => state.connectStateReducer.connectState
-    (state: any) => {
-      return state.connector.connectState;
-    }
-  );
-
+  const modalState = useSelector((state: any) => {
+    return state.modaler.modalState;
+  });
+  const closeHandler = () => {
+    dispatch(modalToggle(false));
+  };
   return (
     <ReactModal
       isOpen={modalState}
@@ -118,8 +112,7 @@ const PhoneSettingModal = (props: any) => {
     >
       <ModalHeaderContainer>
         <ModalHeaderText>휴대전화 연결하기</ModalHeaderText>
-
-        <CloseButton src={closeImg} />
+        <CloseButton src={closeImg} onClick={closeHandler} />
       </ModalHeaderContainer>
       <ModalContentContainer>
         <ModalQRContainer>

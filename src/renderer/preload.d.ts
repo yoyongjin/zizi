@@ -45,6 +45,10 @@ declare global {
       ): (() => void) | undefined;
       removeListeners(channel: string): void;
     };
+    windowChannel: {
+      windowCloseToMain(): void;
+      windowMinimizeToMain(): void;
+    };
     recordChannel: {
       // startRecord(
       //   fileName: string,

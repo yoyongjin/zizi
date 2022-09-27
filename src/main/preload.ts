@@ -112,6 +112,23 @@ contextBridge.exposeInMainWorld('ipcDbChannel', {
   },
 });
 
+export type WindowChannel = 'windowChannel';
+
+contextBridge.exposeInMainWorld('windowChannel', {
+  windowCloseToMain: () => {
+    ipcRenderer.once('send-window-close', () => {
+      console.log(`preload send-window-close`);
+    });
+    ipcRenderer.send('send-window-close');
+  },
+  windowMinimizeToMain: () => {
+    ipcRenderer.once('send-window-minimize', () => {
+      console.log(`preload send-window-minimize`);
+    });
+    ipcRenderer.send('send-window-minimize');
+  },
+});
+
 export type RecordChannel = 'recordChannel';
 
 contextBridge.exposeInMainWorld('recordChannel', {

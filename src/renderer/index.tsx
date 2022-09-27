@@ -3,6 +3,7 @@ import { legacy_createStore } from 'redux';
 import { Provider } from 'react-redux';
 import App from './App';
 // import rootReducer from './store/modules';
+import PhoneSettingModal from './components/side/PhoneSettingModal';
 import store from './store';
 
 // const store = legacy_createStore(rootReducer);
@@ -11,6 +12,7 @@ const root = createRoot(container);
 root.render(
   <Provider store={store}>
     <App />
+    <PhoneSettingModal />
   </Provider>
 );
 

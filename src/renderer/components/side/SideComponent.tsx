@@ -71,6 +71,7 @@ const SideComponent = (props: any) => {
     <SideDiv connectState={connectState}>
       {connectState ? <ConnectComponent /> : <DisConnectComponent />}
       {connectState ? '' : <RecordButtonComponent />}
+
       <IpDiv>IP Address : {ip}</IpDiv>
     </SideDiv>
   );

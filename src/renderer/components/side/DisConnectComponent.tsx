@@ -76,19 +76,15 @@ const InfoImg = styled.img`
 
 const DisConnectComponent = () => {
   const dispatch = useDispatch();
-  const recordState = useSelector(
-    // (state: any) => state.recordStateReducer.recordState
-    (state: any) => {
-      return state.recorder.recordState;
-    }
-  );
+  const recordState = useSelector((state: any) => {
+    return state.recorder.recordState;
+  });
 
   return (
     <DisConnectDiv recordState={recordState}>
       <PhoneImg src={phoneOffImg} />
       <WifiOffImg src={wifiOffImg} />
       <ConnectSpan>Disconnect</ConnectSpan>
-      {/* <GearImg src={gearImg} /> */}
       <InfoImg
         src={infoImg}
         onClick={() => (recordState ? '' : dispatch(modalToggle(true)))}

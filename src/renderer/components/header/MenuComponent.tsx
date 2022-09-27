@@ -11,6 +11,7 @@ const MenuDiv = styled.div`
   margin-top: 17.1px;
   margin-bottom: 14.5px;
   align-items: center;
+  -webkit-app-region: none; // 윈도우 드래그
 `;
 
 const SettingButton = styled.div`
@@ -65,7 +66,19 @@ const CloseButton = styled.img`
 `;
 
 const MenuComponent = (props: any) => {
-  const { changeSearchState, searchState } = props;
+  // const { changeSearchState, searchState } = props;
+
+  const windowClose = () => {
+    // currentWindow.close();
+    console.log('-------------------------------------------window close..');
+    window.windowChannel.windowCloseToMain();
+  };
+
+  const windowMinimize = () => {
+    // currentWindow.minimize();
+    console.log('-------------------------------------------window minimize..');
+    window.windowChannel.windowMinimizeToMain();
+  };
   return (
     <MenuDiv>
       {/* <SettingButton>
@@ -79,8 +92,8 @@ const MenuComponent = (props: any) => {
           <SearchRightButton src={triangleDownImg} />
         )}
       </SearchDiv> */}
-      <HideButton src={hideImg} />
-      <CloseButton src={closeImg} />
+      <HideButton src={hideImg} onClick={windowMinimize} />
+      <CloseButton src={closeImg} onClick={windowClose} />
     </MenuDiv>
   );
 };

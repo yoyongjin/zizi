@@ -10,6 +10,7 @@ const HeaderDiv = styled.div`
   background-color: #4878c1;
   display: flex;
   align-items: center;
+  -webkit-app-region: drag; // 윈도우 드래그
 `;
 
 const HeaderComponent = (props: any) => {
