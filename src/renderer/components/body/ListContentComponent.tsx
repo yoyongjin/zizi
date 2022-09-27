@@ -115,6 +115,14 @@ const ListContentComponent = (props: any) => {
       if (inputRef.current !== null) inputRef.current.blur();
     }
   };
+
+  const phoneNumberFormat = (phoneNumber) => {
+    return `${phoneNumber.substring(0, 3)}-${phoneNumber.substring(
+      3,
+      7
+    )}-${phoneNumber.substring(7, 11)}`;
+  };
+
   return (
     <ContentUl>
       <PlayeLi>
@@ -122,7 +130,7 @@ const ListContentComponent = (props: any) => {
       </PlayeLi>
       <DateLi>{data.date}</DateLi>
       <TimeLi>{data.time}</TimeLi>
-      <PhoneNumberLi>{data.phonenumber}</PhoneNumberLi>
+      <PhoneNumberLi>{phoneNumberFormat(data.phonenumber)}</PhoneNumberLi>
       <MemoLi>
         <MemoInput
           defaultValue={data.memo}

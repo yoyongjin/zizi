@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import styled from 'styled-components';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Record from 'renderer/utils/Record';
 import { recordToggle } from '../../store/recordSlice';
@@ -49,9 +49,11 @@ const PhoneNumberSpan = styled.span`
 `;
 
 const PhoneNumberInput = styled.input`
+  width: 180px;
   height: 36px;
   border-radius: 8px;
   border: solid 1px #707070;
+  box-sizing: border-box;
 `;
 
 const MemoDiv = styled.div`
@@ -67,9 +69,11 @@ const MemoSpan = styled.div`
 `;
 
 const MemoInput = styled.input`
+  width: 180px;
   height: 108px;
   border-radius: 8px;
   border: solid 1px #707070;
+  box-sizing: border-box;
 `;
 const RecordingTimeContainer = styled.div`
   display: flex;
@@ -92,6 +96,7 @@ const RecordButtonComponent = () => {
   const recordState = useSelector((state: any) => {
     return state.recorder.recordState;
   });
+  const [phoneNumeberInputValue, setPhoneNumeberInputValue] = useState('');
 
   console.log(`RecordButtonComponent.tsx - Record state: ${recordState}`);
 
@@ -186,6 +191,26 @@ const RecordButtonComponent = () => {
     }
   };
 
+  const handleChange = (e) => {
+    const regex = /^[0-9\b -]{0,14}$/;
+    if (regex.test(e.target.value)) {
+      setPhoneNumeberInputValue(e.target.value);
+    }
+  };
+  // useEffect(() => {
+  //   if (phoneNumeberInputValue.length === 10) {
+  //     setPhoneNumeberInputValue(
+  //       phoneNumeberInputValue.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3')
+  //     );
+  //   }
+  //   if (phoneNumeberInputValue.length === 13) {
+  //     setPhoneNumeberInputValue(
+  //       phoneNumeberInputValue
+  //         .replace(/-/g, '')
+  //         .replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')
+  //     );
+  //   }
+  // }, [phoneNumeberInputValue]);
   return (
     <>
       {manualRecord ? (
@@ -197,8 +222,13 @@ const RecordButtonComponent = () => {
           <PhoneNumberDiv>
             <PhoneNumberSpan>Phone number</PhoneNumberSpan>
           </PhoneNumberDiv>
-          <PhoneNumberInput ref={inputPhonenumber} />
-          {/* <PhoneNumberInput onChange={onChangePhonenumber} /> */}
+          {/* <PhoneNumberInput ref={inputPhonenumber} /> */}
+          <PhoneNumberInput
+            type="text"
+            ref={inputPhonenumber}
+            onChange={handleChange}
+            value={phoneNumeberInputValue}
+          />
           <MemoDiv>
             <MemoSpan>Memo</MemoSpan>
           </MemoDiv>

@@ -29,9 +29,11 @@ const PhoneNumberSpan = styled.span`
 `;
 
 const PhoneNumberInputDiv = styled.div`
+  width: 100%;
   height: 36px;
   border-radius: 8px;
   border: solid 1px #707070;
+  box-sizing: border-box;
 `;
 
 const MemoDiv = styled.div`
@@ -47,9 +49,11 @@ const MemoSpan = styled.div`
 `;
 
 const MemoInputDiv = styled.div`
+  width: 100%;
   height: 108px;
   border-radius: 8px;
   border: solid 1px #707070;
+  box-sizing: border-box;
 `;
 const RecordingTimeContainer = styled.div`
   display: flex;

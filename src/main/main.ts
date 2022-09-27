@@ -273,13 +273,14 @@ io.on('connection', (socket: any) => {
                   2,
                   4
                 )}:${callTime.substring(4, 6)}`,
-                `${callObj.remoteNumber.substring(
-                  0,
-                  3
-                )}-${callObj.remoteNumber.substring(
-                  3,
-                  7
-                )}-${callObj.remoteNumber.substring(7, 11)}`,
+                // `${callObj.remoteNumber.substring(
+                //   0,
+                //   3
+                // )}-${callObj.remoteNumber.substring(
+                //   3,
+                //   7
+                // )}-${callObj.remoteNumber.substring(7, 11)}`,
+                `${callObj.remoteNumber}`,
                 '',
                 '',
               ],

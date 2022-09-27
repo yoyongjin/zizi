@@ -275,28 +275,33 @@ const BodyComponent = () => {
           allCheckedHandler={allCheckedHandler}
           isAllChecked={isAllChecked}
         />
-        {currentData &&
-          currentData.map((currentOneData: any) => {
-            return (
-              <ListContentComponent
-                key={currentOneData.id}
-                data={currentOneData}
-                checkedItemHandler={checkedItemHandler}
-                isAllChecked={isAllChecked}
-                checkedItems={checkedItems}
-              />
-            );
-          })}
+        {currentData.length > 0
+          ? currentData.map((currentOneData: any) => {
+              return (
+                <ListContentComponent
+                  key={currentOneData.id}
+                  data={currentOneData}
+                  checkedItemHandler={checkedItemHandler}
+                  isAllChecked={isAllChecked}
+                  checkedItems={checkedItems}
+                />
+              );
+            })
+          : 'There is no data'}
       </ListDiv>
-      <PagingBoxComponenet
-        totalCount={data.length}
-        dataPerPage={dataPerPage}
-        pageRangeDisplayed={5}
-        handlePageChange={handlePageChange}
-        page={page}
-        checkedItems={checkedItems}
-        onDeleteHandler={onDeleteHandler}
-      />
+      {data.length > 0 ? (
+        <PagingBoxComponenet
+          totalCount={data.length}
+          dataPerPage={dataPerPage}
+          pageRangeDisplayed={5}
+          handlePageChange={handlePageChange}
+          page={page}
+          checkedItems={checkedItems}
+          onDeleteHandler={onDeleteHandler}
+        />
+      ) : (
+        ''
+      )}
     </BodyDiv>
   );
 };
