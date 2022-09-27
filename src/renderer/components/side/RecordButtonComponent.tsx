@@ -103,6 +103,25 @@ const RecordButtonComponent = () => {
   const init = React.useRef<boolean>(false);
   const recorder = React.useRef<any>(new Record());
 
+  const dateFormat = (nowDate: Date) => {
+    console.log('type:', typeof nowDate);
+    return `${nowDate.getFullYear()}${
+      nowDate.getMonth() + 1 < 10
+        ? `0${nowDate.getMonth() + 1}`
+        : nowDate.getMonth() + 1
+    }${nowDate.getDate() < 10 ? `0${nowDate.getDate()}` : nowDate.getDate()}${
+      nowDate.getHours() < 10 ? `0${nowDate.getHours()}` : nowDate.getHours()
+    }${
+      nowDate.getMinutes() < 10
+        ? `0${nowDate.getMinutes()}`
+        : nowDate.getMinutes()
+    }${
+      nowDate.getSeconds() < 10
+        ? `0${nowDate.getSeconds()}`
+        : nowDate.getSeconds()
+    }`;
+  };
+
   React.useEffect(() => {
     if (init.current) return;
     init.current = true;
@@ -123,8 +142,12 @@ const RecordButtonComponent = () => {
       window.recordChannel.stopRecord(
         'send-record-stop',
         async (userKey: string) => {
+          console.log(`#################RENDERER TIME: ${Date.now()}`);
           if (recorder.current.recording) {
-            recorder.current.stop(`${Date.now()}`);
+            // recorder.current.stop(`${Date.now()}`);
+            // const fileName = dateFormat(new Date(userKey));
+            // recorder.current.stop(dateFormat(new Date()));
+            recorder.current.stop(userKey);
             dispatch(recordToggle(false));
             console.log(
               `RecordButtonComponent.tsx - Auto Record stop: ${recordState}`
@@ -134,25 +157,6 @@ const RecordButtonComponent = () => {
       );
     }
   }, []);
-
-  const dateFormat = (nowDate: Date) => {
-    console.log('type:', typeof nowDate);
-    return `${nowDate.getFullYear()}${
-      nowDate.getMonth() + 1 < 10
-        ? `0${nowDate.getMonth() + 1}`
-        : nowDate.getMonth() + 1
-    }${nowDate.getDate() < 10 ? `0${nowDate.getDate()}` : nowDate.getDate()}${
-      nowDate.getHours() < 10 ? `0${nowDate.getHours()}` : nowDate.getHours()
-    }${
-      nowDate.getMinutes() < 10
-        ? `0${nowDate.getMinutes()}`
-        : nowDate.getMinutes()
-    }${
-      nowDate.getSeconds() < 10
-        ? `0${nowDate.getSeconds()}`
-        : nowDate.getSeconds()
-    }`;
-  };
 
   const toggleRecord = async () => {
     if (!recorder.current.recording) {

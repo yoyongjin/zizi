@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { useEffect, useRef, useState } from 'react';
 import playImg from '../../../../assets/play@3x.png';
+import ModalPortal from '../player/ModalPortal';
+import RecordModal from '../player/RecordModal';
 
 const ContentUl = styled.ul`
   list-style: none;
@@ -29,6 +31,7 @@ const PlayeLi = styled.li`
 const PlayImg = styled.img`
   height: 16.5px;
   color: #707070;
+  cursor: pointer;
   filter: invert(36%) sepia(18%) saturate(0%) hue-rotate(260deg)
     brightness(111%) contrast(77%);
 `;
@@ -66,6 +69,7 @@ const CheckboxLi = styled.li`
 const ListContentComponent = (props: any) => {
   const { data, checkedItemHandler, isAllChecked, checkedItems } = props;
   const [bChecked, setChecked] = useState(false);
+  const [isModalOn, setIsModalOn] = useState(false);
 
   const checkHandler = ({ target }) => {
     setChecked(!bChecked);
@@ -123,10 +127,17 @@ const ListContentComponent = (props: any) => {
     )}-${phoneNumber.substring(7, 11)}`;
   };
 
+  const modalToggleHandler = () => {
+    setIsModalOn(!isModalOn);
+  };
+
   return (
     <ContentUl>
       <PlayeLi>
-        <PlayImg src={playImg} />
+        <PlayImg src={playImg} onClick={modalToggleHandler} />
+        <ModalPortal>
+          {isModalOn && <RecordModal onClose={modalToggleHandler} />}
+        </ModalPortal>
       </PlayeLi>
       <DateLi>{data.date}</DateLi>
       <TimeLi>{data.time}</TimeLi>

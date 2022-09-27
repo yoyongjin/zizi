@@ -171,6 +171,25 @@ const { Server } = require('socket.io');
 
 const io = new Server(server, { pingInterval: 1000, pingTimeout: 2000 });
 
+const dateFormat = (nowDate: Date) => {
+  console.log('type:', typeof nowDate);
+  return `${nowDate.getFullYear()}${
+    nowDate.getMonth() + 1 < 10
+      ? `0${nowDate.getMonth() + 1}`
+      : nowDate.getMonth() + 1
+  }${nowDate.getDate() < 10 ? `0${nowDate.getDate()}` : nowDate.getDate()}${
+    nowDate.getHours() < 10 ? `0${nowDate.getHours()}` : nowDate.getHours()
+  }${
+    nowDate.getMinutes() < 10
+      ? `0${nowDate.getMinutes()}`
+      : nowDate.getMinutes()
+  }${
+    nowDate.getSeconds() < 10
+      ? `0${nowDate.getSeconds()}`
+      : nowDate.getSeconds()
+  }`;
+};
+
 io.on('connection', (socket: any) => {
   console.log('a user connected');
   console.log(`connection state: ${socket.connected}`);
@@ -239,8 +258,16 @@ io.on('connection', (socket: any) => {
           );
           if (mainWindow != null) {
             console.log('ipcMain.on - send-record-stop');
-            mainWindow.webContents.send('send-record-stop', originalObj.key);
-
+            console.log(`#################MAIN TIME: ${Date.now()}`);
+            // mainWindow.webContents.send('send-record-stop', originalObj.key);
+            const fileName = dateFormat(new Date());
+            mainWindow.webContents.send('send-record-stop', fileName);
+            // ipcMain.on('send-file-name', async (fileName) => {
+            //   console.log(
+            //     '-------------------------------------------send-file-name : ',
+            //     fileName
+            //   );
+            // });
             // console.log(callObj.callType);
             // console.log(callObj.remoteNumber);
             // console.log(callObj.callStartDateTime);
@@ -281,7 +308,7 @@ io.on('connection', (socket: any) => {
                 //   7
                 // )}-${callObj.remoteNumber.substring(7, 11)}`,
                 `${callObj.remoteNumber}`,
-                '',
+                `${fileName}.wav`,
                 '',
               ],
               function (err) {

@@ -117,6 +117,16 @@ const ListDiv = styled.div`
   /* background-color: #ccc; */
 `;
 
+const NoDataSpan = styled.div`
+  /* align-items: center; */
+  /* justify-content: center; */
+  font-size: 15px;
+  font-weight: normal;
+  color: #707070;
+  text-align: center;
+  vertical-align: middle;
+`;
+
 const BodyComponent = () => {
   const [data, setData] = useState([]);
   const [currentData, setCurrentData] = useState([]); // 보여줄 data
@@ -275,19 +285,21 @@ const BodyComponent = () => {
           allCheckedHandler={allCheckedHandler}
           isAllChecked={isAllChecked}
         />
-        {currentData.length > 0
-          ? currentData.map((currentOneData: any) => {
-              return (
-                <ListContentComponent
-                  key={currentOneData.id}
-                  data={currentOneData}
-                  checkedItemHandler={checkedItemHandler}
-                  isAllChecked={isAllChecked}
-                  checkedItems={checkedItems}
-                />
-              );
-            })
-          : 'There is no data'}
+        {currentData.length > 0 ? (
+          currentData.map((currentOneData: any) => {
+            return (
+              <ListContentComponent
+                key={currentOneData.id}
+                data={currentOneData}
+                checkedItemHandler={checkedItemHandler}
+                isAllChecked={isAllChecked}
+                checkedItems={checkedItems}
+              />
+            );
+          })
+        ) : (
+          <NoDataSpan>There is no data . .</NoDataSpan>
+        )}
       </ListDiv>
       {data.length > 0 ? (
         <PagingBoxComponenet

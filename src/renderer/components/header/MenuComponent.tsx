@@ -56,6 +56,7 @@ const HideButton = styled.img`
   height: 20px;
   margin: 0 10px 1px 44px;
   object-fit: contain;
+  cursor: pointer;
 `;
 
 const CloseButton = styled.img`
@@ -63,6 +64,7 @@ const CloseButton = styled.img`
   height: 20px;
   margin: 0 0 1px 10px;
   object-fit: contain;
+  cursor: pointer;
 `;
 
 const MenuComponent = (props: any) => {
