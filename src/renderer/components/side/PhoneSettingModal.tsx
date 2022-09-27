@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import React, { useState, useEffect, Fragment } from 'react';
 import ReactModal from 'react-modal';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -77,6 +78,7 @@ const CloseButton = styled.img`
 ReactModal.setAppElement('#root');
 
 const PhoneSettingModal = () => {
+  const [ip, setIp] = useState('');
   const dispatch = useDispatch();
   const modalState = useSelector((state: any) => {
     return state.modaler.modalState;
@@ -84,6 +86,12 @@ const PhoneSettingModal = () => {
   const closeHandler = () => {
     dispatch(modalToggle(false));
   };
+  useEffect(() => {
+    window.connectChannel.sendSeverIp('send-serverip', (serverIp: string) => {
+      console.log('SideComponent.tsx - Connected server ip:', serverIp);
+      setIp(serverIp);
+    });
+  }, []);
   return (
     <ReactModal
       isOpen={modalState}
@@ -124,7 +132,7 @@ const PhoneSettingModal = () => {
           <ConnectInfoText>
             Step2. 앱을 실행한 후 연결할 PC의 IP주소를 입력하세요.
           </ConnectInfoText>
-          <ConnectInfoText>현재 PC의 IP주소: 2222222222222222</ConnectInfoText>
+          <ConnectInfoText>현재 PC의 IP주소: {ip}</ConnectInfoText>
           <ConnectInfoText>
             연결이 완료되면 자동으로 통화 녹음이 실행됩니다.
           </ConnectInfoText>

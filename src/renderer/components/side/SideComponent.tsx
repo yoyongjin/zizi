@@ -30,6 +30,7 @@ const IpDiv = styled.div`
   /* font-size: 14px;
   font-weight: 600; */
   font: normal normal normal 14px/32px Segoe UI;
+  letter-spacing: -0.7px;
   color: #d4d6d9;
   display: block;
   position: absolute;
@@ -61,7 +62,7 @@ const PathDiv2 = styled.div`
   font: normal normal normal 14px/20px Segoe UI;
   display: block;
   position: absolute;
-  bottom: 20px;
+  bottom: 46px;
 `;
 
 const SideComponent = (props: any) => {
@@ -103,7 +104,7 @@ const SideComponent = (props: any) => {
 
       <IpDiv>IP Address : {ip}</IpDiv>
       <PathDiv1>Recording file storage :</PathDiv1>
-      <PathDiv2> D:\zibox2-standard-test\zibox2-standard\public</PathDiv2>
+      <PathDiv2>D:\zibox2-standard-test\zibox2-standard\public</PathDiv2>
     </SideDiv>
   );
 };
