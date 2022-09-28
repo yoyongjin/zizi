@@ -12,13 +12,13 @@ const ModalHeaderContainer = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding: 0 15px;
+  padding: 0;
   /* background-color: purple; */
-  height: 35px;
+  height: 30px;
 `;
 const ModalContentContainer = styled.div`
   display: flex;
-  margin-top: 29px;
+  margin-top: 15px;
   /* background-color: lightcoral; */
   padding-right: 7 0px;
 `;
@@ -112,9 +112,9 @@ const CallPlayerModal = () => {
         },
         content: {
           width: '600px',
-          height: '207px',
+          height: '150px',
           margin: '148px 0 0 333px ',
-          padding: '0',
+          padding: '0 1rem 0 1rem',
           inset: '0',
           border: '0',
           borderRadius: '0',
@@ -128,8 +128,7 @@ const CallPlayerModal = () => {
         <CloseButton src={closeImg} onClick={closeHandler} />
       </ModalHeaderContainer>
       <ModalContentContainer>
-        <ReactAudioPlayer src={callPlayerFileName} autoPlay controls />
-      </ModalContentContainer> */}
+    </ModalContentContainer> */}
       <ModalHeaderContainer>
         <ModalHeaderText>{callPlayerFileName}</ModalHeaderText>
         <CloseButton src={closeImg} onClick={closeHandler} />
@@ -140,9 +139,8 @@ const CallPlayerModal = () => {
           autoPlay
           onPlay={console.log('onplay')}
           progressJumpSteps
-          // customAdditionalControls={[fileName]}
-          // other props here
         />
+        {/* <ReactAudioPlayer src={callPlayerFileName} autoPlay controls /> */}
       </ModalContentContainer>
     </ReactModal>
   );

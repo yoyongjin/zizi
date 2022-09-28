@@ -68,12 +68,13 @@ const MemoSpan = styled.div`
   color: #d4d6d9;
 `;
 
-const MemoInput = styled.input`
+const MemoInput = styled.textarea`
   width: 180px;
   height: 108px;
   border-radius: 8px;
   border: solid 1px #707070;
   box-sizing: border-box;
+  resize: none;
 `;
 const RecordingTimeContainer = styled.div`
   display: flex;
@@ -97,6 +98,10 @@ const RecordButtonComponent = () => {
     return state.recorder.recordState;
   });
   const [phoneNumeberInputValue, setPhoneNumeberInputValue] = useState('');
+
+  useEffect(() => {
+    setPhoneNumeberInputValue('');
+  }, [manualRecord]);
 
   console.log(`RecordButtonComponent.tsx - Record state: ${recordState}`);
 
@@ -164,34 +169,46 @@ const RecordButtonComponent = () => {
       dispatch(recordToggle(true));
       await recorder.current.start();
     } else {
-      dispatch(recordToggle(false));
-      setManualRecord(false);
+      const phoneNumberText = inputPhonenumber.current.value;
+      if (phoneNumberText) {
+        dispatch(recordToggle(false));
+        setManualRecord(false);
 
-      const filename = dateFormat(new Date());
-      recorder.current.stop(filename);
+        const filename = dateFormat(new Date());
+        recorder.current.stop(filename);
 
-      const startDate = dateFormat(recorder.current.startDate);
-      const substringDate = startDate.substring(0, 8);
-      const substringTime = startDate.substring(8, 14);
-      const formatDate = `${substringDate.substring(
-        0,
-        4
-      )}.${substringDate.substring(4, 6)}.${substringDate.substring(6, 8)}`;
-      const formatTime = `${substringTime.substring(
-        0,
-        2
-      )}:${substringTime.substring(2, 4)}:${substringTime.substring(4, 6)}`;
+        const startDate = dateFormat(recorder.current.startDate);
+        const substringDate = startDate.substring(0, 8);
+        const substringTime = startDate.substring(8, 14);
+        const formatDate = `${substringDate.substring(
+          0,
+          4
+        )}.${substringDate.substring(4, 6)}.${substringDate.substring(6, 8)}`;
+        const formatTime = `${substringTime.substring(
+          0,
+          2
+        )}:${substringTime.substring(2, 4)}:${substringTime.substring(4, 6)}`;
 
-      window.ipcDbChannel.insertMenualQureyToMain(
-        formatDate,
-        formatTime,
-        inputPhonenumber.current.value,
-        filename,
-        inputMemo.current.value,
-        (result: any) => {
-          console.log('Menual info insert result:', result);
-        }
-      );
+        const memoText = inputMemo.current.value;
+        console.log('toggleRecord memo: ', memoText);
+        console.log('toggleRecord memo: ', memoText.replaceAll('<br>', '\r\n'));
+
+        window.ipcDbChannel.insertMenualQureyToMain(
+          formatDate,
+          formatTime,
+          // inputPhonenumber.current.value,
+          phoneNumberText,
+          filename,
+          // inputMemo.current.value,
+          memoText,
+          // memoText.replaceAll('<br>', '\r\n'),
+          (result: any) => {
+            console.log('Menual info insert result:', result);
+          }
+        );
+      } else {
+        inputPhonenumber.current.placeholder = ' Please insert phone number';
+      }
     }
   };
 
@@ -228,7 +245,7 @@ const RecordButtonComponent = () => {
           </PhoneNumberDiv>
           {/* <PhoneNumberInput ref={inputPhonenumber} /> */}
           <PhoneNumberInput
-            type="text"
+            type="tel"
             ref={inputPhonenumber}
             onChange={handleChange}
             value={phoneNumeberInputValue}

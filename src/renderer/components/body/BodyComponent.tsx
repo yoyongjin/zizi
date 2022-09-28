@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 /* eslint-disable no-console */
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
@@ -171,17 +172,18 @@ const BodyComponent = () => {
   };
 
   const onDeleteHandler = async () => {
-    // if (window.confirm('Are you sure you want to delete?')) {
     console.log('try to delete checkedItems: ', checkedItems);
-    if (await confirm('Are you sure you want to delete?')) {
-      const ids = [...checkedItems];
-      // 여기 DB 삭제
-      window.ipcDbChannel.deleteCallQureyToMain(ids, (result: any) => {
-        console.log('Call delete result:', result);
-        checkedItems.clear();
-        setCheckedItems(new Set());
-        setDeleteState(!deleteState);
-      });
+    if (checkedItems.size > 0) {
+      if (await confirm('Are you sure you want to delete?')) {
+        const ids = [...checkedItems];
+        // 여기 DB 삭제
+        window.ipcDbChannel.deleteCallQureyToMain(ids, (result: any) => {
+          console.log('Call delete result:', result);
+          checkedItems.clear();
+          setCheckedItems(new Set());
+          setDeleteState(!deleteState);
+        });
+      }
     }
   };
 

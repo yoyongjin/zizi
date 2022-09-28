@@ -24,7 +24,7 @@ const SideDiv = styled.div<SideDivProps>`
 
 const IpDiv = styled.div`
   /* padding: 0 28px 0 20px; */
-  width: 180px;
+  width: 150px;
   justify-content: center;
   align-items: center;
   /* font-size: 14px;
@@ -39,7 +39,7 @@ const IpDiv = styled.div`
 
 const PathDiv1 = styled.div`
   /* padding: 0 28px 0 20px; */
-  width: 180px;
+  width: 192px;
   justify-content: center;
   align-items: center;
   /* font-size: 14px;
@@ -53,7 +53,7 @@ const PathDiv1 = styled.div`
 
 const PathDiv2 = styled.div`
   /* padding: 0 28px 0 20px; */
-  width: 180px;
+  width: 192px;
   justify-content: center;
   align-items: center;
   /* font-size: 14px;

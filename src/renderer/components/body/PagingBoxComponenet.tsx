@@ -11,6 +11,10 @@ import page_rr from '../../../../assets/page_rr.png';
 import page_f from '../../../../assets/page_f.png';
 import page_ff from '../../../../assets/page_ff.png';
 
+interface DeleteSpanProps {
+  toggle: boolean;
+}
+
 const PaginationBox = styled.div`
   display: flex;
   justify-content: space-between;
@@ -66,11 +70,13 @@ const PaginationBox = styled.div`
   } */
 `;
 
-const DeleteSpan = styled.span`
+const DeleteSpan = styled.span<DeleteSpanProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
+  /* cursor: pointer; */
+  cursor: ${(props) => (props.toggle ? 'pointer' : '')};
+  opacity: ${(props) => (props.toggle ? '' : '50%')};
   /* background-color: red; */
 `;
 const MovePageImgContainer = styled.div`
@@ -85,6 +91,7 @@ const PagingBoxComponenet = (props: any) => {
     pageRangeDisplayed,
     handlePageChange,
     page,
+    checkedItems,
     onDeleteHandler,
   } = props;
 
@@ -120,7 +127,9 @@ const PagingBoxComponenet = (props: any) => {
         onChange={handlePageChange}
       />
       {/* page_ff@2x.png */}
-      <DeleteSpan onClick={onDeleteHandler}>Delete</DeleteSpan>
+      <DeleteSpan toggle={checkedItems.size > 0} onClick={onDeleteHandler}>
+        Delete
+      </DeleteSpan>
     </PaginationBox>
   );
 };
