@@ -130,10 +130,45 @@ const ListContentComponent = (props: any) => {
   };
 
   const phoneNumberFormat = (phoneNumber) => {
-    return `${phoneNumber.substring(0, 3)}-${phoneNumber.substring(
-      3,
-      7
-    )}-${phoneNumber.substring(7, 11)}`;
+    // return `${phoneNumber.substring(0, 3)}-${phoneNumber.substring(
+    //   3,
+    //   7
+    // )}-${phoneNumber.substring(7, 11)}`;
+    console.log('@@@@@@@@@@@@@@@@@@@@', phoneNumber, phoneNumber.length);
+
+    if (phoneNumber.length === 9 && phoneNumber.startsWith('03' || '06')) {
+      return phoneNumber.replace(/(\d{2})(\d{3})(\d{4})/, '$1-$2-$3');
+    }
+    if (phoneNumber.length === 9 && !phoneNumber.startsWith('03' || '06')) {
+      return phoneNumber.replace(/(\d{3})(\d{2})(\d{4})/, '$1-$2-$3');
+    }
+    if (phoneNumber.length === 10 && phoneNumber.startsWith('03' || '06')) {
+      return phoneNumber.replace(/(\d{2})(\d{4})(\d{4})/, '$1-$2-$3');
+    }
+    if (phoneNumber.length === 10 && phoneNumber.startsWith('0570')) {
+      return phoneNumber.replace(/(\d{4})(\d{3})(\d{3})/, '$1-$2-$3');
+    }
+    if (phoneNumber.length === 10 && phoneNumber.startsWith('0476' || '0724')) {
+      return phoneNumber.replace(/(\d{4})(\d{2})(\d{4})/, '$1-$2-$3');
+    }
+    if (
+      phoneNumber.length === 10 &&
+      !phoneNumber.startsWith('03' || '06' || '0570' || '0476' || '0724')
+    ) {
+      return phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+    }
+    if (phoneNumber.length === 11) {
+      return phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+    }
+    if (phoneNumber.length === 12) {
+      return phoneNumber.replace(/(\d{4})(\d{4})(\d{4})/, '$1-$2-$3');
+    }
+    if (phoneNumber.length === 13) {
+      return phoneNumber.replace(/(\d{4})(\d{4})(\d{5})/, '$1-$2-$3');
+    }
+    if (phoneNumber.length === 14) {
+      return phoneNumber.replace(/(\d{4})(\d{5})(\d{5})/, '$1-$2-$3');
+    }
   };
 
   const modalToggleHandler = () => {

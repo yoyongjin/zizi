@@ -7,6 +7,10 @@ import { recordToggle } from '../../store/recordSlice';
 import StopWatch from './StopWatch';
 import recordImg from '../../../../assets/rec_sta@2x.png';
 
+interface PhoneNumberInputProps {
+  toggle: boolean;
+}
+
 const RecordButtonDiv = styled.div`
   height: 36px;
   margin-top: 14px;
@@ -48,6 +52,8 @@ const PhoneNumberSpan = styled.span`
   color: #d4d6d9;
 `;
 
+// const PhoneNumberInput = styled.input<PhoneNumberInputProps>`
+// border: ${(props) => props.toggle ? 'solid 1px red' : 'solid 1px #707070'};
 const PhoneNumberInput = styled.input`
   width: 180px;
   height: 36px;
@@ -169,7 +175,7 @@ const RecordButtonComponent = () => {
       dispatch(recordToggle(true));
       await recorder.current.start();
     } else {
-      const phoneNumberText = inputPhonenumber.current.value;
+      let phoneNumberText = inputPhonenumber.current.value;
       if (phoneNumberText) {
         dispatch(recordToggle(false));
         setManualRecord(false);
@@ -190,8 +196,12 @@ const RecordButtonComponent = () => {
         )}:${substringTime.substring(2, 4)}:${substringTime.substring(4, 6)}`;
 
         const memoText = inputMemo.current.value;
-        console.log('toggleRecord memo: ', memoText);
-        console.log('toggleRecord memo: ', memoText.replaceAll('<br>', '\r\n'));
+
+        phoneNumberText = phoneNumberText
+          .trim()
+          .replaceAll(' ', '')
+          .replaceAll('-', '');
+        console.log('toggleRecord phoneNumberText: ', phoneNumberText);
 
         window.ipcDbChannel.insertMenualQureyToMain(
           formatDate,
@@ -245,10 +255,11 @@ const RecordButtonComponent = () => {
           </PhoneNumberDiv>
           {/* <PhoneNumberInput ref={inputPhonenumber} /> */}
           <PhoneNumberInput
-            type="tel"
+            type="text"
             ref={inputPhonenumber}
             onChange={handleChange}
             value={phoneNumeberInputValue}
+            // toggle={phoneNumeberInputValue === ''}
           />
           <MemoDiv>
             <MemoSpan>Memo</MemoSpan>
