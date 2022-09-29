@@ -69,13 +69,13 @@ const SideComponent = (props: any) => {
   const dispatch = useDispatch();
   const [ip, setIp] = useState('');
 
-  const recordState = useSelector((state: any) => {
-    return state.recorder.recordState;
-  });
+  // const recordState = useSelector((state: any) => {
+  //   return state.recorder.recordState;
+  // });
   const connectState = useSelector((state: any) => {
     return state.connector.connectState;
   });
-  console.log(`####SideComponent Rendering..`);
+  console.log(`####SideComponent Rendering..${connectState}`);
 
   useEffect(() => {
     window.connectChannel.sendSeverIp('send-serverip', (serverIp: string) => {
@@ -94,7 +94,7 @@ const SideComponent = (props: any) => {
     dispatch(connectToggle(false));
   });
 
-  console.log(`SideComponent.tsx - Record state: ${recordState}`);
+  // console.log(`SideComponent.tsx - Record state: ${recordState}`);
   console.log(`SideComponent.tsx - Connect state: ${connectState}`);
 
   return (

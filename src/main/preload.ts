@@ -51,7 +51,7 @@ export type IpcDbChannel = 'ipcDbChannel';
 contextBridge.exposeInMainWorld('ipcDbChannel', {
   sendQureyToMain: (query: string, callback: any) => {
     ipcRenderer.once('send-run-query', (_, data) => {
-      console.log(`preload data: ${data}`);
+      console.log(`send-run-query - preload data: ${data}`);
       callback(data);
     });
     ipcRenderer.send('send-run-query', query);
@@ -64,7 +64,7 @@ contextBridge.exposeInMainWorld('ipcDbChannel', {
     callback: any
   ) => {
     ipcRenderer.once('send-search-query', (_, data) => {
-      console.log(`preload data: ${data}`);
+      console.log(`send-search-query - preload data: ${data}`);
       callback(data);
     });
     ipcRenderer.send(
@@ -84,7 +84,7 @@ contextBridge.exposeInMainWorld('ipcDbChannel', {
     callback: any
   ) => {
     ipcRenderer.once('send-insert-query', (_, data) => {
-      console.log(`preload data: ${data}`);
+      console.log(`send-insert-query - preload data: ${data}`);
       callback(data);
     });
     ipcRenderer.send(
@@ -98,14 +98,14 @@ contextBridge.exposeInMainWorld('ipcDbChannel', {
   },
   updateMemoQureyToMain: (id: string, memo: string, callback: any) => {
     ipcRenderer.once('send-update-query', (_, data) => {
-      console.log(`preload data: ${data}`);
+      console.log(`send-update-query - preload data: ${data}`);
       callback(data);
     });
     ipcRenderer.send('send-update-query', id, memo);
   },
   deleteCallQureyToMain: (ids: Array, callback: any) => {
     ipcRenderer.once('send-delete-query', (_, data) => {
-      console.log(`preload data: ${data}`);
+      console.log(`send-delete-query - preload data: ${data}`);
       callback(data);
     });
     ipcRenderer.send('send-delete-query', ids);
