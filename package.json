@@ -127,7 +127,7 @@
     "redux": "^4.2.0",
     "socket.io": "^4.5.1",
     "sql.js": "^1.7.0",
-    "styled-components": "^5.3.5",
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
