@@ -7,6 +7,7 @@ import {
 } from '../../store/callPlayerSlice';
 import playImg from '../../../../assets/play@3x.png';
 import CallPlayerModal from '../side/CallPlayerModal';
+import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 // import ModalPortal from '../player/ModalPortal';
 // import RecordModal from '../player/RecordModal';
 
@@ -71,7 +72,15 @@ const CheckboxLi = styled.li`
   width: 2.75%;
   display: flex;
 `;
+const FullScreenContainer = styled.div`
+  display: flex;
 
+  width: 100%;
+
+  height: 100%;
+
+  background-color: #fff;
+`;
 const ListContentComponent = (props: any) => {
   const { data, checkedItemHandler, isAllChecked, checkedItems } = props;
   const [bChecked, setChecked] = useState(false);
@@ -171,9 +180,11 @@ const ListContentComponent = (props: any) => {
     }
   };
 
-  const modalToggleHandler = () => {
-    setIsModalOn(!isModalOn);
-  };
+  // const modalToggleHandler = () => {
+  //   setIsModalOn(!isModalOn);
+  // };
+
+  const handle = useFullScreenHandle();
 
   return (
     <ContentUl>
@@ -195,6 +206,8 @@ const ListContentComponent = (props: any) => {
           )}
         </ModalPortal> */}
       </PlayeLi>
+      {/* 여기 STT 버튼 */}
+      <button onClick={handle.enter}>STT</button>
       <DateLi>{data.date}</DateLi>
       <TimeLi>{data.time}</TimeLi>
       <PhoneNumberLi>{phoneNumberFormat(data.phonenumber)}</PhoneNumberLi>
@@ -221,6 +234,9 @@ const ListContentComponent = (props: any) => {
           onChange={(e) => checkHandler(e)}
         />
       </CheckboxLi>
+      <FullScreen handle={handle}>
+        <FullScreenContainer />
+      </FullScreen>
     </ContentUl>
   );
 };

@@ -101,6 +101,7 @@ const ConnectComponent = () => {
         {/* <TimeDiv>03:24</TimeDiv> */}
         <StopWatch />
       </RecordingTimeContainer>
+      {/* 여기 STT 버튼 */}
     </>
   );
 };
