@@ -19,10 +19,11 @@ const FullSTTPage = () => {
 
   return (
     <div>
-      <button onClick={handle.enter}>STT</button>
-
+      {/* <button onClick={handle.enter}>STT</button> */}
       <FullScreen handle={handle}>
-        <FullScreenContainer></FullScreenContainer>
+        {/* <FullScreenContainer>
+          <div>sadfdasf</div>
+        </FullScreenContainer> */}
       </FullScreen>
     </div>
   );

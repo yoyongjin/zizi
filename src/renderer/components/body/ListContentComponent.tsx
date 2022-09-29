@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 import {
   callPlayerToggle,
   setCallPlayerFileName,
 } from '../../store/callPlayerSlice';
 import playImg from '../../../../assets/play@3x.png';
 import CallPlayerModal from '../side/CallPlayerModal';
-import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 // import ModalPortal from '../player/ModalPortal';
 // import RecordModal from '../player/RecordModal';
 
@@ -184,18 +184,39 @@ const ListContentComponent = (props: any) => {
   //   setIsModalOn(!isModalOn);
   // };
 
-  const handle = useFullScreenHandle();
+  const testFn = () => {
+    // renderer process (mainWindow)
+    const childWindow = window.open('about:blank', 'modal');
+    childWindow.document.write('<h1>Hello</h1>');
+    // childWindow.document.write('<h1>Hello</h1>');
+    // window.open(
+    //   'index2.ejs',
+    //   '_blank',
+    //   'top=500,left=200,frame=true,nodeIntegration=no'
+    // );
+  };
+
+  const screen = useFullScreenHandle();
 
   return (
     <ContentUl>
+      <FullScreen handle={screen}>
+        <FullScreenContainer
+          // className="full-screenable-node"
+          style={{ background: 'red' }}
+        >
+          test
+        </FullScreenContainer>
+      </FullScreen>
       <PlayeLi>
-        <PlayImg
+        {/* <PlayImg
           src={playImg}
           onClick={() => {
             dispatch(callPlayerToggle(true));
             dispatch(setCallPlayerFileName(data.filename));
           }}
-        />
+        /> */}
+        <PlayImg src={playImg} onClick={testFn} />
         {/* <PlayImg src={playImg} onClick={modalToggleHandler} />
         <ModalPortal>
           {isModalOn && (
@@ -207,7 +228,8 @@ const ListContentComponent = (props: any) => {
         </ModalPortal> */}
       </PlayeLi>
       {/* 여기 STT 버튼 */}
-      <button onClick={handle.enter}>STT</button>
+
+      <button onClick={screen.enter}>STT</button>
       <DateLi>{data.date}</DateLi>
       <TimeLi>{data.time}</TimeLi>
       <PhoneNumberLi>{phoneNumberFormat(data.phonenumber)}</PhoneNumberLi>
@@ -234,9 +256,6 @@ const ListContentComponent = (props: any) => {
           onChange={(e) => checkHandler(e)}
         />
       </CheckboxLi>
-      <FullScreen handle={handle}>
-        <FullScreenContainer />
-      </FullScreen>
     </ContentUl>
   );
 };

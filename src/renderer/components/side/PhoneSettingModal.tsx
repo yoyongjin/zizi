@@ -117,6 +117,22 @@ const PhoneSettingModal = () => {
           boxSizing: 'border-box',
         },
       }}
+      // style={{
+      //   overlay: {
+      //     position: 'fixed',
+      //     top: 0,
+      //     left: 0,
+      //     right: 0,
+      //     bottom: 0,
+      //     backgroundColor: '',
+      //   },
+      //   content: {
+      //     top: 0,
+      //     left: 0,
+      //     right: 0,
+      //     bottom: 0,
+      //   },
+      // }}
     >
       <ModalHeaderContainer>
         <ModalHeaderText>휴대전화 연결하기</ModalHeaderText>

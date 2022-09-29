@@ -69,6 +69,7 @@ const db = new sqlite3.Database(
 );
 
 let mainWindow: BrowserWindow | null = null;
+let childWindow: BrowserWindow | null = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -130,8 +131,33 @@ const createWindow = async () => {
         : path.join(__dirname, '../../.erb/dll/preload.js'),
     },
   });
+  // childWindow = new BrowserWindow({
+  //   show: false,
+  //   // width: 1215,
+  //   // height: 665,
+  //   width: 900,
+  //   height: 600,
+  //   // minWidth: 370,
+  //   // minHeight: 470,
+  //   // maxWidth: 1200,
+  //   // maxHeight: 650,
+  //   // icon: getAssetPath('icon.png'),
+  //   resizable: true, // 크기 조절 허용 여부
+  //   center: true, // 화면 정중앙에 위치
+  //   autoHideMenuBar: false, // 윈도우 메뉴바 숨김 여부
+  //   frame: false, // 프레임 여부
+  //   fullscreen: false,
+  //   webPreferences: {
+  //     sandbox: false,
+  //     preload: app.isPackaged
+  //       ? path.join(__dirname, 'preload.js')
+  //       : path.join(__dirname, '../../.erb/dll/preload.js'),
+  //   },
+  // });
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
+  console.log(resolveHtmlPath('/src/renderer/index2.ejs'));
+  // childWindow.loadURL(resolveHtmlPath('/src/renderer/index2.ejs'));
 
   mainWindow.on('ready-to-show', () => {
     if (!mainWindow) {
@@ -155,6 +181,21 @@ const createWindow = async () => {
 
   // Open urls in the user's browser
   mainWindow.webContents.setWindowOpenHandler((edata) => {
+    console.log('&&&&&&&&edata.url: ', edata.url);
+    if (edata.url === 'about:blank') {
+      return {
+        action: 'allow',
+        overrideBrowserWindowOptions: {
+          frame: false,
+          // fullscreenable: false,
+          fullscreen: true,
+          backgroundColor: 'white',
+          webPreferences: {
+            preload: 'my-child-window-preload-script.js',
+          },
+        },
+      };
+    }
     shell.openExternal(edata.url);
     return { action: 'deny' };
   });
@@ -197,6 +238,7 @@ io.on('connection', (socket: any) => {
 
   if (mainWindow != null) {
     mainWindow.webContents.send('send-connect-y', socket.id);
+    // childWindow?.show();
   }
 
   /*
@@ -572,6 +614,9 @@ ipcMain.on('send-window-close', async (event) => {
 ipcMain.on('send-window-minimize', async (event) => {
   console.log('-------------------------------------------window minimize..');
   if (mainWindow) mainWindow.minimize();
+  // if (childWindow) childWindow.show();
+  // const childWindow2 = window.open('', 'modal');
+  // childWindow2.document.write('<h1>Hello</h1>');
 });
 // ipcMain.on(
 //   'send-record-start',
