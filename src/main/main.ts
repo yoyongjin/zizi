@@ -158,7 +158,7 @@ const createWindow = async () => {
   // });
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
-  console.log(resolveHtmlPath('/src/renderer/index2.ejs'));
+  // console.log(resolveHtmlPath('/src/renderer/index2.ejs'));
   // childWindow.loadURL(resolveHtmlPath('/src/renderer/index2.ejs'));
 
   mainWindow.on('ready-to-show', () => {

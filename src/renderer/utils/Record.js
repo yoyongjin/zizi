@@ -1,10 +1,10 @@
 const toWav = require('audiobuffer-to-wav');
+require('../zibox-packet-bundle');
 
 const SAMPLE_RATE = 48000;
 
 class Record {
   constructor() {
-    // console.log('!@#$!@#$constructor');
     this.micCtx = null;
 
     this.micBuffer = [];
@@ -13,13 +13,40 @@ class Record {
 
     this.startDate = null;
 
-    // console.log(
-    //   `!@#$!@#$micCtx:${this.micCtx}, micBuffer.length:${this.micBuffer.length}, recording:${this.recording}`
-    // );
+    this.ziboxPacket = new window.ZiBoxPlayer('https://dev.zibox.celering.io');
+
+    this.onSTTEvent();
+  }
+
+  onSTTEvent() {
+    this.ziboxPacket.onSTTEventListener = (channel, script, isFinal) => {
+      console.log('onSTTEventListener..');
+      console.log(channel, script, isFinal);
+    };
+
+    this.ziboxPacket.onSocketEventListener = (data, type) => {
+      console.log('onSocketEventListener..');
+      console.log(data, type);
+
+      switch (type) {
+        case 'connect':
+          if (data === 'success') {
+            this.ziboxPacket.initialize('1234');
+          }
+          break;
+        case 'initialize':
+          if (data === 'success') {
+            console.log('연결 성공');
+            // alert('초기 설정 완료');
+          }
+          break;
+        default:
+          break;
+      }
+    };
   }
 
   connect(ctx, stream, buffer) {
-    // console.log('!@#$!@#$connect');
     const source = ctx.createMediaStreamSource(stream);
 
     const processor = ctx.createScriptProcessor(4096, 2, 2);
@@ -28,10 +55,16 @@ class Record {
 
     processor.onaudioprocess = (e) => {
       if (this.recording) {
-        buffer.push([
-          [...e.inputBuffer.getChannelData(0)],
-          [...e.inputBuffer.getChannelData(1)],
-        ]);
+        const left = [...e.inputBuffer.getChannelData(0)];
+        const right = [...e.inputBuffer.getChannelData(1)];
+        buffer.push([left, right]);
+
+        const packet = {
+          left,
+          right,
+        };
+
+        this.ziboxPacket.sendSTTPacket(packet, true);
       } else {
         // eslint-disable-next-line no-lonely-if
         if (!closed) {
@@ -43,6 +76,8 @@ class Record {
           ctx.close();
         }
       }
+      console.log('>>>>>>>>>buffer length: ', buffer.length);
+      console.log('>>>>>>>>>buffer: ', buffer);
     };
 
     source.connect(processor);
@@ -64,7 +99,6 @@ class Record {
     );
 
     for (let channel = 0; channel < 2; channel += 1) {
-      // console.log('!@#$!@#$channel:', channel);
       let i = 0;
       const channelData = resAudioBuffer.getChannelData(channel); // [0], [1] l,r
       // eslint-disable-next-line no-restricted-syntax
@@ -104,7 +138,7 @@ class Record {
 
   async start() {
     this.startDate = new Date();
-
+    this.ziboxPacket.startSTT();
     console.log('!@#$!@#$start');
     this.micCtx = new AudioContext({
       sampleRate: SAMPLE_RATE,
@@ -116,7 +150,6 @@ class Record {
 
     let targetDeviceId = null;
     const devicesInfo = await navigator.mediaDevices.enumerateDevices();
-    // console.log('!@#$!@#$deviceInfo:', devicesInfo);
     devicesInfo.forEach((device) => {
       if (
         device.kind === 'audioinput' &&
@@ -136,12 +169,9 @@ class Record {
 
     // if (targetDeviceId === null) throw new Error();
 
-    // console.log('!@#$!@#$deviceId2:', targetDeviceId);
     const [/* speakerStream, */ micStream] = await Promise.all([
       // navigator.mediaDevices.getUserMedia(desktopConfig),
       navigator.mediaDevices.getUserMedia({
-        // 특정 device를 선택하는 방법 있을듯.
-        // api 문서 확인해서 사용, ctrl 클릭
         audio: {
           mandatory: {
             echoCancellation: false,
@@ -149,12 +179,6 @@ class Record {
             noiseSuppression: false,
             channelCount: 2,
             deviceId: targetDeviceId,
-            // {
-            // exact:
-            //   '8a1037c366e13f21c6e466d72a36fb23fd12fa390bb02e5ac9120ee914c313eb',
-            // exact: targetDeviceId,
-            // targetDeviceId,
-            // },
           },
           optional: [],
         },

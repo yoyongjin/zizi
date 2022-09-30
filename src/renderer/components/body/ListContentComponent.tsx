@@ -162,7 +162,7 @@ const ListContentComponent = (props: any) => {
     //   3,
     //   7
     // )}-${phoneNumber.substring(7, 11)}`;
-    console.log('@@@@@@@@@@@@@@@@@@@@', phoneNumber, phoneNumber.length);
+    // console.log('@@@@@@@@@@@@@@@@@@@@', phoneNumber, phoneNumber.length);
 
     if (phoneNumber.length === 9 && phoneNumber.startsWith('03' || '06')) {
       return phoneNumber.replace(/(\d{2})(\d{3})(\d{4})/, '$1-$2-$3');

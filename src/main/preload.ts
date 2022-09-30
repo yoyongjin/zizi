@@ -51,7 +51,7 @@ export type IpcDbChannel = 'ipcDbChannel';
 contextBridge.exposeInMainWorld('ipcDbChannel', {
   sendQureyToMain: (query: string, callback: any) => {
     ipcRenderer.once('send-run-query', (_, data) => {
-      console.log(`send-run-query - preload data: ${data}`);
+      // console.log(`send-run-query - preload data: ${data}`);
       callback(data);
     });
     ipcRenderer.send('send-run-query', query);
@@ -64,7 +64,7 @@ contextBridge.exposeInMainWorld('ipcDbChannel', {
     callback: any
   ) => {
     ipcRenderer.once('send-search-query', (_, data) => {
-      console.log(`send-search-query - preload data: ${data}`);
+      // console.log(`send-search-query - preload data: ${data}`); // 여기 렌더링 확인
       callback(data);
     });
     ipcRenderer.send(

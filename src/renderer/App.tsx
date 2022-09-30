@@ -26,18 +26,18 @@ function App() {
 
   console.log(`App.tsx - Search state: ${searchState}`);
 
-  const changeSearchState = () => {
-    setSearchState(!searchState);
-    console.log(
-      `App.tsx - Change search state(changeSearchState): ${searchState}`
-    );
-  };
+  // const changeSearchState = () => {
+  //   setSearchState(!searchState);
+  //   console.log(
+  //     `App.tsx - Change search state(changeSearchState): ${searchState}`
+  //   );
+  // };
 
   return (
     <AppDiv>
       <HeaderComponent
-        changeSearchState={changeSearchState}
-        searchState={searchState}
+      // changeSearchState={changeSearchState}
+      // searchState={searchState}
       />
       <ContentDiv>
         {/* {searchState ? <SearchComponent /> : ''} */}

@@ -14,16 +14,16 @@ const HeaderDiv = styled.div`
 `;
 
 const HeaderComponent = (props: any) => {
-  const { changeSearchState, searchState } = props;
-  console.log('changeSearchState:', changeSearchState);
-  console.log('searchState:', searchState);
+  // const { changeSearchState, searchState } = props;
+  // console.log('changeSearchState:', changeSearchState);
+  // console.log('searchState:', searchState);
 
   return (
     <HeaderDiv>
       <LogoComponent />
       <MenuComponent
-        changeSearchState={changeSearchState}
-        searchState={searchState}
+      // changeSearchState={changeSearchState}
+      // searchState={searchState}
       />
     </HeaderDiv>
   );
