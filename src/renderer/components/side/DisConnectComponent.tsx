@@ -88,6 +88,7 @@ const DisConnectComponent = () => {
       <InfoImg
         src={infoImg}
         onClick={() => (recordState ? '' : dispatch(modalToggle(true)))}
+        // onClick={modalFullScreenHandler}
       />
     </DisConnectDiv>
   );

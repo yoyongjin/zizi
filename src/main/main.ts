@@ -119,11 +119,13 @@ const createWindow = async () => {
     // minHeight: 470,
     // maxWidth: 1200,
     // maxHeight: 650,
-    // icon: getAssetPath('icon.png'),
+    icon: getAssetPath('icon.png'),
     resizable: false, // 크기 조절 허용 여부
     center: true, // 화면 정중앙에 위치
     autoHideMenuBar: true, // 윈도우 메뉴바 숨김 여부
     frame: false, // 프레임 여부
+    // enableLargerThanScreen: true,
+    // useContentSize: true,
     webPreferences: {
       sandbox: false,
       preload: app.isPackaged
@@ -186,9 +188,10 @@ const createWindow = async () => {
       return {
         action: 'allow',
         overrideBrowserWindowOptions: {
-          frame: false,
+          modal: true,
+          frame: true,
           // fullscreenable: false,
-          fullscreen: true,
+          fullscreen: false,
           backgroundColor: 'white',
           webPreferences: {
             preload: 'my-child-window-preload-script.js',
@@ -614,6 +617,14 @@ ipcMain.on('send-window-close', async (event) => {
 ipcMain.on('send-window-minimize', async (event) => {
   console.log('-------------------------------------------window minimize..');
   if (mainWindow) mainWindow.minimize();
+  // if (childWindow) childWindow.show();
+  // const childWindow2 = window.open('', 'modal');
+  // childWindow2.document.write('<h1>Hello</h1>');
+});
+
+ipcMain.on('send-window-fullscreen', async (event, mode: boolean) => {
+  console.log('-------------------------------------------window fullscreen..');
+  if (mainWindow) mainWindow.setFullScreen(mode);
   // if (childWindow) childWindow.show();
   // const childWindow2 = window.open('', 'modal');
   // childWindow2.document.write('<h1>Hello</h1>');

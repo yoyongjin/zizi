@@ -1,13 +1,17 @@
 import styled from 'styled-components';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FullScreen, useFullScreenHandle } from 'react-full-screen';
+// import { FullScreen, useFullScreenHandle } from 'react-full-screen';
+import {
+  sttModalToggle,
+  setSttModalFileName,
+} from 'renderer/store/sttModalSlice';
 import {
   callPlayerToggle,
   setCallPlayerFileName,
 } from '../../store/callPlayerSlice';
 import playImg from '../../../../assets/play@3x.png';
-import CallPlayerModal from '../side/CallPlayerModal';
+// import CallPlayerModal from '../side/CallPlayerModal';
 // import ModalPortal from '../player/ModalPortal';
 // import RecordModal from '../player/RecordModal';
 
@@ -74,21 +78,37 @@ const CheckboxLi = styled.li`
 `;
 const FullScreenContainer = styled.div`
   display: flex;
-
   width: 100%;
-
   height: 100%;
-
   background-color: #fff;
 `;
+
+const STTBtn = styled.button`
+  width: 63px;
+  height: 24px;
+  border: 1px solid #707070;
+  border-radius: 8px;
+  background: #28bfde;
+  color: #fff;
+  opacity: 1;
+  cursor: pointer;
+`;
+
 const ListContentComponent = (props: any) => {
   const { data, checkedItemHandler, isAllChecked, checkedItems } = props;
   const [bChecked, setChecked] = useState(false);
-  const [isModalOn, setIsModalOn] = useState(false);
+  // const [isModalOn, setIsModalOn] = useState(false);
   const dispatch = useDispatch();
-  const callPlayerState = useSelector((state: any) => {
-    return state.callPlayer.callPlayerState;
-  });
+  const inputRef = useRef(null);
+
+  // const sttModalState = useSelector((state: any) => {
+  //   return state.sttModaler.sttModalState;
+  // });
+
+  // const callPlayerState = useSelector((state: any) => {
+  //   return state.callPlayer.callPlayerState;
+  // });
+
   const checkHandler = ({ target }) => {
     setChecked(!bChecked);
     checkedItemHandler(data.id, target.checked);
@@ -127,7 +147,6 @@ const ListContentComponent = (props: any) => {
       );
     }
   };
-  const inputRef = useRef(null);
 
   const onEnterHandler = (id, e) => {
     console.log(`keyCode: ${e.key}`);
@@ -184,39 +203,42 @@ const ListContentComponent = (props: any) => {
   //   setIsModalOn(!isModalOn);
   // };
 
-  const testFn = () => {
-    // renderer process (mainWindow)
-    const childWindow = window.open('about:blank', 'modal');
-    childWindow.document.write('<h1>Hello</h1>');
-    // childWindow.document.write('<h1>Hello</h1>');
-    // window.open(
-    //   'index2.ejs',
-    //   '_blank',
-    //   'top=500,left=200,frame=true,nodeIntegration=no'
-    // );
-  };
+  // const testFn = () => {
+  //   // 일렉트론 자식창
+  //   const childWindow = window.open('about:blank', 'modal');
+  //   childWindow.document.write('<h1>강병현</h1>');
+  // };
 
-  const screen = useFullScreenHandle();
+  // const screen = useFullScreenHandle();
+
+  const sttModalHandler = (fileName: string) => {
+    console.log(
+      '-------------------------------------------window fullscreen..'
+    );
+    window.windowChannel.windowFullScreenToMain(true);
+    dispatch(setSttModalFileName(fileName));
+    dispatch(sttModalToggle(true));
+  };
 
   return (
     <ContentUl>
-      <FullScreen handle={screen}>
+      {/* <FullScreen handle={screen}>
         <FullScreenContainer
           // className="full-screenable-node"
           style={{ background: 'red' }}
         >
           test
         </FullScreenContainer>
-      </FullScreen>
+      </FullScreen> */}
       <PlayeLi>
-        {/* <PlayImg
+        <PlayImg
           src={playImg}
           onClick={() => {
             dispatch(callPlayerToggle(true));
             dispatch(setCallPlayerFileName(data.filename));
           }}
-        /> */}
-        <PlayImg src={playImg} onClick={testFn} />
+        />
+        {/* <PlayImg src={playImg} onClick={testFn} /> */}
         {/* <PlayImg src={playImg} onClick={modalToggleHandler} />
         <ModalPortal>
           {isModalOn && (
@@ -229,7 +251,14 @@ const ListContentComponent = (props: any) => {
       </PlayeLi>
       {/* 여기 STT 버튼 */}
 
-      <button onClick={screen.enter}>STT</button>
+      {/* <button onClick={screen.enter}>STT</button> */}
+      <STTBtn
+        onClick={() => {
+          sttModalHandler(data.filename);
+        }}
+      >
+        STT
+      </STTBtn>
       <DateLi>{data.date}</DateLi>
       <TimeLi>{data.time}</TimeLi>
       <PhoneNumberLi>{phoneNumberFormat(data.phonenumber)}</PhoneNumberLi>

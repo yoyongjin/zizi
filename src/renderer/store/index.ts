@@ -3,6 +3,7 @@ import recordSlice from './recordSlice';
 import modalSlice from './modalSlice';
 import callPlayerSlice from './callPlayerSlice';
 import connectSlice from './connectSlice';
+import sttModalSlice from './sttModalSlice';
 // import checkedItemsSlice from './checkedItemsSlice';
 
 const store = configureStore({
@@ -11,6 +12,7 @@ const store = configureStore({
     modaler: modalSlice.reducer,
     callPlayer: callPlayerSlice.reducer,
     connector: connectSlice.reducer,
+    sttModaler: sttModalSlice.reducer,
     // checked: checkedItemsSlice.reducer,
   },
 });

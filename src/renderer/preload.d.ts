@@ -48,6 +48,7 @@ declare global {
     windowChannel: {
       windowCloseToMain(): void;
       windowMinimizeToMain(): void;
+      windowFullScreenToMain(mode: boolean): void;
     };
     recordChannel: {
       // startRecord(
