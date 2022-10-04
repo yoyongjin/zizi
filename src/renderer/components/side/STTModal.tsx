@@ -3,6 +3,7 @@ import ReactModal from 'react-modal';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { sttModalToggle } from 'renderer/store/sttModalSlice';
+import FullSTTPage from './FullSTTPage';
 import closeImg from '../../../../assets/close@3x.png';
 
 const CloseButton = styled.button`
@@ -63,10 +64,7 @@ const STTModal = () => {
         },
       }}
     >
-      <TestDiv>
-        STT target : {sttModalFileName}
-        <CloseButton onClick={closeHandler} />
-      </TestDiv>
+      <FullSTTPage />
     </ReactModal>
   );
 };

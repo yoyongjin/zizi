@@ -303,7 +303,7 @@ io.on('connection', (socket: any) => {
           );
           if (mainWindow != null) {
             console.log('ipcMain.on - send-record-stop');
-            console.log(`#################MAIN TIME: ${Date.now()}`);
+            // console.log(`#################MAIN TIME: ${Date.now()}`);
             // mainWindow.webContents.send('send-record-stop', originalObj.key);
             const fileName = dateFormat(new Date());
             mainWindow.webContents.send('send-record-stop', fileName);
@@ -509,7 +509,7 @@ ipcMain.on(
           : ''
       }`;
     }
-    console.log(`###################${query}`);
+    // console.log(`###################${query}`);
     db.all(query, (err, data) => {
       console.log('db select success..');
       console.log(data.length);

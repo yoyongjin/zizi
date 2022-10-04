@@ -161,8 +161,8 @@ contextBridge.exposeInMainWorld('recordChannel', {
   },
   stopRecord: (userKey: string | number, callback: any) => {
     ipcRenderer.on('send-record-stop', (_, data) => {
-      console.log(`#################PRELOAD TIME: ${Date.now()}`);
-      console.log(`#################userKey: ${userKey}`);
+      // console.log(`#################PRELOAD TIME: ${Date.now()}`);
+      // console.log(`#################userKey: ${userKey}`);
       console.log(`recordChannel - stopRecord - send-record-stop: ${data}`);
       callback(data);
     });

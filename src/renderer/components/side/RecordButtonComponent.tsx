@@ -84,15 +84,47 @@ const MemoInput = styled.textarea`
 `;
 const RecordingTimeContainer = styled.div`
   display: flex;
+
+  width: 67px;
+
   justify-content: center;
+
   margin-right: 4px;
+
   align-items: center;
+
   gap: 18px;
+`;
+
+const RecordWithSTTContainer = styled.div`
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 0 5px;
 `;
 const RecordImg = styled.img`
   width: 15px;
   height: 15px;
   margin-top: 2px;
+`;
+
+const STTBtn = styled.button`
+  width: 63px;
+
+  height: 24px;
+
+  border: 1px solid #707070;
+
+  border-radius: 8px;
+
+  background: #28bfde;
+
+  color: #fff;
+
+  opacity: 1;
 `;
 
 const RecordButtonComponent = () => {
@@ -153,7 +185,7 @@ const RecordButtonComponent = () => {
       window.recordChannel.stopRecord(
         'send-record-stop',
         async (userKey: string) => {
-          console.log(`#################RENDERER TIME: ${Date.now()}`);
+          // console.log(`#################RENDERER TIME: ${Date.now()}`);
           if (recorder.current.recording) {
             // recorder.current.stop(`${Date.now()}`);
             // const fileName = dateFormat(new Date(userKey));
@@ -246,10 +278,15 @@ const RecordButtonComponent = () => {
     <>
       {manualRecord ? (
         <SaveCallRecordingDiv>
-          <RecordingTimeContainer>
-            <RecordImg src={recordImg} />
-            <StopWatch />
-          </RecordingTimeContainer>
+          <RecordWithSTTContainer>
+            <RecordingTimeContainer>
+              <RecordImg src={recordImg} />
+
+              <StopWatch />
+            </RecordingTimeContainer>
+
+            <STTBtn>STT</STTBtn>
+          </RecordWithSTTContainer>
           <PhoneNumberDiv>
             <PhoneNumberSpan>Phone number</PhoneNumberSpan>
           </PhoneNumberDiv>

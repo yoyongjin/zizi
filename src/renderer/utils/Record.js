@@ -5,6 +5,8 @@ const SAMPLE_RATE = 48000;
 
 class Record {
   constructor() {
+    console.log('=================================Record.js constructor');
+
     this.micCtx = null;
 
     this.micBuffer = [];
@@ -13,7 +15,7 @@ class Record {
 
     this.startDate = null;
 
-    this.ziboxPacket = new window.ZiBoxPlayer('https://dev.zibox.celering.io');
+    this.ziboxPacket = new window.ZiBoxPlayer('http://localhost:5001');
 
     this.onSTTEvent();
   }
@@ -21,7 +23,7 @@ class Record {
   onSTTEvent() {
     this.ziboxPacket.onSTTEventListener = (channel, script, isFinal) => {
       console.log('onSTTEventListener..');
-      console.log(channel, script, isFinal);
+      console.log(channel, script, isFinal); // 여기가 결과 값
     };
 
     this.ziboxPacket.onSocketEventListener = (data, type) => {
@@ -31,7 +33,11 @@ class Record {
       switch (type) {
         case 'connect':
           if (data === 'success') {
-            this.ziboxPacket.initialize('1234');
+            try {
+              this.ziboxPacket.initialize('1234');
+            } catch (error) {
+              console.log(error);
+            }
           }
           break;
         case 'initialize':
@@ -47,9 +53,11 @@ class Record {
   }
 
   connect(ctx, stream, buffer) {
+    console.log('=================================Record.js connect');
+
     const source = ctx.createMediaStreamSource(stream);
 
-    const processor = ctx.createScriptProcessor(4096, 2, 2);
+    const processor = ctx.createScriptProcessor();
 
     let closed = false;
 
@@ -76,8 +84,8 @@ class Record {
           ctx.close();
         }
       }
-      console.log('>>>>>>>>>buffer length: ', buffer.length);
-      console.log('>>>>>>>>>buffer: ', buffer);
+      // console.log('>>>>>>>>>buffer length: ', buffer.length);
+      // console.log('>>>>>>>>>buffer: ', buffer);
     };
 
     source.connect(processor);
@@ -85,7 +93,7 @@ class Record {
   }
 
   createWav(fileName) {
-    console.log('!@#$!@#$createWav');
+    // console.log('!@#$!@#$createWav');
     const length = this.micBuffer
       .map((lrBuffer) => lrBuffer[0])
       .reduce((p, c) => {
@@ -113,7 +121,7 @@ class Record {
 
     const wav = toWav(resAudioBuffer);
     const filePath = `\\zibox2-standard-test\\zibox2-standard\\public/${fileName}.wav`;
-    console.log(`*&^$%!@$!@$save path : ${filePath}`);
+    // console.log(`*&^$%!@$!@$save path : ${filePath}`);
     window
       // .saveFile(`${fileName}.wav`, wav)
       .saveFile(filePath, wav)
@@ -128,18 +136,19 @@ class Record {
   }
 
   stop(fileName) {
-    // console.log('!@#$!@#$stop');
+    console.log('=================================Record.js stop');
     this.recording = false;
-
+    this.ziboxPacket.stopSTT();
     setTimeout(() => {
       this.createWav(fileName);
     }, 0);
   }
 
   async start() {
+    console.log('=================================Record.js start');
     this.startDate = new Date();
     this.ziboxPacket.startSTT();
-    console.log('!@#$!@#$start');
+
     this.micCtx = new AudioContext({
       sampleRate: SAMPLE_RATE,
     });
@@ -158,7 +167,7 @@ class Record {
         device.deviceId.indexOf('communications') < 0
       ) {
         console.log(
-          '!@#$!@#$지박스2 Device로 판단:',
+          '지박스2 Device로 판단:',
           device.kind,
           device.label,
           device.deviceId
