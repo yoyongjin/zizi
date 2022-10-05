@@ -81,6 +81,7 @@ const MenuComponent = (props: any) => {
     console.log('-------------------------------------------window minimize..');
     window.windowChannel.windowMinimizeToMain();
   };
+
   return (
     <MenuDiv>
       {/* <SettingButton>

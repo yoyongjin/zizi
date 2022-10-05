@@ -61,18 +61,46 @@ class Record {
 
     let closed = false;
 
+    let count = 0;
+    let leftBuffer = [];
+    let rightBuffer = [];
+
     processor.onaudioprocess = (e) => {
       if (this.recording) {
         const left = [...e.inputBuffer.getChannelData(0)];
         const right = [...e.inputBuffer.getChannelData(1)];
         buffer.push([left, right]);
 
-        const packet = {
-          left,
-          right,
-        };
+        console.log('--------------left.length: ', left.length);
+        console.log('--------------right.length: ', right.length);
+        console.log('--------------count: ', count);
 
-        this.ziboxPacket.sendSTTPacket(packet, true);
+        leftBuffer = leftBuffer.concat(left);
+        rightBuffer = rightBuffer.concat(right);
+        console.log('--------------leftBuffer.length: ', leftBuffer.length);
+        console.log('--------------rightBuffer.length: ', rightBuffer.length);
+
+        if (count < 10) {
+          count += 1;
+        } else {
+          const packet = {
+            left: leftBuffer,
+            right: rightBuffer,
+          };
+          console.log('--------------packet:', packet);
+          this.ziboxPacket.sendSTTPacket(packet, true);
+
+          leftBuffer.length = 0;
+          rightBuffer.length = 0;
+          count = 0;
+        }
+
+        // const packet = {
+        //   left,
+        //   right,
+        // };
+
+        // this.ziboxPacket.sendSTTPacket(packet, true);
       } else {
         // eslint-disable-next-line no-lonely-if
         if (!closed) {

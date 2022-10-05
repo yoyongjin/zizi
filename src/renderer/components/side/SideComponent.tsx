@@ -18,7 +18,7 @@ const SideDiv = styled.div<SideDivProps>`
   background-color: #3a3a40;
   box-sizing: border-box;
   display: block;
-  cursor: ${(props) => (props.connectState ? 'pointer' : '')};
+  /* cursor: ${(props) => (props.connectState ? 'pointer' : '')}; */
   position: relative;
 `;
 

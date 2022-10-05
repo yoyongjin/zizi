@@ -1,63 +1,61 @@
 import styled from 'styled-components';
 import { useEffect, useRef, useState } from 'react';
 import titlePlayImg from '../../../../assets/play@3x.png';
+import sttTitleImg from '../../../../assets/stt_ico_title.png';
 
-const TitlePlayeLi = styled.li`
-  width: 6.84%;
-  min-width: 31px;
-  margin-left: 0.55%;
-  display: flex;
-`;
-
-const TitlePlayImg = styled.img`
-  height: 18px;
-  object-fit: contain;
-`;
-
-const DateLi = styled.li`
-  width: 10.32%;
-  min-width: 58px;
-`;
-
-const TimeLi = styled.li`
-  width: 11.19%;
-  min-width: 48px;
-`;
-
-const PhoneNumberLi = styled.li`
-  width: 17.28%;
-  min-width: 82px;
-`;
-
-const MemoLi = styled.li`
-  width: 51.08%;
-  min-width: 550px;
-`;
-
-const CheckboxLi = styled.li`
-  width: 2.75%;
-  display: flex;
-`;
-
-const Checkbox = styled.input`
-  border: 2px solid #000;
-`;
-
-const TitleUl = styled.ul`
-  list-style: none;
+const TitleContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  height: 17px;
+  /* height: 40px; */
+  padding-top: 20px;
+  padding-bottom: 8px;
+  padding-left: 8px;
   font-size: 13px;
   font-weight: 600;
   color: #3a3a40;
-  margin: 0;
-  margin-bottom: 6px;
-  padding: 0;
-  /* padding-bottom: 8.5px; */
-  padding: 9.5px 0;
   border-bottom: 2px solid #3a3a40;
+  /* background-color: #ccc; */
+`;
+
+const TitlePlayImg = styled.img`
+  height: 16.5px;
+  width: 16.5px;
+  object-fit: contain;
+  margin-right: 21.75px;
+`;
+
+const SttImg = styled.img`
+  width: 18px;
+  height: 18px;
+  margin-right: 53px;
+  /* background-color: #ccc; */
+`;
+
+const DateLi = styled.span`
+  margin-right: 67px;
+`;
+
+const TimeLi = styled.span`
+  margin-right: 74px;
+`;
+
+const PhoneNumberLi = styled.span`
+  margin-right: 72px;
+`;
+
+const MemoLi = styled.span`
+  margin-right: 412px;
+`;
+
+// const CheckboxLi = styled.span`
+//   width: 2.75%;
+//   display: flex;
+// `;
+
+const Checkbox = styled.input`
+  width: 16px;
+  height: 16px;
+  border: 2px solid #707070;
 `;
 
 const ListTitleComponent = (props: any) => {
@@ -74,22 +72,19 @@ const ListTitleComponent = (props: any) => {
   }, [isAllChecked]);
 
   return (
-    <TitleUl>
-      <TitlePlayeLi>
-        <TitlePlayImg src={titlePlayImg} />
-      </TitlePlayeLi>
+    <TitleContainer>
+      <TitlePlayImg src={titlePlayImg} />
+      <SttImg src={sttTitleImg} />
       <DateLi>Date</DateLi>
       <TimeLi>Time</TimeLi>
       <PhoneNumberLi>Phone number</PhoneNumberLi>
       <MemoLi>#</MemoLi>
-      <CheckboxLi>
-        <Checkbox
-          type="checkbox"
-          checked={bChecked}
-          onChange={(e) => checkHandler(e)}
-        />
-      </CheckboxLi>
-    </TitleUl>
+      <Checkbox
+        type="checkbox"
+        checked={bChecked}
+        onChange={(e) => checkHandler(e)}
+      />
+    </TitleContainer>
   );
 };
 

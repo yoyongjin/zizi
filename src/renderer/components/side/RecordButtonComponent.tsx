@@ -6,6 +6,7 @@ import Record from 'renderer/utils/Record';
 import { recordToggle } from '../../store/recordSlice';
 import StopWatch from './StopWatch';
 import recordImg from '../../../../assets/rec_sta@2x.png';
+import ZiBox from '../../zibox';
 
 interface PhoneNumberInputProps {
   toggle: boolean;
@@ -202,6 +203,17 @@ const RecordButtonComponent = () => {
   }, []);
 
   const toggleRecord = async () => {
+    // if (ZiBox.getInstance().checkRecStatus()) {
+    //   dispatch(recordToggle(false));
+    //   setManualRecord(false);
+    //   await ZiBox.getInstance().recordingStop();
+    // } else {
+    //   setManualRecord(true);
+    //   dispatch(recordToggle(true));
+    //   await ZiBox.getInstance().recordingStart(`${Date.now()}.wav`);
+    // }
+    // console.log(`2RecStatus: ${ZiBox.getInstance().checkRecStatus()}`);
+
     if (!recorder.current.recording) {
       setManualRecord(true);
       dispatch(recordToggle(true));

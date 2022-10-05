@@ -1,5 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import {
+  sttModalToggle,
+  setSttModalFileName,
+} from 'renderer/store/sttModalSlice';
 import logoImg from '../../../../assets/zibox2_logo@3x.png';
 import hideImg from '../../../../assets/hide@3x.png';
 import closeImg from '../../../../assets/close@3x.png';
@@ -61,6 +66,22 @@ const CloseButton = styled.img`
 `;
 
 const STTHeader = () => {
+  const dispatch = useDispatch();
+
+  const sttModalHandler = () => {
+    console.log(
+      '-------------------------------------------window fullscreen off'
+    );
+    window.windowChannel.windowFullScreenToMain(false);
+    dispatch(sttModalToggle(false));
+  };
+
+  const windowMinimize = () => {
+    // currentWindow.minimize();
+    console.log('-------------------------------------------window minimize..');
+    window.windowChannel.windowMinimizeToMain();
+  };
+
   return (
     <HeaderContainer>
       <TitleContainer>
@@ -68,7 +89,13 @@ const STTHeader = () => {
         <STTspan>STT</STTspan>
       </TitleContainer>
       <WindowBtnContainer>
-        <HideButton src={hideImg} /> <CloseButton src={closeImg} />
+        <HideButton src={hideImg} onClick={windowMinimize} />
+        <CloseButton
+          src={closeImg}
+          onClick={() => {
+            sttModalHandler();
+          }}
+        />
       </WindowBtnContainer>
     </HeaderContainer>
   );

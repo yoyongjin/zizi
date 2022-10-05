@@ -82,6 +82,18 @@ const TimeDiv = styled.div`
   width: fit-content;
 `;
 
+const STTBtn = styled.button`
+  width: 63px;
+  height: 24px;
+  border: 1px solid #707070;
+  border-radius: 8px;
+  background-color: #28bfde;
+  font: 13px Segoe UI;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+`;
+
 const ConnectComponent = () => {
   return (
     <>
@@ -100,6 +112,7 @@ const ConnectComponent = () => {
         <RecordImg src={recordImg} />
         {/* <TimeDiv>03:24</TimeDiv> */}
         <StopWatch />
+        <STTBtn>STT</STTBtn>
       </RecordingTimeContainer>
       {/* 여기 STT 버튼 */}
     </>

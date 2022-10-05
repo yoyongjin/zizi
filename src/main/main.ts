@@ -623,7 +623,9 @@ ipcMain.on('send-window-minimize', async (event) => {
 });
 
 ipcMain.on('send-window-fullscreen', async (event, mode: boolean) => {
-  console.log('-------------------------------------------window fullscreen..');
+  console.log(
+    '-------------------------------------------window fullscreen change'
+  );
   if (mainWindow) mainWindow.setFullScreen(mode);
   // if (childWindow) childWindow.show();
   // const childWindow2 = window.open('', 'modal');
