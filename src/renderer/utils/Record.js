@@ -80,27 +80,27 @@ class Record {
         console.log('--------------leftBuffer.length: ', leftBuffer.length);
         console.log('--------------rightBuffer.length: ', rightBuffer.length);
 
-        if (count < 10) {
-          count += 1;
-        } else {
-          const packet = {
-            left: leftBuffer,
-            right: rightBuffer,
-          };
-          console.log('--------------packet:', packet);
-          this.ziboxPacket.sendSTTPacket(packet, true);
+        // if (count < 10) {
+        //   count += 1;
+        // } else {
+        //   const packet = {
+        //     left: leftBuffer,
+        //     right: rightBuffer,
+        //   };
+        //   console.log('--------------packet:', packet);
+        //   this.ziboxPacket.sendSTTPacket(packet, true);
 
-          leftBuffer.length = 0;
-          rightBuffer.length = 0;
-          count = 0;
-        }
+        //   leftBuffer.length = 0;
+        //   rightBuffer.length = 0;
+        //   count = 0;
+        // }
 
-        // const packet = {
-        //   left,
-        //   right,
-        // };
+        const packet = {
+          left,
+          right,
+        };
 
-        // this.ziboxPacket.sendSTTPacket(packet, true);
+        this.ziboxPacket.sendSTTPacket(packet, true);
       } else {
         // eslint-disable-next-line no-lonely-if
         if (!closed) {
@@ -190,7 +190,8 @@ class Record {
     devicesInfo.forEach((device) => {
       if (
         device.kind === 'audioinput' &&
-        device.label.indexOf('ZIBOX2') >= 0 &&
+        // device.label.indexOf('ZIBOX2') >= 0 &&
+        device.label.indexOf('USB') >= 0 &&
         device.deviceId.indexOf('default') < 0 &&
         device.deviceId.indexOf('communications') < 0
       ) {

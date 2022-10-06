@@ -167,6 +167,12 @@ contextBridge.exposeInMainWorld('recordChannel', {
       callback(data);
     });
   },
+  // recordStart: (userKey: string) => {
+  //   ipcRenderer.once('send-window-fullscreen', () => {
+  //     console.log(`preload send-window-fullscreen:`);
+  //   });
+  //   ipcRenderer.send('send-window-fullscreen', mode);
+  // },
 });
 
 export type ConnectChannel = 'connectChannel';

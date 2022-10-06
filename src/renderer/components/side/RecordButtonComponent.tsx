@@ -170,6 +170,8 @@ const RecordButtonComponent = () => {
     if (init.current) return;
     init.current = true;
     if (!manualRecord) {
+      // window.windowChannel.windowCloseToMain();
+
       window.recordChannel.startRecord(
         'send-record-start',
         async (userKey: string) => {
