@@ -1,7 +1,7 @@
 const toWav = require('audiobuffer-to-wav');
 require('../zibox-packet-bundle');
 
-const SAMPLE_RATE = 48000;
+const SAMPLE_RATE = 16000;
 
 class Record {
   constructor() {
