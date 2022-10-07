@@ -21,14 +21,14 @@ class Record {
   }
 
   onSTTEvent() {
-    this.ziboxPacket.onSTTEventListener = (channel, script, isFinal) => {
-      console.log('onSTTEventListener..');
-      console.log(channel, script, isFinal); // 여기가 결과 값
+    this.ziboxPacket.onSTTEventListener = (data) => {
+      console.log('onSTTEventListener..', data);
+
+      const { channel, endTime, isFinal, languageCode, script } = data;
     };
 
     this.ziboxPacket.onSocketEventListener = (data, type) => {
-      console.log('onSocketEventListener..');
-      console.log(data, type);
+      console.log('onSocketEventListener..', data, type);
 
       switch (type) {
         case 'connect':
