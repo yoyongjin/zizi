@@ -15,6 +15,12 @@ class Record {
 
     this.startDate = null;
 
+    this.fileName = null;
+
+    this.sttLeftData = '';
+
+    this.sttRightData = '';
+
     this.ziboxPacket = new window.ZiBoxPlayer('https://dev.zibox.celering.io');
 
     this.onSTTEvent();
@@ -25,6 +31,41 @@ class Record {
       console.log('onSTTEventListener..', data);
 
       const { channel, endTime, isFinal, languageCode, script } = data;
+
+      if (true) {
+        console.log(`STTEvent: ${channel}, ${endTime}, ${script}`);
+
+        if (channel === 'left') {
+          this.sttLeftData += script;
+          // this.sttLeftData += '\r\n';
+          // this.sttLeftData.concat(script);
+          console.log('%%%%%%%%%%%add left : ', this.sttLeftData);
+        } else {
+          this.sttRightData += script;
+          // this.sttRightData += '\r\n';
+          // this.sttRightData.concat(script);
+          console.log('%%%%%%%%%%%add right : ', this.sttRightData);
+        }
+
+        const sttRealTimeEvent = new CustomEvent('sttRealTimeEvent', {
+          detail: {
+            channel,
+            endTime,
+            script,
+            isFinal,
+          },
+        });
+        window.dispatchEvent(sttRealTimeEvent);
+
+        // window
+        //   .sendSttData(channel, endTime, script)
+        //   .then(() => {
+        //     return true;
+        //   })
+        //   .catch((err) => {
+        //     console.error(err);
+        //   });
+      }
     };
 
     this.ziboxPacket.onSocketEventListener = (data, type) => {
@@ -94,6 +135,7 @@ class Record {
 
   createWav(fileName) {
     // console.log('!@#$!@#$createWav');
+    // this.fileName = fileName;
     const length = this.micBuffer
       .map((lrBuffer) => lrBuffer[0])
       .reduce((p, c) => {
@@ -120,7 +162,7 @@ class Record {
     }
 
     const wav = toWav(resAudioBuffer);
-    const filePath = `\\zibox2-standard-test\\zibox2-standard\\public/${fileName}.wav`;
+    const filePath = `\\zibox2-standard\\public/${fileName}.wav`;
     // console.log(`*&^$%!@$!@$save path : ${filePath}`);
     window
       // .saveFile(`${fileName}.wav`, wav)
@@ -137,8 +179,22 @@ class Record {
 
   stop(fileName) {
     console.log('=================================Record.js stop');
+
     this.recording = false;
     this.ziboxPacket.stopSTT();
+    console.log(`STTSave: ${fileName}`);
+    const { sttLeftData, sttRightData } = this;
+    console.log(`STTSave: ${sttLeftData} |||| ${sttRightData}`);
+    console.log(`STTSave: ${this.sttLeftData} |||| ${this.sttRightData}`);
+    window
+      .saveSttFile(fileName, sttLeftData, sttRightData)
+      .then(() => {
+        return true;
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+
     setTimeout(() => {
       this.createWav(fileName);
     }, 0);

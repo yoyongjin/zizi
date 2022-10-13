@@ -607,6 +607,42 @@ ipcMain.on('save-file', async (event, fileName, buffer) => {
   });
 });
 
+// let sttLeftData = '';
+// let sttRightData = '';
+
+ipcMain.on(
+  'save-stt-file',
+  async (event, fileName, sttLeftData, sttRightData) => {
+    console.log('sttLeftData: ', sttLeftData);
+    console.log('sttRightData: ', sttRightData);
+    console.log('fileName: ', fileName);
+
+    const filePath = `\\zibox2-standard\\public/${fileName}`;
+
+    fs.writeFile(`${filePath}_left.txt`, sttLeftData, (err) => {
+      event.reply('save-stt-file', err);
+    });
+    // sttLeftData = '';
+
+    fs.writeFile(`${filePath}_right.txt`, sttRightData, (err) => {
+      event.reply('save-stt-file', err);
+    });
+    // sttRightData = '';
+});
+
+// ipcMain.on('send-stt-data', async (event, channel, endTime, script) => {
+//   console.log(`main: send-stt-data - ${channel}, ${endTime}, ${script}`);
+//   if (channel === 'left') {
+//     sttLeftData += `${script}\r\n`;
+//   } else {
+//     sttRightData += `${script}\r\n`;
+//   }
+//   if (mainWindow != null) {
+//     const datas = { channel, endTime, script };
+//     mainWindow.webContents.send('send-stt-full', datas);
+//   }
+// });
+
 ipcMain.on('send-window-close', async (event) => {
   // db.close();
   console.log('-------------------------------------------window close..');

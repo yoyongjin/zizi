@@ -6,7 +6,7 @@ export type Channels = 'ipc-example';
 contextBridge.exposeInMainWorld('getDisplayMediaId', () => {
   return new Promise((resolve) => {
     ipcRenderer.once('get-media-source-id', (_, displayMediaId) => {
-      resolve(displayMediaId); // ìŠ¤í”¼ì»¤ ìº¡ì³ ìš©ë„ í•„ìš” ì—†ì–´ì§
+      resolve(displayMediaId); // ?Š¤?”¼ì»? ìº¡ì³ ?š©?„ ?•„?š” ?—†?–´ì§?
     });
     ipcRenderer.send('get-media-source-id');
   });
@@ -27,6 +27,74 @@ contextBridge.exposeInMainWorld(
     });
   }
 );
+
+contextBridge.exposeInMainWorld(
+  'saveSttFile',
+  (fileName: string, sttLeftData: string, sttRightData: string) => {
+    console.log('@@@@@@@@@@@@@@', fileName, sttLeftData, sttRightData);
+    return new Promise((resolve, reject) => {
+      ipcRenderer.once('save-stt-file', (_, err) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(true);
+      });
+      ipcRenderer.send('save-stt-file', fileName, sttLeftData, sttRightData);
+    });
+});
+
+contextBridge.exposeInMainWorld(
+  'sendSttData',
+  (channel: string, endTime: string, script: string) => {
+    return new Promise((resolve, reject) => {
+      console.log(`perload: send-stt-data - ${channel}, ${endTime}, ${script}`);
+      ipcRenderer.once('send-stt-data', (_, err) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(true);
+      });
+      ipcRenderer.send('send-stt-data', channel, endTime, script);
+    });
+  }
+);
+
+// contextBridge.exposeInMainWorld(
+//   'sendSttFull',
+//   (channel: string, endTime: string, script: string) => {
+//     return new Promise((resolve, reject) => {
+//       console.log(`perload: send-stt-full - ${channel}, ${endTime}, ${script}`);
+//       ipcRenderer.once('send-stt-full', (_, err) => {
+//         if (err) {
+//           reject(err);
+//           return;
+//         }
+//         resolve(true);
+//       });
+//       ipcRenderer.send('send-stt-full', channel, endTime, script);
+//     });
+//   }
+// );
+
+export type SttChannel = 'sttChannel';
+
+contextBridge.exposeInMainWorld('sttChannel', {
+  sendSttFull: (datas: any, callback: any) => {
+    ipcRenderer.on('send-stt-full', (_, data) => {
+      console.log(`sttChannel - sendSttFull - send-stt-full: ${data}`);
+      callback(data);
+    });
+    // ipcRenderer.send('send-stt-full', channel, endTime, script);
+  },
+  // sendConnectY: (socketId: string | number, callback: any) => {
+  //   ipcRenderer.on('send-connect-y', (_, data) => {
+  //     console.log(`connectChannel - sendConnectY - send-connect-y: ${data}`);
+  //     callback(data);
+  //   });
+  // },
+});
 
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer: {
@@ -64,7 +132,7 @@ contextBridge.exposeInMainWorld('ipcDbChannel', {
     callback: any
   ) => {
     ipcRenderer.once('send-search-query', (_, data) => {
-      // console.log(`send-search-query - preload data: ${data}`); // ì—¬ê¸° ë Œë”ë§ í™•ì¸
+      // console.log(`send-search-query - preload data: ${data}`); // ?—¬ê¸? ? Œ?”ë§? ?™•?¸
       callback(data);
     });
     ipcRenderer.send(
@@ -198,3 +266,14 @@ contextBridge.exposeInMainWorld('connectChannel', {
     });
   },
 });
+
+// export type SttChannel = 'sttChannel';
+
+// contextBridge.exposeInMainWorld('sttChannel', {
+//   sendSttData: (endTime: string, script: string) => {
+//     ipcRenderer.once('send-stt-data', (_, data) => {
+//       console.log(`send-stt-data - preload data: ${data}`);
+//     });
+//     ipcRenderer.send('send-stt-data', endTime, script);
+//   },
+// });

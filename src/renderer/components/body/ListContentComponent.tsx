@@ -160,7 +160,7 @@ const ListContentComponent = (props: any) => {
     if (phoneNumber.length === 9 && phoneNumber.startsWith('03' || '06')) {
       return phoneNumber.replace(/(\d{2})(\d{3})(\d{4})/, '$1-$2-$3');
     }
-    if (phoneNumber.length === 9 && !phoneNumber.startsWith('03' || '06')) {
+    else if (phoneNumber.length === 9 && !phoneNumber.startsWith('03' || '06')) {
       return phoneNumber.replace(/(\d{3})(\d{2})(\d{4})/, '$1-$2-$3');
     }
     if (phoneNumber.length === 10 && phoneNumber.startsWith('03' || '06')) {
@@ -190,6 +190,7 @@ const ListContentComponent = (props: any) => {
     if (phoneNumber.length === 14) {
       return phoneNumber.replace(/(\d{4})(\d{5})(\d{5})/, '$1-$2-$3');
     }
+    return phoneNumber;
   };
 
   // const modalToggleHandler = () => {

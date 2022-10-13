@@ -65,6 +65,14 @@ declare global {
       sendConnectY(socketId: string, callback: any): void;
       sendConnectN(socketId: string, callback: any): void;
     };
+    sttChannel: {
+      sendSttFull(
+        // channel: string,
+        // endTime: string,
+        datas: any,
+        callback: any
+      ): void;
+    };
   }
 }
 

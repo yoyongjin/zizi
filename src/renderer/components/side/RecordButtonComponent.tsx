@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Record from 'renderer/utils/Record';
+import {
+  sttModalToggle,
+  setSttModalFileName,
+} from 'renderer/store/sttModalSlice';
 import { recordToggle } from '../../store/recordSlice';
 import StopWatch from './StopWatch';
 import recordImg from '../../../../assets/rec_sta@2x.png';
@@ -126,6 +130,8 @@ const STTBtn = styled.button`
   color: #fff;
 
   opacity: 1;
+
+  cursor: pointer;
 `;
 
 const RecordButtonComponent = () => {
@@ -288,6 +294,16 @@ const RecordButtonComponent = () => {
   //     );
   //   }
   // }, [phoneNumeberInputValue]);
+
+  const sttModalHandler = (fileName: string) => {
+    console.log(
+      '-------------------------------------------window fullscreen on'
+    );
+    window.windowChannel.windowFullScreenToMain(true);
+    dispatch(setSttModalFileName(fileName));
+    dispatch(sttModalToggle(true));
+  };
+
   return (
     <>
       {manualRecord ? (
@@ -299,7 +315,13 @@ const RecordButtonComponent = () => {
               <StopWatch />
             </RecordingTimeContainer>
 
-            <STTBtn>STT</STTBtn>
+            <STTBtn
+              onClick={() => {
+                sttModalHandler('');
+              }}
+            >
+              STT
+            </STTBtn>
           </RecordWithSTTContainer>
           <PhoneNumberDiv>
             <PhoneNumberSpan>Phone number</PhoneNumberSpan>
