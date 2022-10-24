@@ -94,6 +94,7 @@ class Record {
   }
 
   connect(ctx, stream, buffer) {
+    // this.micCtx, micStream, this.micBuffer
     console.log('=================================Record.js connect');
 
     const source = ctx.createMediaStreamSource(stream);
@@ -204,6 +205,10 @@ class Record {
     console.log('=================================Record.js start');
     this.startDate = new Date();
     this.ziboxPacket.startSTT();
+    this.sttLeftBuffer = [];
+    this.sttRightBuffer = [];
+    this.sttLeftData = '';
+    this.sttRightData = '';
 
     this.micCtx = new AudioContext({
       sampleRate: SAMPLE_RATE,

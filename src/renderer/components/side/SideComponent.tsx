@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
+import Record from 'renderer/utils/Record';
 import { connectToggle } from '../../store/connectSlice';
 import DisConnectComponent from './DisConnectComponent';
 import ConnectComponent from './ConnectComponent';
@@ -68,7 +69,8 @@ const PathDiv2 = styled.div`
 const SideComponent = (props: any) => {
   const dispatch = useDispatch();
   const [ip, setIp] = useState('');
-
+  const init = React.useRef<boolean>(false);
+  const recorder = React.useRef<any>(new Record());
   // const recordState = useSelector((state: any) => {
   //   return state.recorder.recordState;
   // });
@@ -95,12 +97,17 @@ const SideComponent = (props: any) => {
   });
 
   // console.log(`SideComponent.tsx - Record state: ${recordState}`);
-  console.log(`SideComponent.tsx - Connect state: ${connectState}`);
+  console.log(`SideComponent.tsx Rendering.. - Connect state: ${connectState}`);
 
   return (
     <SideDiv connectState={connectState}>
       {connectState ? <ConnectComponent /> : <DisConnectComponent />}
-      {connectState ? '' : <RecordButtonComponent />}
+      {connectState ? (
+        ''
+      ) : (
+        <RecordButtonComponent init={init} recorder={recorder} />
+        // <RecordButtonComponent />
+      )}
 
       <IpDiv>IP Address : {ip}</IpDiv>
       <PathDiv1>Recording file storage :</PathDiv1>

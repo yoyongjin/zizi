@@ -134,7 +134,7 @@ const STTBtn = styled.button`
   cursor: pointer;
 `;
 
-const RecordButtonComponent = () => {
+const RecordButtonComponent = (props: any) => {
   const [manualRecord, setManualRecord] = useState(false);
   const inputPhonenumber = useRef(null);
   const inputMemo = useRef(null);
@@ -150,8 +150,9 @@ const RecordButtonComponent = () => {
 
   console.log(`RecordButtonComponent.tsx - Record state: ${recordState}`);
 
-  const init = React.useRef<boolean>(false);
-  const recorder = React.useRef<any>(new Record());
+  const { init, recorder } = props;
+  // const init = React.useRef<boolean>(false);
+  // const recorder = React.useRef<any>(new Record());
 
   const dateFormat = (nowDate: Date) => {
     console.log('type:', typeof nowDate);
