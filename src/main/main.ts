@@ -579,7 +579,7 @@ ipcMain.on(
 ipcMain.on('send-delete-query', (event: IpcMainEvent, ids: Array) => {
   console.log('ipcMain.on - send-deleteCall => param from renderer : ', ids);
   let result = 0;
-  ids.map((id, index) => {
+  ids.map((id: any, index: number) => {
     db.run('DELETE FROM tb_call WHERE id=?', [id], function (this, err) {
       console.log('this.changes:', this.changes);
       if (err) {
@@ -610,24 +610,19 @@ ipcMain.on('save-file', async (event, fileName, buffer) => {
 // let sttLeftData = '';
 // let sttRightData = '';
 
-ipcMain.on(
-  'save-stt-file',
-  async (event, fileName, sttLeftData, sttRightData) => {
-    console.log('sttLeftData: ', sttLeftData);
-    console.log('sttRightData: ', sttRightData);
-    console.log('fileName: ', fileName);
+ipcMain.on('save-stt-file', async (event, filePath, sttBuffer) => {
+  console.log('save-stt-file : filePath: ', filePath);
+  console.log(sttBuffer);
 
-    const filePath = `\\zibox2-standard\\public/${fileName}`;
-
-    fs.writeFile(`${filePath}_left.txt`, sttLeftData, (err) => {
-      event.reply('save-stt-file', err);
-    });
-    // sttLeftData = '';
-
-    fs.writeFile(`${filePath}_right.txt`, sttRightData, (err) => {
-      event.reply('save-stt-file', err);
-    });
-    // sttRightData = '';
+  let content = '';
+  sttBuffer.map((sttData: { ts: any; channel: string; script: any }) => {
+    content += `${sttData.ts}|${
+      sttData.channel === 'left' ? 'speaker1' : 'speaker2'
+    }|${sttData.script.trim()}\r\n`;
+  });
+  fs.writeFile(filePath, content, (err) => {
+    event.reply('save-stt-file', err);
+  });
 });
 
 // ipcMain.on('send-stt-data', async (event, channel, endTime, script) => {

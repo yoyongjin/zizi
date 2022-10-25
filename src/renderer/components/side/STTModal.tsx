@@ -25,7 +25,9 @@ type STTData = {
 };
 
 const STTModal = () => {
+  // const STTModal = (props) => {
   const dispatch = useDispatch();
+  // const { recorder } = props;
   const sttModalState = useSelector((state: any) => {
     return state.sttModaler.sttModalState;
   });
@@ -37,7 +39,7 @@ const STTModal = () => {
     dispatch(sttModalToggle(false));
     window.windowChannel.windowFullScreenToMain(false);
   };
-  console.log('Modal sttModalFileName:', sttModalFileName);
+  // console.log('Modal sttModalFileName:', sttModalFileName);
 
   const [sttLeftData, setSttLeftData] = useState<STTData[]>([]);
   const [sttRightData, setSttRightData] = useState<STTData[]>([]);
@@ -49,9 +51,6 @@ const STTModal = () => {
 
   useEffect(() => {
     const onSttRealTimeEvent = (e: any) => {
-      // console.dir(`***********STTEvent1`);
-      // console.dir(e);
-      // console.log(e);
       console.log(`***********sttRealTimeEvent***********`);
 
       const { channel, endTime, script, isFinal } = e.detail;
@@ -112,6 +111,26 @@ const STTModal = () => {
     return filtered;
   }, [sttLeftData, sttRightData]);
 
+  const recordState = useSelector((state: any) => {
+    return state.recorder.recordState;
+  });
+
+  useEffect(() => {
+    if (!recordState) {
+      setSttLeftData([]);
+      setSttRightData([]);
+    }
+  }, [recordState]);
+
+  // 1. 녹취 끝났음을 감지
+  // 2. dataToPrint를 json으로
+  // 3. json을 main으로
+  // 4. dataToPrint 초기화
+  // 5. main에서 DB insert
+  // 6. 리스트에서 stt버튼 클릭시 main으로
+  // 7. main에서 DB select
+  // 8. select한 json을 다시 객체화
+  // 9. FullSTTPage.tsx에서 출력
   return (
     <ReactModal
       isOpen={sttModalState}
@@ -146,6 +165,7 @@ const STTModal = () => {
         },
       }}
     >
+      {/* <FullSTTPage recorder={recorder} /> */}
       <FullSTTPage filteredData={dataToPrint} />
     </ReactModal>
   );

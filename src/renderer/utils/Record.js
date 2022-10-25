@@ -17,6 +17,8 @@ class Record {
 
     this.fileName = null;
 
+    this.sttBuffer = [];
+
     this.sttLeftData = '';
 
     this.sttRightData = '';
@@ -26,45 +28,64 @@ class Record {
     this.onSTTEvent();
   }
 
+  getSTTBuffer() {
+    return this.sttBuffer;
+  }
+
+  dateFormat = (nowDate) => {
+    console.log('type:', typeof nowDate);
+    return `${nowDate.getFullYear()}.${
+      nowDate.getMonth() + 1 < 10
+        ? `0${nowDate.getMonth() + 1}`
+        : nowDate.getMonth() + 1
+    }.${nowDate.getDate() < 10 ? `0${nowDate.getDate()}` : nowDate.getDate()} ${
+      nowDate.getHours() < 10 ? `0${nowDate.getHours()}` : nowDate.getHours()
+    }:${
+      nowDate.getMinutes() < 10
+        ? `0${nowDate.getMinutes()}`
+        : nowDate.getMinutes()
+    }:${
+      nowDate.getSeconds() < 10
+        ? `0${nowDate.getSeconds()}`
+        : nowDate.getSeconds()
+    }`;
+  };
+
   onSTTEvent() {
     this.ziboxPacket.onSTTEventListener = (data) => {
       console.log('onSTTEventListener..', data);
 
       const { channel, endTime, isFinal, languageCode, script } = data;
-
+      const ts = this.dateFormat(new Date());
       if (true) {
+        // if (isFinal) {
         console.log(`STTEvent: ${channel}, ${endTime}, ${script}`);
 
-        if (channel === 'left') {
-          this.sttLeftData += script;
-          // this.sttLeftData += '\r\n';
-          // this.sttLeftData.concat(script);
-          console.log('%%%%%%%%%%%add left : ', this.sttLeftData);
-        } else {
-          this.sttRightData += script;
-          // this.sttRightData += '\r\n';
-          // this.sttRightData.concat(script);
-          console.log('%%%%%%%%%%%add right : ', this.sttRightData);
+        if (isFinal) {
+          const sttData = {
+            channel,
+            ts,
+            script,
+          };
+
+          this.sttBuffer.push(sttData);
+          // this.sttBuffer = [...this.sttBuffer, sttData];
+
+          // console.log(this.sttBuffer);
         }
 
         const sttRealTimeEvent = new CustomEvent('sttRealTimeEvent', {
           detail: {
             channel,
-            endTime,
+            ts,
             script,
             isFinal,
           },
+          // detail: {
+          //   sttBuffer: this.sttBuffer,
+          // },
         });
         window.dispatchEvent(sttRealTimeEvent);
-
-        // window
-        //   .sendSttData(channel, endTime, script)
-        //   .then(() => {
-        //     return true;
-        //   })
-        //   .catch((err) => {
-        //     console.error(err);
-        //   });
       }
     };
 
@@ -178,23 +199,33 @@ class Record {
       });
   }
 
-  stop(fileName) {
-    console.log('=================================Record.js stop');
-
-    this.recording = false;
-    this.ziboxPacket.stopSTT();
-    console.log(`STTSave: ${fileName}`);
-    const { sttLeftData, sttRightData } = this;
-    console.log(`STTSave: ${sttLeftData} |||| ${sttRightData}`);
-    console.log(`STTSave: ${this.sttLeftData} |||| ${this.sttRightData}`);
+  createStt(fileName) {
+    // console.log('!@#$!@#$createStt');
+    console.log(this.sttBuffer);
+    // this.fileName = fileName;
+    const filePath = `\\zibox2-standard\\public/${fileName}.txt`;
     window
-      .saveSttFile(fileName, sttLeftData, sttRightData)
+      // .saveSttFile(fileName, sttLeftData, sttRightData)
+      .saveSttFile(filePath, this.sttBuffer)
       .then(() => {
         return true;
       })
       .catch((err) => {
         console.error(err);
       });
+  }
+
+  stop(fileName) {
+    console.log('=================================Record.js stop');
+
+    this.recording = false;
+    this.ziboxPacket.stopSTT();
+    console.log(`STTSave: ${fileName}`);
+    // console.log(this.sttBuffer);
+
+    setTimeout(() => {
+      this.createStt(fileName);
+    }, 0);
 
     setTimeout(() => {
       this.createWav(fileName);
@@ -215,6 +246,8 @@ class Record {
     });
 
     this.micBuffer = [];
+
+    this.sttBuffer = [];
 
     this.recording = true;
 

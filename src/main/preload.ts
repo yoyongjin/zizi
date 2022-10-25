@@ -6,7 +6,7 @@ export type Channels = 'ipc-example';
 contextBridge.exposeInMainWorld('getDisplayMediaId', () => {
   return new Promise((resolve) => {
     ipcRenderer.once('get-media-source-id', (_, displayMediaId) => {
-      resolve(displayMediaId); // ?Š¤?”¼ì»? ìº¡ì³ ?š©?„ ?•„?š” ?—†?–´ì§?
+      resolve(displayMediaId); // ?ï¿½ï¿½?ï¿½ï¿½ï¿½? ìº¡ì³ ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ï¿½?
     });
     ipcRenderer.send('get-media-source-id');
   });
@@ -30,8 +30,10 @@ contextBridge.exposeInMainWorld(
 
 contextBridge.exposeInMainWorld(
   'saveSttFile',
-  (fileName: string, sttLeftData: string, sttRightData: string) => {
-    console.log('@@@@@@@@@@@@@@', fileName, sttLeftData, sttRightData);
+  // (fileName: string, sttLeftData: string, sttRightData: string) => {
+  (filePath: string, sttBuffer: Array) => {
+    console.log('@@@@@@@@@@@@@@', filePath);
+    console.log(sttBuffer);
     return new Promise((resolve, reject) => {
       ipcRenderer.once('save-stt-file', (_, err) => {
         if (err) {
@@ -40,9 +42,10 @@ contextBridge.exposeInMainWorld(
         }
         resolve(true);
       });
-      ipcRenderer.send('save-stt-file', fileName, sttLeftData, sttRightData);
+      ipcRenderer.send('save-stt-file', filePath, sttBuffer);
     });
-});
+  }
+);
 
 contextBridge.exposeInMainWorld(
   'sendSttData',
@@ -132,7 +135,7 @@ contextBridge.exposeInMainWorld('ipcDbChannel', {
     callback: any
   ) => {
     ipcRenderer.once('send-search-query', (_, data) => {
-      // console.log(`send-search-query - preload data: ${data}`); // ?—¬ê¸? ? Œ?”ë§? ?™•?¸
+      // console.log(`send-search-query - preload data: ${data}`); // ?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½
       callback(data);
     });
     ipcRenderer.send(
@@ -177,6 +180,13 @@ contextBridge.exposeInMainWorld('ipcDbChannel', {
       callback(data);
     });
     ipcRenderer.send('send-delete-query', ids);
+  },
+  insertSttQureyToMain: (filteredData: any, callback: any) => {
+    ipcRenderer.once('send-stt-insert-query', (_, data) => {
+      console.log(`send-stt-insert-query - preload data: ${data}`);
+      callback(data);
+    });
+    ipcRenderer.send('send-stt-insert-query', filteredData);
   },
 });
 

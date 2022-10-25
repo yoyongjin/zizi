@@ -2,7 +2,8 @@
 import styled from 'styled-components';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Record from 'renderer/utils/Record';
+// import Record from 'renderer/utils/Record';
+import recordSingleton from 'renderer/utils/RecordSingleton';
 import {
   sttModalToggle,
   setSttModalFileName,
@@ -134,6 +135,7 @@ const STTBtn = styled.button`
   cursor: pointer;
 `;
 
+// const RecordButtonComponent = (props: any) => {
 const RecordButtonComponent = (props: any) => {
   const [manualRecord, setManualRecord] = useState(false);
   const inputPhonenumber = useRef(null);
@@ -150,9 +152,10 @@ const RecordButtonComponent = (props: any) => {
 
   console.log(`RecordButtonComponent.tsx - Record state: ${recordState}`);
 
-  const { init, recorder } = props;
-  // const init = React.useRef<boolean>(false);
+  // const { init, recorder } = props;
+  const init = React.useRef<boolean>(false);
   // const recorder = React.useRef<any>(new Record());
+  const recorder = React.useRef<any>(recordSingleton.getInstance());
 
   const dateFormat = (nowDate: Date) => {
     console.log('type:', typeof nowDate);
@@ -234,6 +237,7 @@ const RecordButtonComponent = (props: any) => {
         setManualRecord(false);
 
         const filename = dateFormat(new Date());
+        // console.log(recorder.current.sttBuffer);
         recorder.current.stop(filename);
 
         const startDate = dateFormat(recorder.current.startDate);

@@ -2,11 +2,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import Record from 'renderer/utils/Record';
+// import Record from 'renderer/utils/Record';
+// import recordSingleton from 'renderer/utils/RecordSingleton';
 import { connectToggle } from '../../store/connectSlice';
 import DisConnectComponent from './DisConnectComponent';
 import ConnectComponent from './ConnectComponent';
 import RecordButtonComponent from './RecordButtonComponent';
+import STTModal from './STTModal';
 
 interface SideDivProps {
   connectState: boolean;
@@ -69,8 +71,9 @@ const PathDiv2 = styled.div`
 const SideComponent = (props: any) => {
   const dispatch = useDispatch();
   const [ip, setIp] = useState('');
-  const init = React.useRef<boolean>(false);
-  const recorder = React.useRef<any>(new Record());
+  // const init = React.useRef<boolean>(false);
+  // // const recorder = React.useRef<any>(new Record());
+  // const recorder = recordSingleton.getInstance();
   // const recordState = useSelector((state: any) => {
   //   return state.recorder.recordState;
   // });
@@ -105,13 +108,15 @@ const SideComponent = (props: any) => {
       {connectState ? (
         ''
       ) : (
-        <RecordButtonComponent init={init} recorder={recorder} />
-        // <RecordButtonComponent />
+        // <RecordButtonComponent init={init} recorder={recorder} />
+        <RecordButtonComponent />
       )}
 
       <IpDiv>IP Address : {ip}</IpDiv>
       <PathDiv1>Recording file storage :</PathDiv1>
       <PathDiv2>D:\zibox2-standard-test\zibox2-standard\public</PathDiv2>
+      <STTModal />
+      {/* <STTModal recorder={recorder} /> */}
     </SideDiv>
   );
 };
