@@ -160,7 +160,7 @@ const ListContentComponent = (props: any) => {
     if (phoneNumber.length === 9 && phoneNumber.startsWith('03' || '06')) {
       return phoneNumber.replace(/(\d{2})(\d{3})(\d{4})/, '$1-$2-$3');
     }
-    else if (phoneNumber.length === 9 && !phoneNumber.startsWith('03' || '06')) {
+    if (phoneNumber.length === 9 && !phoneNumber.startsWith('03' || '06')) {
       return phoneNumber.replace(/(\d{3})(\d{2})(\d{4})/, '$1-$2-$3');
     }
     if (phoneNumber.length === 10 && phoneNumber.startsWith('03' || '06')) {
@@ -210,7 +210,7 @@ const ListContentComponent = (props: any) => {
       '-------------------------------------------window fullscreen on'
     );
     window.windowChannel.windowFullScreenToMain(true);
-    dispatch(setSttModalFileName(fileName));
+    dispatch(setSttModalFileName(`${fileName}.wav`));
     dispatch(sttModalToggle(true));
   };
 
@@ -229,7 +229,7 @@ const ListContentComponent = (props: any) => {
         src={playImg}
         onClick={() => {
           dispatch(callPlayerToggle(true));
-          dispatch(setCallPlayerFileName(data.filename));
+          dispatch(setCallPlayerFileName(`${data.filename}.wav`));
         }}
       />
       {/* <PlayImg src={playImg} onClick={testFn} /> */}
@@ -248,7 +248,7 @@ const ListContentComponent = (props: any) => {
       {/* <button onClick={screen.enter}>STT</button> */}
       <STTBtn
         onClick={() => {
-          sttModalHandler(data.filename);
+          sttModalHandler(`${data.filename}.wav`);
         }}
       >
         <img src={sttImg} />

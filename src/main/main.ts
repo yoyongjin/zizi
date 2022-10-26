@@ -353,7 +353,7 @@ io.on('connection', (socket: any) => {
                 //   7
                 // )}-${callObj.remoteNumber.substring(7, 11)}`,
                 `${callObj.remoteNumber}`,
-                `${fileName}.wav`,
+                `${fileName}`,
                 '',
               ],
               function (err) {
@@ -539,7 +539,7 @@ ipcMain.on(
 
     db.run(
       'INSERT INTO tb_call(date, time, phoneNumber, filename, memo) VALUES(?, ?, ?, ?, ?)',
-      [date, time, phonenumber, `${filename}.wav`, memo],
+      [date, time, phonenumber, filename, memo],
       function (this, err) {
         console.log('this.changes:', this.changes);
         if (err) {
@@ -610,8 +610,8 @@ ipcMain.on('save-file', async (event, fileName, buffer) => {
 // let sttLeftData = '';
 // let sttRightData = '';
 
-ipcMain.on('save-stt-file', async (event, filePath, sttBuffer) => {
-  console.log('save-stt-file : filePath: ', filePath);
+ipcMain.on('save-stt-file', async (event, fileName, sttBuffer) => {
+  console.log('save-stt-file : filePath: ', fileName);
   console.log(sttBuffer);
 
   let content = '';
@@ -620,7 +620,7 @@ ipcMain.on('save-stt-file', async (event, filePath, sttBuffer) => {
       sttData.channel === 'left' ? 'speaker1' : 'speaker2'
     }|${sttData.script.trim()}\r\n`;
   });
-  fs.writeFile(filePath, content, (err) => {
+  fs.writeFile(fileName, content, (err) => {
     event.reply('save-stt-file', err);
   });
 });

@@ -31,8 +31,8 @@ contextBridge.exposeInMainWorld(
 contextBridge.exposeInMainWorld(
   'saveSttFile',
   // (fileName: string, sttLeftData: string, sttRightData: string) => {
-  (filePath: string, sttBuffer: Array) => {
-    console.log('@@@@@@@@@@@@@@', filePath);
+  (fileName: string, sttBuffer: Array) => {
+    console.log('@@@@@@@@@@@@@@', fileName);
     console.log(sttBuffer);
     return new Promise((resolve, reject) => {
       ipcRenderer.once('save-stt-file', (_, err) => {
@@ -42,7 +42,7 @@ contextBridge.exposeInMainWorld(
         }
         resolve(true);
       });
-      ipcRenderer.send('save-stt-file', filePath, sttBuffer);
+      ipcRenderer.send('save-stt-file', fileName, sttBuffer);
     });
   }
 );
