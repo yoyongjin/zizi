@@ -638,6 +638,20 @@ ipcMain.on('save-stt-file', async (event, fileName, sttBuffer) => {
 //   }
 // });
 
+ipcMain.on('get-stt-data', async (event, fileName) => {
+  console.log(`main: get-stt-data - ${fileName}`);
+  console.log(`public\\${fileName}`);
+
+  fs.readFile(`public\\${fileName}`, 'utf8', (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(data);
+      event.reply('get-stt-data', data);
+    }
+  });
+});
+
 ipcMain.on('send-window-close', async (event) => {
   // db.close();
   console.log('-------------------------------------------window close..');

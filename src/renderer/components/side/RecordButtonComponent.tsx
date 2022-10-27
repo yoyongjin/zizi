@@ -7,6 +7,7 @@ import recordSingleton from 'renderer/utils/RecordSingleton';
 import {
   sttModalToggle,
   setSttModalFileName,
+  setSttModalMode,
 } from 'renderer/store/sttModalSlice';
 import { recordToggle } from '../../store/recordSlice';
 import StopWatch from './StopWatch';
@@ -306,6 +307,7 @@ const RecordButtonComponent = (props: any) => {
     );
     window.windowChannel.windowFullScreenToMain(true);
     dispatch(setSttModalFileName(fileName));
+    dispatch(setSttModalMode('REALTIME'));
     dispatch(sttModalToggle(true));
   };
 

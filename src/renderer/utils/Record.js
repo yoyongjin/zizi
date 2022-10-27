@@ -23,7 +23,8 @@ class Record {
 
     this.sttRightData = '';
 
-    this.ziboxPacket = new window.ZiBoxPlayer('https://dev.zibox.celering.io');
+    // this.ziboxPacket = new window.ZiBoxPlayer('https://dev.zibox.celering.io');
+    this.ziboxPacket = new window.ZiBoxPlayer('http://127.0.0.1:5001');
 
     this.onSTTEvent();
   }
@@ -186,6 +187,7 @@ class Record {
     const wav = toWav(resAudioBuffer);
     const filePath = `\\zibox2-standard\\public/${fileName}.wav`;
     // console.log(`*&^$%!@$!@$save path : ${filePath}`);
+
     window
       // .saveFile(`${fileName}.wav`, wav)
       .saveFile(filePath, wav)

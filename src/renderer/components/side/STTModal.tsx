@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { sttModalToggle } from 'renderer/store/sttModalSlice';
 import FullSTTPage from './FullSTTPage';
+import FUllSTTFilePage from './FullSTTFilePage';
 import closeImg from '../../../../assets/close@3x.png';
 
 const CloseButton = styled.button`
@@ -34,12 +35,16 @@ const STTModal = () => {
   const sttModalFileName = useSelector((state: any) => {
     return state.sttModaler.sttModalFileName;
   });
+  const sttModalMode = useSelector((state: any) => {
+    return state.sttModaler.sttModalMode;
+  });
+
   const closeHandler = () => {
     console.log('closeHandler..');
     dispatch(sttModalToggle(false));
     window.windowChannel.windowFullScreenToMain(false);
   };
-  // console.log('Modal sttModalFileName:', sttModalFileName);
+  console.log('STTModal.tsx sttModalFileName:', sttModalFileName);
 
   const [sttLeftData, setSttLeftData] = useState<STTData[]>([]);
   const [sttRightData, setSttRightData] = useState<STTData[]>([]);
@@ -166,7 +171,11 @@ const STTModal = () => {
       }}
     >
       {/* <FullSTTPage recorder={recorder} /> */}
-      <FullSTTPage filteredData={dataToPrint} />
+      {sttModalMode === 'REALTIME' ? (
+        <FullSTTPage filteredData={dataToPrint} />
+      ) : (
+        <FUllSTTFilePage sttModalFileName={sttModalFileName} />
+      )}
     </ReactModal>
   );
 };

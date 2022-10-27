@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   sttModalToggle,
   setSttModalFileName,
+  setSttModalMode,
 } from 'renderer/store/sttModalSlice';
 import {
   callPlayerToggle,
@@ -210,7 +211,8 @@ const ListContentComponent = (props: any) => {
       '-------------------------------------------window fullscreen on'
     );
     window.windowChannel.windowFullScreenToMain(true);
-    dispatch(setSttModalFileName(`${fileName}.wav`));
+    dispatch(setSttModalFileName(`${fileName}`));
+    dispatch(setSttModalMode('FILE'));
     dispatch(sttModalToggle(true));
   };
 
@@ -248,7 +250,7 @@ const ListContentComponent = (props: any) => {
       {/* <button onClick={screen.enter}>STT</button> */}
       <STTBtn
         onClick={() => {
-          sttModalHandler(`${data.filename}.wav`);
+          sttModalHandler(`${data.filename}.txt`);
         }}
       >
         <img src={sttImg} />

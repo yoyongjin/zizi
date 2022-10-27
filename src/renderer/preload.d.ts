@@ -72,6 +72,7 @@ declare global {
         datas: any,
         callback: any
       ): void;
+      getSttData(fileName: string, callback: any): void;
     };
   }
 }

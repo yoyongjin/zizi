@@ -1,4 +1,10 @@
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  sttModalToggle,
+  setSttModalFileName,
+  setSttModalMode,
+} from 'renderer/store/sttModalSlice';
 import StopWatch from './StopWatch';
 import phoneOnImg from '../../../../assets/phone_on@3x.png';
 import wifiOnImg from '../../../../assets/wifi_on@3x.png';
@@ -95,6 +101,18 @@ const STTBtn = styled.button`
 `;
 
 const ConnectComponent = () => {
+  console.log(`ConnectComponent.tsx`);
+  const dispatch = useDispatch();
+  const sttModalHandler = (fileName: string) => {
+    console.log(
+      '-------------------------------------------window fullscreen on'
+    );
+    window.windowChannel.windowFullScreenToMain(true);
+    dispatch(setSttModalFileName(fileName));
+    dispatch(setSttModalMode('REALTIME'));
+    dispatch(sttModalToggle(true));
+  };
+
   return (
     <>
       <ConnectDiv>
@@ -112,7 +130,13 @@ const ConnectComponent = () => {
         <RecordImg src={recordImg} />
         {/* <TimeDiv>03:24</TimeDiv> */}
         <StopWatch />
-        <STTBtn>STT</STTBtn>
+        <STTBtn
+          onClick={() => {
+            sttModalHandler('');
+          }}
+        >
+          STT
+        </STTBtn>
       </RecordingTimeContainer>
       {/* 여기 STT 버튼 */}
     </>

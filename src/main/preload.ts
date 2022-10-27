@@ -47,6 +47,20 @@ contextBridge.exposeInMainWorld(
   }
 );
 
+contextBridge.exposeInMainWorld('getSttData', (fileName: string) => {
+  return new Promise((resolve, reject) => {
+    console.log(`perload: get-stt-data - ${fileName}`);
+    ipcRenderer.once('get-stt-data', (_, err) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(true);
+    });
+    ipcRenderer.send('get-stt-data', fileName);
+  });
+});
+
 contextBridge.exposeInMainWorld(
   'sendSttData',
   (channel: string, endTime: string, script: string) => {
@@ -64,23 +78,6 @@ contextBridge.exposeInMainWorld(
   }
 );
 
-// contextBridge.exposeInMainWorld(
-//   'sendSttFull',
-//   (channel: string, endTime: string, script: string) => {
-//     return new Promise((resolve, reject) => {
-//       console.log(`perload: send-stt-full - ${channel}, ${endTime}, ${script}`);
-//       ipcRenderer.once('send-stt-full', (_, err) => {
-//         if (err) {
-//           reject(err);
-//           return;
-//         }
-//         resolve(true);
-//       });
-//       ipcRenderer.send('send-stt-full', channel, endTime, script);
-//     });
-//   }
-// );
-
 export type SttChannel = 'sttChannel';
 
 contextBridge.exposeInMainWorld('sttChannel', {
@@ -90,6 +87,13 @@ contextBridge.exposeInMainWorld('sttChannel', {
       callback(data);
     });
     // ipcRenderer.send('send-stt-full', channel, endTime, script);
+  },
+  getSttData: (fileName: string, callback: any) => {
+    ipcRenderer.once('get-stt-data', (_, data) => {
+      console.log(`sttChannel - getSttData - get-stt-data: ${data}`);
+      callback(data);
+    });
+    ipcRenderer.send('get-stt-data', fileName);
   },
   // sendConnectY: (socketId: string | number, callback: any) => {
   //   ipcRenderer.on('send-connect-y', (_, data) => {

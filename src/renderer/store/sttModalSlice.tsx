@@ -2,11 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 
 type InitialState = {
   sttModalState: boolean;
+  sttModalMode: 'REALTIME' | 'FILE';
   sttModalFileName: string;
 };
 
 const initialState: InitialState = {
   sttModalState: false,
+  sttModalMode: 'REALTIME',
   sttModalFileName: '',
 };
 const sttModalSlice = createSlice({
@@ -25,6 +27,12 @@ const sttModalSlice = createSlice({
       );
       state.sttModalFileName = action.payload;
     },
+    setSttModalMode: (state, action) => {
+      console.log(
+        `sttModalSlice - setSttModalMode - action.payload: ${action.payload}`
+      );
+      state.sttModalMode = action.payload;
+    },
     sttModalInit: (state, action) => {
       state.sttModalState = false;
     },
@@ -32,5 +40,9 @@ const sttModalSlice = createSlice({
 });
 
 export default sttModalSlice;
-export const { sttModalToggle, setSttModalFileName, sttModalInit } =
-  sttModalSlice.actions;
+export const {
+  sttModalToggle,
+  setSttModalFileName,
+  setSttModalMode,
+  sttModalInit,
+} = sttModalSlice.actions;
