@@ -55,6 +55,9 @@ const STTModal = () => {
   // });
 
   useEffect(() => {
+    // setSttLeftData([]);
+    // setSttRightData([]);
+
     const onSttRealTimeEvent = (e: any) => {
       console.log(`***********sttRealTimeEvent***********`);
 

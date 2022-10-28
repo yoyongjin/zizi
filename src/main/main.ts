@@ -615,11 +615,14 @@ ipcMain.on('save-stt-file', async (event, fileName, sttBuffer) => {
   console.log(sttBuffer);
 
   let content = '';
-  sttBuffer.map((sttData: { ts: any; channel: string; script: any }) => {
-    content += `${sttData.ts}|${
-      sttData.channel === 'left' ? 'speaker1' : 'speaker2'
-    }|${sttData.script.trim()}\r\n`;
-  });
+  sttBuffer.map(
+    (sttData: { ts: any; channel: string; script: any }, index: number) => {
+      content += `${sttData.ts}|${
+        sttData.channel === 'left' ? 'speaker1' : 'speaker2'
+      }|${sttData.script.trim()}`;
+      if (index !== sttBuffer.length - 1) content += `\r\n`;
+    }
+  );
   fs.writeFile(fileName, content, (err) => {
     event.reply('save-stt-file', err);
   });
@@ -647,7 +650,20 @@ ipcMain.on('get-stt-data', async (event, fileName) => {
       console.log(err);
     } else {
       console.log(data);
-      event.reply('get-stt-data', data);
+      const arrData = data.split('\r\n');
+      const parseArr = [];
+      arrData.map((d) => {
+        // console.log('---------------------');
+        // console.log(d);
+        const arrD = d.split('|');
+        const sttData = {
+          channel: arrD[1],
+          ts: arrD[0],
+          script: arrD[2],
+        };
+        parseArr.push(sttData);
+      });
+      event.reply('get-stt-data', parseArr);
     }
   });
 });

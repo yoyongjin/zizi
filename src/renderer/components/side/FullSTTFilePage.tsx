@@ -35,22 +35,6 @@ const STTContentContainer = styled.div`
   opacity: 1;
 `;
 
-// const CallerSection = styled.section`
-//   display: flex;
-//   flex-direction: column;
-//   /* background-color: #dda; */
-//   width: 50%;
-//   padding: 24px 30px 0 0;
-//   /* border-right: 1px dashed #707070; */
-// `;
-// const ReceiverSection = styled.section`
-//   display: flex;
-//   flex-direction: column;
-//   /* background-color: #dda; */
-//   width: 50%;
-//   padding-left: 30px;
-//   padding-top: 24px;
-// `;
 const HeaderContainer = styled.div`
   display: flex;
   padding-bottom: 1.5rem;
@@ -154,15 +138,50 @@ interface IFullSTTPage {
 // const FullSTTPage = () => {
 const FullSTTPage = (props) => {
   const { sttModalFileName } = props;
-  console.log(sttModalFileName);
+  const [sttFileContent, setSttFileContent] = useState([]);
 
   useEffect(() => {
     console.log('FullSTTFilePage.tsx - useEffect');
 
     window.sttChannel.getSttData(sttModalFileName, (datas: any) => {
       console.log('FullSTTFilePage.tsx - ', datas);
+      setSttFileContent(datas);
+      // console.log(datas);
+      // arrDatas = datas.split('\r\n');
+      // arrDatas.map((data) => {
+      //   let arrData = data.split('|');
+      //   console.log(arrData);
+      // });
+      // // console.log(arrData);
     });
   }, []);
+
+  const renderScripts = () => {
+    console.log('^^^^^^^^^^^^^^^^^^^^^^renderScripts');
+    // return dataToPrint.map((d) => {
+    return arrDatas.map((data) => {
+      console.log(data);
+      const arrData = data.split('|');
+      return (
+        <STTContent
+          key={`${arrData[1]}_${arrData[0]}`}
+          isLeft={arrData[1] === 'speaker1'}
+        >
+          {arrData[1] === 'speaker1' ? (
+            <BalloonContainer>
+              <STTBalloonTip isLeftTip />
+              <STTBalloon isLeftShadow>{arrData[2]}</STTBalloon>
+            </BalloonContainer>
+          ) : (
+            <BalloonContainer>
+              <STTBalloon>{arrData[2]}</STTBalloon>
+              <STTBalloonTip />
+            </BalloonContainer>
+          )}
+        </STTContent>
+      );
+    });
+  };
 
   return (
     <FullContainer>
@@ -180,7 +199,31 @@ const FullSTTPage = (props) => {
             </ReceiverHeaderContainer>
           </HeaderContainer>
 
-          {/* <ScrollDiv ref={messagesEndRef}>{renderScripts}</ScrollDiv> */}
+          <ScrollDiv>
+            {sttFileContent &&
+              sttFileContent.map((data: any) => {
+                console.log(data);
+
+                return (
+                  <STTContent
+                    key={`${data.channel}_${data.ts}`}
+                    isLeft={data.channel === 'speaker1'}
+                  >
+                    {data.channel === 'speaker1' ? (
+                      <BalloonContainer>
+                        <STTBalloonTip isLeftTip />
+                        <STTBalloon isLeftShadow>{data.script}</STTBalloon>
+                      </BalloonContainer>
+                    ) : (
+                      <BalloonContainer>
+                        <STTBalloon>{data.script}</STTBalloon>
+                        <STTBalloonTip />
+                      </BalloonContainer>
+                    )}
+                  </STTContent>
+                );
+              })}
+          </ScrollDiv>
           <ScrollDiv />
         </STTContentContainer>
       </STTContainer>

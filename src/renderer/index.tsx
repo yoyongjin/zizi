@@ -11,6 +11,7 @@ import STTModal from './components/side/STTModal';
 // const store = legacy_createStore(rootReducer);
 const container = document.getElementById('root')!;
 const root = createRoot(container);
+console.log('index.tsx');
 root.render(
   <Provider store={store}>
     <App />
