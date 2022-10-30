@@ -279,6 +279,13 @@ contextBridge.exposeInMainWorld('connectChannel', {
       callback(data);
     });
   },
+  checkConnect: (callback: any) => {
+    ipcRenderer.on('check-connect', (_, data) => {
+      console.log(`connectChannel - checkConnect - check-connect: ${data}`);
+      callback(data);
+    });
+    ipcRenderer.send('check-connect');
+  },
 });
 
 // export type SttChannel = 'sttChannel';

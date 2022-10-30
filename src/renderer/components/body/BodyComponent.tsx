@@ -172,13 +172,13 @@ const BodyComponent = () => {
   };
 
   const onDeleteHandler = async () => {
-    console.log('try to delete checkedItems: ', checkedItems);
+    // console.log('try to delete checkedItems: ', checkedItems);
     if (checkedItems.size > 0) {
       if (await confirm('Are you sure you want to delete?')) {
         const ids = [...checkedItems];
         // 여기 DB 삭제
         window.ipcDbChannel.deleteCallQureyToMain(ids, (result: any) => {
-          console.log('Call delete result:', result);
+          // console.log('Call delete result:', result);
           checkedItems.clear();
           setCheckedItems(new Set());
           setDeleteState(!deleteState);
@@ -187,7 +187,7 @@ const BodyComponent = () => {
     }
   };
 
-  console.log(`^^^^Rendering BodyComponent..${recordState}`);
+  // console.log(`^^^^Rendering BodyComponent..${recordState}`);
   // console.log('****checkedItems', checkedItems);
   // console.log(
   //   `#$@%@#$%@#$%@#$date : ${new Date(
@@ -206,7 +206,7 @@ const BodyComponent = () => {
   // );
   // console.log('date: ', firstDay.getDate(), lastDay.getDate());
   useEffect(() => {
-    console.log('Renderling ListComponent.tsx - ipcRenderer.sendQureyToMain');
+    // console.log('Renderling ListComponent.tsx - ipcRenderer.sendQureyToMain');
     window.ipcDbChannel.sendQureyToMain(
       'select * from tb_call',
       (list: any) => {
@@ -226,7 +226,7 @@ const BodyComponent = () => {
     const endDate = formData.get('endDate');
     const phoneNumber = formData.get('phoneNum');
     const memo = formData.get('memo');
-    console.log('&&&&&submit');
+    // console.log('&&&&&submit');
     // if (!startDate) console.log('startDate is null');
     // console.log('startDate', startDate, typeof startDate);
     // console.log('endDate', endDate, typeof endDate);
@@ -240,15 +240,15 @@ const BodyComponent = () => {
       phoneNumber,
       memo,
       (list: any) => {
-        console.log(
-          'Renderling ListComponent.tsx - ipcRenderer.sendQureyToMain'
-        );
+        // console.log(
+        //   'Renderling ListComponent.tsx - ipcRenderer.sendQureyToMain'
+        // );
         list.sort((item1: any, item2: any) => item2.id - item1.id);
         setData(list);
-        console.log('data: ', data);
+        // console.log('data: ', data);
         setPage(1);
         setCurrentData(list.slice(indexOfFirstData, indexOfLastData));
-        console.log('currentData: ', currentData);
+        // console.log('currentData: ', currentData);
       }
     );
   };

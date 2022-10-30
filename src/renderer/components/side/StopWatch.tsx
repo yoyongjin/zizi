@@ -18,7 +18,7 @@ const StopWatch = () => {
     return state.recorder.recordState;
   });
 
-  console.log('^^^^^^^^^^^^Rendering stopwatch.. recordState:', recordState);
+  // console.log('^^^^^^^^^^^^Rendering stopwatch.. recordState:', recordState);
 
   useEffect(() => {
     if (recordState) {

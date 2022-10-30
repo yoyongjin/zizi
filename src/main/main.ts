@@ -12,7 +12,14 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain, IpcMainEvent } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  shell,
+  ipcMain,
+  IpcMainEvent,
+  IpcMainInvokeEvent,
+} from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import sqlite from 'sqlite3';
@@ -69,7 +76,7 @@ const db = new sqlite3.Database(
 );
 
 let mainWindow: BrowserWindow | null = null;
-let childWindow: BrowserWindow | null = null;
+// let childWindow: BrowserWindow | null = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -120,10 +127,10 @@ const createWindow = async () => {
     // maxWidth: 1200,
     // maxHeight: 650,
     icon: getAssetPath('icon.png'),
-    resizable: false, // í¬ê¸° ì¡°ì ˆ í—ˆìš© ì—¬ë¶€
-    center: true, // í™”ë©´ ì •ì¤‘ì•™ì— ìœ„ì¹˜
-    autoHideMenuBar: true, // ìœˆë„ìš° ë©”ë‰´ë°” ìˆ¨ê¹€ ì—¬ë¶€
-    frame: false, // í”„ë ˆìž„ ì—¬ë¶€
+    resizable: false, // ?¬ê¸? ì¡°ì ˆ ?—ˆ?š© ?—¬ë¶?
+    center: true, // ?™”ë©? ? •ì¤‘ì•™?— ?œ„ì¹?
+    autoHideMenuBar: true, // ?œˆ?„?š° ë©”ë‰´ë°? ?ˆ¨ê¹? ?—¬ë¶?
+    frame: false, // ?”„? ˆ?ž„ ?—¬ë¶?
     // enableLargerThanScreen: true,
     // useContentSize: true,
     webPreferences: {
@@ -144,10 +151,10 @@ const createWindow = async () => {
   //   // maxWidth: 1200,
   //   // maxHeight: 650,
   //   // icon: getAssetPath('icon.png'),
-  //   resizable: true, // í¬ê¸° ì¡°ì ˆ í—ˆìš© ì—¬ë¶€
-  //   center: true, // í™”ë©´ ì •ì¤‘ì•™ì— ìœ„ì¹˜
-  //   autoHideMenuBar: false, // ìœˆë„ìš° ë©”ë‰´ë°” ìˆ¨ê¹€ ì—¬ë¶€
-  //   frame: false, // í”„ë ˆìž„ ì—¬ë¶€
+  //   resizable: true, // ?¬ê¸? ì¡°ì ˆ ?—ˆ?š© ?—¬ë¶?
+  //   center: true, // ?™”ë©? ? •ì¤‘ì•™?— ?œ„ì¹?
+  //   autoHideMenuBar: false, // ?œˆ?„?š° ë©”ë‰´ë°? ?ˆ¨ê¹? ?—¬ë¶?
+  //   frame: false, // ?”„? ˆ?ž„ ?—¬ë¶?
   //   fullscreen: false,
   //   webPreferences: {
   //     sandbox: false,
@@ -215,6 +222,8 @@ const { Server } = require('socket.io');
 
 const io = new Server(server, { pingInterval: 1000, pingTimeout: 2000 });
 
+let clients = {};
+
 const dateFormat = (nowDate: Date) => {
   console.log('type:', typeof nowDate);
   return `${nowDate.getFullYear()}${
@@ -240,20 +249,29 @@ io.on('connection', (socket: any) => {
   console.log(`connected socket id: ${socket.id}`);
 
   if (mainWindow != null) {
+    // console.log('%%%%%%%%%%send connect y');
     mainWindow.webContents.send('send-connect-y', socket.id);
     // childWindow?.show();
   }
 
+  ipcMain.on('check-connect', async (event: IpcMainEvent) => {
+    // console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
+    console.log('ipcMain.on - check-connect result: ', socket.connected);
+    // event.reply('check-connect', true);
+    if (socket.connected) event.reply('check-connect', true);
+    else event.reply('check-connect', false);
+  });
+
   /*
   (io : O / ë°œì‹  state)
-  í†µí™” ì‹œìž‘ (2 : OFFHOOK)
-  í†µí™” ì—°ê²° (3 : CONNECTED)
-  í†µí™” ì¢…ë£Œ (0 : IDLE)
+  ?†µ?™” ?‹œ?ž‘ (2 : OFFHOOK)
+  ?†µ?™” ?—°ê²? (3 : CONNECTED)
+  ?†µ?™” ì¢…ë£Œ (0 : IDLE)
 
-  (io : I / ìˆ˜ì‹  state)
-  í†µí™” ì‹œìž‘ (2 : OFFHOOK)
-  í†µí™” ì—°ê²° (3 : CONNECTED)
-  í†µí™” ì¢…ë£Œ (0 : IDLE)
+  (io : I / ?ˆ˜?‹  state)
+  ?†µ?™” ?‹œ?ž‘ (2 : OFFHOOK)
+  ?†µ?™” ?—°ê²? (3 : CONNECTED)
+  ?†µ?™” ì¢…ë£Œ (0 : IDLE)
   */
   let cnt = 0;
   socket.on('message', (msg: any) => {
@@ -383,6 +401,7 @@ io.on('connection', (socket: any) => {
     if (mainWindow != null) {
       mainWindow.webContents.send('send-connect-n', socket.id);
     }
+    // delete socket;
   });
 });
 

@@ -135,53 +135,16 @@ interface IFullSTTPage {
   filteredData: Array<STTData>;
 }
 
-// const FullSTTPage = () => {
-const FullSTTPage = (props) => {
+const FullSTTFilePage = (props) => {
   const { sttModalFileName } = props;
   const [sttFileContent, setSttFileContent] = useState([]);
 
   useEffect(() => {
-    console.log('FullSTTFilePage.tsx - useEffect');
-
     window.sttChannel.getSttData(sttModalFileName, (datas: any) => {
       console.log('FullSTTFilePage.tsx - ', datas);
       setSttFileContent(datas);
-      // console.log(datas);
-      // arrDatas = datas.split('\r\n');
-      // arrDatas.map((data) => {
-      //   let arrData = data.split('|');
-      //   console.log(arrData);
-      // });
-      // // console.log(arrData);
     });
   }, []);
-
-  const renderScripts = () => {
-    console.log('^^^^^^^^^^^^^^^^^^^^^^renderScripts');
-    // return dataToPrint.map((d) => {
-    return arrDatas.map((data) => {
-      console.log(data);
-      const arrData = data.split('|');
-      return (
-        <STTContent
-          key={`${arrData[1]}_${arrData[0]}`}
-          isLeft={arrData[1] === 'speaker1'}
-        >
-          {arrData[1] === 'speaker1' ? (
-            <BalloonContainer>
-              <STTBalloonTip isLeftTip />
-              <STTBalloon isLeftShadow>{arrData[2]}</STTBalloon>
-            </BalloonContainer>
-          ) : (
-            <BalloonContainer>
-              <STTBalloon>{arrData[2]}</STTBalloon>
-              <STTBalloonTip />
-            </BalloonContainer>
-          )}
-        </STTContent>
-      );
-    });
-  };
 
   return (
     <FullContainer>
@@ -231,4 +194,4 @@ const FullSTTPage = (props) => {
   );
 };
 
-export default FullSTTPage;
+export default FullSTTFilePage;

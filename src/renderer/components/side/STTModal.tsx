@@ -26,9 +26,7 @@ type STTData = {
 };
 
 const STTModal = () => {
-  // const STTModal = (props) => {
   const dispatch = useDispatch();
-  // const { recorder } = props;
   const sttModalState = useSelector((state: any) => {
     return state.sttModaler.sttModalState;
   });
@@ -39,25 +37,15 @@ const STTModal = () => {
     return state.sttModaler.sttModalMode;
   });
 
-  const closeHandler = () => {
-    console.log('closeHandler..');
-    dispatch(sttModalToggle(false));
-    window.windowChannel.windowFullScreenToMain(false);
-  };
-  console.log('STTModal.tsx sttModalFileName:', sttModalFileName);
+  console.log('Rendering STTModal.tsx sttModalFileName:', sttModalFileName);
 
   const [sttLeftData, setSttLeftData] = useState<STTData[]>([]);
   const [sttRightData, setSttRightData] = useState<STTData[]>([]);
-
-  // window.sttChannel.sendSttFull('send-stt-full', (datas: any) => {
-  //   console.log('FullSTTPage.tsx - ', datas);
-  //   // dispatch(connectToggle(true));
-  // });
+  const recordState = useSelector((state: any) => {
+    return state.recorder.recordState;
+  });
 
   useEffect(() => {
-    // setSttLeftData([]);
-    // setSttRightData([]);
-
     const onSttRealTimeEvent = (e: any) => {
       console.log(`***********sttRealTimeEvent***********`);
 
@@ -89,17 +77,12 @@ const STTModal = () => {
           prev.push({
             ts: -1,
           });
-          // console.log(prev);
         }
 
         return [...prev];
       });
-      // console.dir(`***********STTEvent1: ${e}`);
-      // console.dir(`***********STTEvent2: ${e.detail}`);
-      // console.dir(`***********STTEvent3: ${e.datas}`);
-      // console.log(`${channel}, ${endTime}, ${script}`);
-      // console.log(`***********sttRealTimeEvent***********`);
     };
+    console.log('useEffect[] STTModal.tsx');
 
     window.addEventListener('sttRealTimeEvent', onSttRealTimeEvent);
 
@@ -107,6 +90,14 @@ const STTModal = () => {
       window.removeEventListener('sttRealTimeEvent', onSttRealTimeEvent);
     };
   }, []);
+
+  useEffect(() => {
+    if (recordState) {
+      console.log('useEffect[recordState] STTModal.tsx');
+      setSttLeftData([]);
+      setSttRightData([]);
+    }
+  }, [recordState]);
 
   const dataToPrint = React.useMemo(() => {
     const data = [...sttLeftData, ...sttRightData];
@@ -119,26 +110,6 @@ const STTModal = () => {
     return filtered;
   }, [sttLeftData, sttRightData]);
 
-  const recordState = useSelector((state: any) => {
-    return state.recorder.recordState;
-  });
-
-  useEffect(() => {
-    if (!recordState) {
-      setSttLeftData([]);
-      setSttRightData([]);
-    }
-  }, [recordState]);
-
-  // 1. 녹취 끝났음을 감지
-  // 2. dataToPrint를 json으로
-  // 3. json을 main으로
-  // 4. dataToPrint 초기화
-  // 5. main에서 DB insert
-  // 6. 리스트에서 stt버튼 클릭시 main으로
-  // 7. main에서 DB select
-  // 8. select한 json을 다시 객체화
-  // 9. FullSTTPage.tsx에서 출력
   return (
     <ReactModal
       isOpen={sttModalState}
@@ -152,17 +123,6 @@ const STTModal = () => {
           bottom: 0,
           backgroundColor: '',
         },
-        // content: {
-        //   width: '600px',
-        //   height: '150px',
-        //   margin: '148px 0 0 333px ',
-        //   padding: '0 1rem 0 1rem',
-        //   inset: '0',
-        //   border: '0',
-        //   borderRadius: '0',
-        //   background: '#707070',
-        //   boxSizing: 'border-box',
-        // },
         content: {
           top: 0,
           left: 0,

@@ -125,10 +125,10 @@ const ListContentComponent = (props: any) => {
   // };
 
   const onBlurHandler = (id, e) => {
-    console.log(`onBlur event - id: ${id} memo: ${e.target.value}`);
+    // console.log(`onBlur event - id: ${id} memo: ${e.target.value}`);
 
     if (memoContent !== e.target.value) {
-      console.log('ListComponent.tsx - ipcRenderer.updateQureyToMain');
+      // console.log('ListComponent.tsx - ipcRenderer.updateQureyToMain');
       setMemoContent(e.target.value);
 
       // 여기 DB 메모 업데이트

@@ -80,12 +80,22 @@ const SideComponent = (props: any) => {
   const connectState = useSelector((state: any) => {
     return state.connector.connectState;
   });
-  console.log(`####SideComponent Rendering..${connectState}`);
+  console.log(
+    `@@@@@@@@@@@@@@@@@@@@@@@@@@@SideComponent.tsx Rendering.. - Connect state: ${connectState}`
+  );
+  // console.log(`####SideComponent Rendering..${connectState}`);
 
   useEffect(() => {
+    console.log('!!!!!!!!!!!!!!!!!!! SideComponent useEffect(()');
     window.connectChannel.sendSeverIp('send-serverip', (serverIp: string) => {
       console.log('SideComponent.tsx - Connected server ip:', serverIp);
       setIp(serverIp);
+    });
+
+    window.connectChannel.checkConnect((result: boolean) => {
+      console.log('SideComponent.tsx - Check connect result:', result);
+      if (result) dispatch(connectToggle(true));
+      else dispatch(connectToggle(false));
     });
   }, []);
 
@@ -98,9 +108,6 @@ const SideComponent = (props: any) => {
     console.log('SideComponent.tsx - Disconnected socket id:', socketId);
     dispatch(connectToggle(false));
   });
-
-  // console.log(`SideComponent.tsx - Record state: ${recordState}`);
-  console.log(`SideComponent.tsx Rendering.. - Connect state: ${connectState}`);
 
   return (
     <SideDiv connectState={connectState}>
