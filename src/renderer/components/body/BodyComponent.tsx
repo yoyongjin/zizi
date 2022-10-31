@@ -58,13 +58,15 @@ const SearchDate = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 230px;
+  width: 260px;
+  /* background-color: black; */
 `;
 const SearchSpan = styled.span`
   font: normal normal 600 13px/20px Segoe UI;
   color: #707070;
   white-space: nowrap;
   opacity: 1;
+  /* margin-right: 1rem; */
 `;
 const SearchPhoneNum = styled.div`
   display: flex;
@@ -72,6 +74,7 @@ const SearchPhoneNum = styled.div`
   justify-content: space-between;
   gap: 7px;
   width: 191px;
+  /* background-color: black; */
 `;
 const SearchPhoneNumInput = styled.input`
   margin-left: 7px;
@@ -87,6 +90,7 @@ const SearchMemo = styled.div`
   justify-content: space-between;
   gap: 7px;
   width: 203px;
+  /* background-color: black; */
 `;
 const SearchMemoInput = styled.input`
   margin-left: 7px;
@@ -257,17 +261,20 @@ const BodyComponent = () => {
     <BodyDiv>
       <TitleDiv>
         <TitleSpanContainer>
-          <TitleSpan>Call Recording List</TitleSpan>
+          {/* <TitleSpan>Call Recording List</TitleSpan> */}
+          <TitleSpan>通話録音リスト</TitleSpan>
         </TitleSpanContainer>
         <SearchForm onSubmit={onSubmitHandler}>
           {/* Date input */}
           <SearchDate>
-            <SearchSpan>Date</SearchSpan>
+            {/* <SearchSpan>Date</SearchSpan> */}
+            <SearchSpan>年月日</SearchSpan>
             <DateStartToEnd />
           </SearchDate>
           <SearchPhoneNum>
             {/* PhoneNum input */}
-            <SearchSpan>Phone No.</SearchSpan>
+            {/* <SearchSpan>Phone No.</SearchSpan> */}
+            <SearchSpan>電話番号</SearchSpan>
             <SearchPhoneNumInput name="phoneNum" />
           </SearchPhoneNum>
 
@@ -279,7 +286,8 @@ const BodyComponent = () => {
           </SearchMemo>
 
           {/* Search button */}
-          <SearchBtn>Search</SearchBtn>
+          {/* <SearchBtn>Search</SearchBtn> */}
+          <SearchBtn>検索</SearchBtn>
         </SearchForm>
       </TitleDiv>
       <ListDiv>
@@ -300,7 +308,8 @@ const BodyComponent = () => {
             );
           })
         ) : (
-          <NoDataSpan>There is no data . .</NoDataSpan>
+          // <NoDataSpan>There is no data . .</NoDataSpan>
+          <NoDataSpan>データがありません . .</NoDataSpan>
         )}
       </ListDiv>
       {data.length > 0 ? (

@@ -118,11 +118,13 @@ const ConnectComponent = () => {
       <ConnectDiv>
         <PhoneImg src={phoneOnImg} />
         <WifiImg src={wifiOnImg} />
-        <ConnectSpan>Connect</ConnectSpan>
+        {/* <ConnectSpan>Connect</ConnectSpan> */}
+        <ConnectSpan>接続</ConnectSpan>
         {/* <GearImg2 src={gearImg} /> */}
       </ConnectDiv>
       <AutoRecordingDiv>
-        <AutoRecordingSpan>Auto Recording</AutoRecordingSpan>
+        {/* <AutoRecordingSpan>Auto Recording</AutoRecordingSpan> */}
+        <AutoRecordingSpan>自動記録</AutoRecordingSpan>
       </AutoRecordingDiv>
 
       <LineDiv />

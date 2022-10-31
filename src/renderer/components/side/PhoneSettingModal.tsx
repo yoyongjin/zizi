@@ -30,8 +30,8 @@ const ModalQRContainer = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* background-color: yellow; */
-  padding: 0 50px;
+  /* background-color: black; */
+  padding: 0 30px;
 `;
 const QRImage = styled.img`
   width: 71px;
@@ -52,7 +52,7 @@ const ModalHeaderText = styled.p`
   font: normal normal 600 16px/20px Segoe UI;
   color: #fff;
   margin-left: 2px;
-  /* background-color: #ccc;  */
+  /* background-color: #ccc; */
 `;
 
 const ConnectInfoText = styled.p`
@@ -114,23 +114,37 @@ const PhoneSettingModal = () => {
       }}
     >
       <ModalHeaderContainer>
-        <ModalHeaderText>휴대전화 연결하기</ModalHeaderText>
+        {/* <ModalHeaderText>휴대전화 연결하기</ModalHeaderText> */}
+        <ModalHeaderText>携帯電話を接続する</ModalHeaderText>
         <CloseButton src={closeImg} onClick={closeHandler} />
       </ModalHeaderContainer>
       <ModalContentContainer>
         <ModalQRContainer>
           <QRImage src={qrCode} />
-          <DownloadText>APP Download</DownloadText>
+          {/* <DownloadText>APP Download</DownloadText> */}
+          <DownloadText>アプリのダウンロード</DownloadText>
         </ModalQRContainer>
         <ConnectInfoContainer>
-          <ConnectInfoText>Step1. 휴대전화 앱을 설치하세요.</ConnectInfoText>
+          {/* <ConnectInfoText>Step1. 휴대전화 앱을 설치하세요.</ConnectInfoText> */}
           <ConnectInfoText>
+            Step1. 携帯電話アプリをインストールしてください。
+          </ConnectInfoText>
+          {/* <ConnectInfoText>
             Step2. 앱을 실행한 후 연결할 PC의 IP주소를 입력하세요.
+          </ConnectInfoText> */}
+          <ConnectInfoText>
+            Step2.
+            アプリを起動したら、接続するPCのIPアドレスを入力してください。
           </ConnectInfoText>
           {/* <ConnectInfoText>현재 PC의 IP주소: {ip}</ConnectInfoText> */}
-          <ConnectInfoText>현재 PC의 IP주소: </ConnectInfoText>
           <ConnectInfoText>
+            現在のPCのIPアドレス：192.168.99.105
+          </ConnectInfoText>
+          {/* <ConnectInfoText>
             연결이 완료되면 자동으로 통화 녹음이 실행됩니다.
+          </ConnectInfoText> */}
+          <ConnectInfoText>
+            接続が完了すると、自動的に通話録音が実行されます。
           </ConnectInfoText>
         </ConnectInfoContainer>
       </ModalContentContainer>

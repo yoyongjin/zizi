@@ -127,8 +127,11 @@ const PagingBoxComponenet = (props: any) => {
         onChange={handlePageChange}
       />
       {/* page_ff@2x.png */}
-      <DeleteSpan toggle={checkedItems.size > 0} onClick={onDeleteHandler}>
+      {/* <DeleteSpan toggle={checkedItems.size > 0} onClick={onDeleteHandler}>
         Delete
+      </DeleteSpan> */}
+      <DeleteSpan toggle={checkedItems.size > 0} onClick={onDeleteHandler}>
+        削除
       </DeleteSpan>
     </PaginationBox>
   );

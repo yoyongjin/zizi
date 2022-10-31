@@ -331,7 +331,8 @@ const RecordButtonComponent = (props: any) => {
             </STTBtn>
           </RecordWithSTTContainer>
           <PhoneNumberDiv>
-            <PhoneNumberSpan>Phone number</PhoneNumberSpan>
+            {/* <PhoneNumberSpan>Phone number</PhoneNumberSpan> */}
+            <PhoneNumberSpan>電話番号</PhoneNumberSpan>
           </PhoneNumberDiv>
           {/* <PhoneNumberInput ref={inputPhonenumber} /> */}
           <PhoneNumberInput
@@ -342,7 +343,8 @@ const RecordButtonComponent = (props: any) => {
             // toggle={phoneNumeberInputValue === ''}
           />
           <MemoDiv>
-            <MemoSpan>Memo</MemoSpan>
+            {/* <MemoSpan>Memo</MemoSpan> */}
+            <MemoSpan>メモ</MemoSpan>
           </MemoDiv>
           <MemoInput ref={inputMemo} />
           {/* <MemoInput onChange={onChangeMemo} /> */}
@@ -352,9 +354,11 @@ const RecordButtonComponent = (props: any) => {
       )}
       <RecordButtonDiv onClick={toggleRecord}>
         {manualRecord ? (
-          <EndRecordButtonSpan>Save & End Call Recording</EndRecordButtonSpan>
+          // <EndRecordButtonSpan>Save & End Call Recording</EndRecordButtonSpan>
+          <EndRecordButtonSpan>通話録音の保存と終了</EndRecordButtonSpan>
         ) : (
-          <StartRecordButtonSpan>Call Recording</StartRecordButtonSpan>
+          // <StartRecordButtonSpan>Call Recording</StartRecordButtonSpan>
+          <StartRecordButtonSpan>通話録音</StartRecordButtonSpan>
         )}
       </RecordButtonDiv>
     </>

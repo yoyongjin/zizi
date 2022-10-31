@@ -40,7 +40,8 @@ const DateStartToEnd = () => {
         endDate={endDate}
         fixedHeight
         focusSelectedMonth
-        placeholderText="startDate"
+        // placeholderText="startDate"
+        placeholderText="開始日"
         maxDate={endDate}
         disabledKeyboardNavigation
 
@@ -59,7 +60,8 @@ const DateStartToEnd = () => {
         endDate={endDate}
         minDate={!endDate ? startDate : null}
         fixedHeight
-        placeholderText="endDate"
+        // placeholderText="endDate"
+        placeholderText="終了日"
         disabledKeyboardNavigation
       />
     </DateInputContainer>

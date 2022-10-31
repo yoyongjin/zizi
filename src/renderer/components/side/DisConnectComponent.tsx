@@ -53,7 +53,7 @@ const WifiOffImg = styled.img`
 `;
 
 const ConnectSpan = styled.span`
-  margin-left: 8.5px;
+  margin-left: 12px;
   font-size: 14px;
   font-weight: 600;
   color: #efa0a0;
@@ -71,7 +71,7 @@ const InfoImg = styled.img`
   height: 20px;
   box-sizing: border-box;
   margin-left: 18px;
-  margin-right: 10px;
+  margin-right: 5px;
 `;
 
 const DisConnectComponent = () => {
@@ -84,7 +84,8 @@ const DisConnectComponent = () => {
     <DisConnectDiv recordState={recordState}>
       <PhoneImg src={phoneOffImg} />
       <WifiOffImg src={wifiOffImg} />
-      <ConnectSpan>Disconnect</ConnectSpan>
+      {/* <ConnectSpan>Disconnect</ConnectSpan> */}
+      <ConnectSpan>切断する</ConnectSpan>
       <InfoImg
         src={infoImg}
         onClick={() => (recordState ? '' : dispatch(modalToggle(true)))}

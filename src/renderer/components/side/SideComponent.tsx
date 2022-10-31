@@ -27,7 +27,7 @@ const SideDiv = styled.div<SideDivProps>`
 
 const IpDiv = styled.div`
   /* padding: 0 28px 0 20px; */
-  width: 150px;
+  /* width: 150px; */
   justify-content: center;
   align-items: center;
   /* font-size: 14px;
@@ -38,6 +38,7 @@ const IpDiv = styled.div`
   display: block;
   position: absolute;
   bottom: 116px;
+  /* background-color: #fff; */
 `;
 
 const PathDiv1 = styled.div`
@@ -119,8 +120,10 @@ const SideComponent = (props: any) => {
         <RecordButtonComponent />
       )}
 
-      <IpDiv>IP Address : {ip}</IpDiv>
-      <PathDiv1>Recording file storage :</PathDiv1>
+      {/* <IpDiv>IP Address : {ip}</IpDiv> */}
+      <IpDiv>IP アドレス : {ip}</IpDiv>
+      {/* <PathDiv1>Recording file storage :</PathDiv1> */}
+      <PathDiv1>記録ファイルの保存 :</PathDiv1>
       <PathDiv2>D:\zibox2-standard-test\zibox2-standard\public</PathDiv2>
       <STTModal />
       {/* <STTModal recorder={recorder} /> */}

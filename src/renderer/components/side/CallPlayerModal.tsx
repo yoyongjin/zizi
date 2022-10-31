@@ -96,7 +96,9 @@ const CallPlayerModal = () => {
   const closeHandler = () => {
     dispatch(callPlayerToggle(false));
   };
+  // const filePath = `C:/ZiPhone/call/${callPlayerFileName}`;
   console.log('Modal callPlayerFileName:', callPlayerFileName);
+  // console.log('Modal filePath:', filePath);
   return (
     <ReactModal
       isOpen={callPlayerState}
@@ -136,6 +138,7 @@ const CallPlayerModal = () => {
       </ModalHeaderContainer>
       <ModalContentContainer>
         <AudioPlayer
+          // src={filePath}
           src={callPlayerFileName}
           autoPlay
           onPlay={console.log('onplay')}

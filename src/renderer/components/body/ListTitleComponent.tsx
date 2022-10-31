@@ -27,24 +27,24 @@ const TitlePlayImg = styled.img`
 const SttImg = styled.img`
   width: 18px;
   height: 18px;
-  margin-right: 53px;
+  margin-right: 52px;
   /* background-color: #ccc; */
 `;
 
 const DateLi = styled.span`
-  margin-right: 67px;
+  margin-right: 57px;
 `;
 
 const TimeLi = styled.span`
-  margin-right: 74px;
+  margin-right: 76px;
 `;
 
 const PhoneNumberLi = styled.span`
-  margin-right: 72px;
+  margin-right: 110px;
 `;
 
 const MemoLi = styled.span`
-  margin-right: 412px;
+  margin-right: 410px;
 `;
 
 // const CheckboxLi = styled.span`
@@ -75,9 +75,12 @@ const ListTitleComponent = (props: any) => {
     <TitleContainer>
       <TitlePlayImg src={titlePlayImg} />
       <SttImg src={sttTitleImg} />
-      <DateLi>Date</DateLi>
-      <TimeLi>Time</TimeLi>
-      <PhoneNumberLi>Phone number</PhoneNumberLi>
+      {/* <DateLi>Date</DateLi> */}
+      <DateLi>年月日</DateLi>
+      {/* <TimeLi>Time</TimeLi> */}
+      <TimeLi>視覚</TimeLi>
+      {/* <PhoneNumberLi>Phone number</PhoneNumberLi> */}
+      <PhoneNumberLi>電話番号</PhoneNumberLi>
       <MemoLi>#</MemoLi>
       <Checkbox
         type="checkbox"
