@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import styled from 'styled-components';
-import UserImg from '../../../../assets/user.png';
+// import UserImg from '../../../../assets/user.png';
+import UserImg1 from '../../../../assets/user1.png';
+import UserImg2 from '../../../../assets/user2.png';
 import STTHeader from './STTHeader';
 
 const FullContainer = styled.div`
@@ -12,19 +14,22 @@ const FullContainer = styled.div`
   padding: 0;
   display: flex;
   flex-direction: column;
-  min-width: 1000px;
 `;
 
 const STTContainer = styled.div`
   display: flex;
-  height: inherit;
+  height: 100%;
+  overflow: hidden;
   background-color: #d4d6d9;
+  padding-bottom: 50px;
 `;
+
 const STTContentContainer = styled.div`
   overflow-y: hidden;
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
   justify-content: space-between;
   box-sizing: border-box;
   margin: 24px 25px;
@@ -61,7 +66,7 @@ const SpeakerSpan = styled.span`
   letter-spacing: 0px;
   color: #707070;
   opacity: 1;
-  margin: 0 24px;
+  margin: auto 24px;
 `;
 
 const ScrollDiv = styled.div`
@@ -80,6 +85,7 @@ const ScrollDiv = styled.div`
     border-radius: 2px;
     background: #2f4f4f;
   }
+  /* background-color: lightblue; */
 `;
 
 const STTContent = styled.p`
@@ -88,7 +94,6 @@ const STTContent = styled.p`
   margin: 0px;
   margin-top: 10px;
   padding-top: 0px;
-
   max-width: 50%;
 
   align-self: ${(props: any) => (props.isLeft ? 'flex-start' : 'flex-end')};
@@ -153,12 +158,12 @@ const FullSTTFilePage = (props) => {
         <STTContentContainer>
           <HeaderContainer>
             <CallerHeaderContainer>
-              <ProfileImg src={UserImg} />
+              <ProfileImg src={UserImg2} />
               <SpeakerSpan>Speaker 1</SpeakerSpan>
             </CallerHeaderContainer>
             <ReceiverHeaderContainer>
               <SpeakerSpan>Speaker 2</SpeakerSpan>
-              <ProfileImg src={UserImg} />
+              <ProfileImg src={UserImg1} />
             </ReceiverHeaderContainer>
           </HeaderContainer>
 
@@ -187,7 +192,7 @@ const FullSTTFilePage = (props) => {
                 );
               })}
           </ScrollDiv>
-          <ScrollDiv />
+          {/* <ScrollDiv /> */}
         </STTContentContainer>
       </STTContainer>
     </FullContainer>

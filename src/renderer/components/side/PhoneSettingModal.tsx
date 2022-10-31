@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { connectToggle } from '../../store/connectSlice';
 import { modalToggle } from '../../store/modalSlice';
 import closeImg from '../../../../assets/close@3x.png';
+import qrCode from '../../../../assets/qr_code.png';
 
 const ModalHeaderContainer = styled.section`
   display: flex;
@@ -32,10 +33,10 @@ const ModalQRContainer = styled.section`
   /* background-color: yellow; */
   padding: 0 50px;
 `;
-const QRImage = styled.div`
+const QRImage = styled.img`
   width: 71px;
   height: 71px;
-  background-color: #fff;
+  /* background-color: #fff; */
 `;
 
 const ConnectInfoContainer = styled.section`
@@ -140,7 +141,7 @@ const PhoneSettingModal = () => {
       </ModalHeaderContainer>
       <ModalContentContainer>
         <ModalQRContainer>
-          <QRImage>QR Image</QRImage>
+          <QRImage src={qrCode} />
           <DownloadText>APP Download</DownloadText>
         </ModalQRContainer>
         <ConnectInfoContainer>
