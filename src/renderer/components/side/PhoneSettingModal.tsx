@@ -79,6 +79,7 @@ const CloseButton = styled.img`
 ReactModal.setAppElement('#root');
 
 const PhoneSettingModal = () => {
+  // const [ip, setIp] = useState('');
   const dispatch = useDispatch();
   const modalState = useSelector((state: any) => {
     return state.modaler.modalState;
@@ -86,7 +87,12 @@ const PhoneSettingModal = () => {
   const closeHandler = () => {
     dispatch(modalToggle(false));
   };
-
+  // useEffect(() => {
+  //   window.connectChannel.sendSeverIp('send-serverip', (serverIp: string) => {
+  //     console.log('PhoneSettingModal.tsx - Connected server ip:', serverIp);
+  //     setIp(serverIp);
+  //   });
+  // }, []);
   return (
     <ReactModal
       isOpen={modalState}
@@ -112,6 +118,22 @@ const PhoneSettingModal = () => {
           boxSizing: 'border-box',
         },
       }}
+      // style={{
+      //   overlay: {
+      //     position: 'fixed',
+      //     top: 0,
+      //     left: 0,
+      //     right: 0,
+      //     bottom: 0,
+      //     backgroundColor: '',
+      //   },
+      //   content: {
+      //     top: 0,
+      //     left: 0,
+      //     right: 0,
+      //     bottom: 0,
+      //   },
+      // }}
     >
       <ModalHeaderContainer>
         {/* <ModalHeaderText>휴대전화 연결하기</ModalHeaderText> */}

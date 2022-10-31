@@ -158,6 +158,96 @@ interface IFullSTTPage {
 
 // const FullSTTPage = () => {
 const FullSTTPage = ({ filteredData }: IFullSTTPage) => {
+  // 1. 전체화면STT 눌렀을때 쌓인 stt 불러오게 useEffect[]로 하고
+  // 2. 실시간은 내용 컴포넌트 렌더링
+  // 3. 파일 경로랑 FullSTT 이어주기
+
+  // const [sttLeftData, setSttLeftData] = useState<STTData[]>([]);
+  // const [sttRightData, setSttRightData] = useState<STTData[]>([]);
+  // // const [sttData, setSttData] = useState<STTData[]>([]);
+
+  // // window.sttChannel.sendSttFull('send-stt-full', (datas: any) => {
+  // //   console.log('FullSTTPage.tsx - ', datas);
+  // //   // dispatch(connectToggle(true));
+  // // });
+
+  // useEffect(() => {
+  //   const onSttRealTimeEvent = (e: any) => {
+  //     console.log(`***********sttRealTimeEvent***********`);
+  //     // console.log(e.detail);
+  //     // console.log(e.detail.sttBuffer);
+  //     // console.log(typeof e.detail.sttBuffer);
+  //     const { channel, endTime, script, isFinal } = e.detail;
+  //     // // setSttData.push(e.detail.sttBuffer);
+  //     // setSttData(e.detail.sttBuffer);
+  //     // // setSttData(e.detail.sttBuffer);
+  //     // console.log(sttData);
+
+  //     let setStateFn;
+  //     if (channel === 'left') {
+  //       setStateFn = setSttLeftData;
+  //     } else {
+  //       setStateFn = setSttRightData;
+  //     }
+
+  //     setStateFn((prev) => {
+  //       if (prev.length === 0) {
+  //         prev.push({
+  //           script,
+  //           ts: Date.now(),
+  //           channel,
+  //         });
+  //       } else {
+  //         prev[prev.length - 1].script = script;
+  //         prev[prev.length - 1].channel = channel;
+  //         if (prev[prev.length - 1].ts === -1) {
+  //           prev[prev.length - 1].ts = Date.now();
+  //         }
+  //       }
+
+  //       if (isFinal) {
+  //         prev.push({
+  //           ts: -1,
+  //         });
+  //         // console.log(prev);
+  //       }
+
+  //       return [...prev];
+  //     });
+
+  //     console.dir(`***********STTEvent1: ${e}`);
+  //     console.dir(`***********STTEvent2: ${e.detail}`);
+  //     console.dir(`***********STTEvent3: ${e.datas}`);
+  //     console.log(`${channel}, ${endTime}, ${script}`);
+  //     console.log(`***********sttRealTimeEvent***********`);
+  //   };
+
+  //   window.addEventListener('sttRealTimeEvent', onSttRealTimeEvent);
+
+  //   return () => {
+  //     window.removeEventListener('sttRealTimeEvent', onSttRealTimeEvent);
+  //   };
+  // }, []);
+
+  // const dataToPrint = React.useMemo(() => {
+  //   const data = [...sttLeftData, ...sttRightData];
+  //   // const data = [...sttData];
+  //   console.log('&&&&&&&&&&&&&&&&dataToPrint');
+  //   console.log(data);
+
+  //   data.map((d) => {
+  //     return console.log(`%%%%%%%%%%% ${d.channel} ${d.script}`);
+  //   });
+  //   const filtered = data.filter((d) => d.ts > -1 && d.script);
+  //   filtered.sort((d1, d2) => {
+  //     return d1.ts - d2.ts;
+  //   });
+
+  //   return filtered;
+  // }, [sttLeftData, sttRightData]);
+  // }, [sttData]);
+
+  // console.log(dataToPrint);
   const renderScripts = React.useMemo(() => {
     console.log('^^^^^^^^^^^^^^^^^^^^^^renderScripts');
     // return dataToPrint.map((d) => {
