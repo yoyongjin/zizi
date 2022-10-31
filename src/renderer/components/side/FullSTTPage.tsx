@@ -5,26 +5,29 @@ import UserImg from '../../../../assets/user.png';
 import STTHeader from './STTHeader';
 
 const FullContainer = styled.div`
+  overflow-y: hidden;
   box-sizing: border-box;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  min-width: 1000px;
+  /* min-width: 1000px; */
 `;
 
 const STTContainer = styled.div`
   display: flex;
   height: inherit;
   background-color: #d4d6d9;
+  /* padding-bottom: 15px; */
 `;
 const STTContentContainer = styled.div`
   overflow-y: hidden;
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 92.5%;
   justify-content: space-between;
   box-sizing: border-box;
   margin: 24px 25px;
@@ -81,12 +84,12 @@ const SpeakerSpan = styled.span`
 `;
 
 const ScrollDiv = styled.div`
+  max-height: 92%;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  padding: 0 1rem;
   margin: 0px;
-  flex: 1;
   &::-webkit-scrollbar {
     border: 1px solid #ccc;
     border-radius: 2px;
@@ -96,6 +99,7 @@ const ScrollDiv = styled.div`
     border-radius: 2px;
     background: #2f4f4f;
   }
+  background-color: lightcoral;
 `;
 
 const STTContent = styled.p`
@@ -130,7 +134,7 @@ const STTBalloon = styled.div`
   border-radius: 5px;
   /* box-shadow: 5px 5px 6px #b2b2b2; */
   box-shadow: ${(props: any) =>
-    props.isLeftShadow ? ' 5px 5px 6px #b2b2b2' : ' -5px 5px 6px #b2b2b2'};
+    props.isLeftShadow ? ' 2px 2px 3px #b2b2b2' : ' -2px 2px 3px #b2b2b2'};
   height: auto;
   /* width: 425px; */
   padding: 3px 15px 7px 15px;
