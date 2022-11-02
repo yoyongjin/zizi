@@ -67,6 +67,7 @@ class Record {
             channel,
             ts,
             script,
+            isFinal,
           };
 
           this.sttBuffer.push(sttData);
@@ -185,8 +186,8 @@ class Record {
     }
 
     const wav = toWav(resAudioBuffer);
-    const filePath = `\\prod\\zibox2-standard\\public/${fileName}.wav`;
-    // const filePath = `C:/ZiPhone/call/${fileName}.wav`;
+    // const filePath = `\\prod\\zibox2-standard\\public/${fileName}.wav`;
+    const filePath = `C:/ZiPhone/record/${fileName}.wav`;
     // console.log(`*&^$%!@$!@$save path : ${filePath}`);
 
     window
@@ -206,8 +207,8 @@ class Record {
     // console.log('!@#$!@#$createStt');
     console.log(this.sttBuffer);
     // this.fileName = fileName;
-    // const filePath = `C:/ZiPhone/call/${fileName}.txt`;
-    const filePath = `\\prod\\zibox2-standard\\public/${fileName}.txt`;
+    const filePath = `C:/ZiPhone/record/${fileName}.txt`;
+    // const filePath = `\\prod\\zibox2-standard\\public/${fileName}.txt`;
     window
       // .saveSttFile(fileName, sttLeftData, sttRightData)
       .saveSttFile(filePath, this.sttBuffer)

@@ -23,6 +23,7 @@ type STTData = {
   script?: string;
   ts: number;
   channel?: 'left' | 'right';
+  isFinal: boolean;
 };
 
 const STTModal = () => {
@@ -64,10 +65,12 @@ const STTModal = () => {
             script,
             ts: Date.now(),
             channel,
+            isFinal,
           });
         } else {
           prev[prev.length - 1].script = script;
           prev[prev.length - 1].channel = channel;
+          prev[prev.length - 1].isFinal = isFinal;
           if (prev[prev.length - 1].ts === -1) {
             prev[prev.length - 1].ts = Date.now();
           }

@@ -216,6 +216,12 @@ const ListContentComponent = (props: any) => {
     dispatch(sttModalToggle(true));
   };
 
+  const playRecordHandler = (fileName: string) => {
+    window.recordChannel.playRecord(fileName, (result: any) => {
+      console.log('play record: ', result);
+    });
+  };
+
   return (
     <RecordContentContainer>
       {/* <FullScreen handle={screen}>
@@ -230,8 +236,9 @@ const ListContentComponent = (props: any) => {
       <PlayImg
         src={playImg}
         onClick={() => {
-          dispatch(callPlayerToggle(true));
-          dispatch(setCallPlayerFileName(`${data.filename}.wav`));
+          // dispatch(callPlayerToggle(true));
+          // dispatch(setCallPlayerFileName(`${data.filename}.wav`));
+          playRecordHandler(`${data.filename}.wav`);
         }}
       />
       {/* <PlayImg src={playImg} onClick={testFn} /> */}

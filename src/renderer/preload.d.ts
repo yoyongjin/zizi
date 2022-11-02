@@ -59,6 +59,7 @@ declare global {
       // stopRecord(callback: any): void;
       startRecord(userKey: string, callback: any): void;
       stopRecord(userKey: string, callback: any): void;
+      playRecord(fileName: string, callback: any): void;
     };
     connectChannel: {
       sendSeverIp(serverIp: string, callback: any): void;

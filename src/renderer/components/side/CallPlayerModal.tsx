@@ -96,7 +96,7 @@ const CallPlayerModal = () => {
   const closeHandler = () => {
     dispatch(callPlayerToggle(false));
   };
-  // const filePath = `C:/ZiPhone/call/${callPlayerFileName}`;
+  const filePath = `C:/ZiPhone/call/${callPlayerFileName}`;
   console.log('Modal callPlayerFileName:', callPlayerFileName);
   // console.log('Modal filePath:', filePath);
   return (
@@ -138,8 +138,8 @@ const CallPlayerModal = () => {
       </ModalHeaderContainer>
       <ModalContentContainer>
         <AudioPlayer
-          // src={filePath}
-          src={callPlayerFileName}
+          src={filePath}
+          // src={callPlayerFileName}
           autoPlay
           onPlay={console.log('onplay')}
           progressJumpSteps

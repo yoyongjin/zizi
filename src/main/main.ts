@@ -1,3 +1,4 @@
+import { execSync } from 'child_process';
 /* eslint-disable consistent-return */
 /* eslint-disable func-names */
 /* eslint-disable import/prefer-default-export */
@@ -25,6 +26,7 @@ import log from 'electron-log';
 import sqlite from 'sqlite3';
 import isDev from 'electron-is-dev';
 import fs, { unwatchFile } from 'fs';
+import { exec } from 'child_process';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import Record from './utils/record';
@@ -662,9 +664,10 @@ ipcMain.on('save-stt-file', async (event, fileName, sttBuffer) => {
 
 ipcMain.on('get-stt-data', async (event, fileName) => {
   console.log(`main: get-stt-data - ${fileName}`);
-  console.log(`public\\${fileName}`);
+  console.log(`C:/ZiPhone/record/${fileName}`);
 
-  fs.readFile(`public\\${fileName}`, 'utf8', (err, data) => {
+  // fs.readFile(`public\\${fileName}`, 'utf8', (err, data) => {
+  fs.readFile(`C:/ZiPhone/record/${fileName}`, 'utf8', (err, data) => {
     if (err) {
       console.log(err);
     } else {
@@ -685,6 +688,31 @@ ipcMain.on('get-stt-data', async (event, fileName) => {
       event.reply('get-stt-data', parseArr);
     }
   });
+});
+// const { exec } = require('child_process');
+// const util = require('util');
+// const execFile = util.promisify(require('child_process').execFile);
+
+ipcMain.on('play-record', async (event, fileName) => {
+  console.log(`main: play-record - ${fileName}`);
+  console.log(`C:/ZiPhone/record/${fileName}`);
+
+  // fs.readFile(`public\\${fileName}`, 'utf8', (err, data) => {
+  // fs.open(`C:/ZiPhone/record/${fileName}`, (err, data) => {
+  //   if (err) {
+  //     console.log(err);
+  //   } else {
+  //     console.log(data);
+  //     event.reply('play-record', data);
+  //   }
+  // });
+
+  // exec(
+  //   `"C:\\Program Files\\Windows Media Player\\wmplayer.exe" "C:\\ZiPhone\\record\\${fileName}"`
+  // );
+
+  // execFile('C:\\Program Files\\Windows Media Player\\wmplayer.exe', 'C:\\ZiPhone\\record\\${fileName}');
+  shell.openPath(`C:\\ZiPhone\\record\\${fileName}`);
 });
 
 ipcMain.on('send-window-close', async (event) => {

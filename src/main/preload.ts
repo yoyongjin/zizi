@@ -249,6 +249,13 @@ contextBridge.exposeInMainWorld('recordChannel', {
       callback(data);
     });
   },
+  playRecord: (fileName: string, callback: any) => {
+    ipcRenderer.on('play-record', (_, data) => {
+      console.log(`recordChannel - playRecord: ${data}`);
+      callback(data);
+    });
+    ipcRenderer.send('play-record', fileName);
+  },
   // recordStart: (userKey: string) => {
   //   ipcRenderer.once('send-window-fullscreen', () => {
   //     console.log(`preload send-window-fullscreen:`);

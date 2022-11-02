@@ -29,7 +29,7 @@ const STTContentContainer = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   box-sizing: border-box;
   margin: 24px 25px;
   padding: 30px 30px;
@@ -39,34 +39,20 @@ const STTContentContainer = styled.div`
   opacity: 1;
 `;
 
-// const CallerSection = styled.section`
-//   display: flex;
-//   flex-direction: column;
-//   /* background-color: #dda; */
-//   width: 50%;
-//   padding: 24px 30px 0 0;
-//   /* border-right: 1px dashed #707070; */
-// `;
-// const ReceiverSection = styled.section`
-//   display: flex;
-//   flex-direction: column;
-//   /* background-color: #dda; */
-//   width: 50%;
-//   padding-left: 30px;
-//   padding-top: 24px;
-// `;
 const HeaderContainer = styled.div`
   display: flex;
   padding-bottom: 1.5rem;
+  /* background-color: black; */
 `;
 const CallerHeaderContainer = styled.div`
   display: flex;
   /* background-color: #fdfd; */
   width: 50%;
+  justify-content: flex-end;
 `;
 const ReceiverHeaderContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   width: 50%;
   height: 118px;
   /* background-color: #fdf; */
@@ -85,13 +71,14 @@ const SpeakerSpan = styled.span`
 `;
 
 const ScrollDiv = styled.div`
-  max-height: 92%;
+  max-height: 75%;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  padding: 0 1rem;
+  padding: 3px 1rem;
   margin: 0px;
   flex: 1;
+  /* background-color: #bebe; */
   &::-webkit-scrollbar {
     border: 1px solid #ccc;
     border-radius: 2px;
@@ -109,10 +96,10 @@ const STTContent = styled.p`
   margin: 0px;
   margin-top: 10px;
   padding-top: 0px;
-
-  max-width: 50%;
-
-  align-self: ${(props: any) => (props.isLeft ? 'flex-start' : 'flex-end')};
+  max-width: 48%;
+  align-self: ${(props: any) => (props.isright ? 'flex-start' : 'flex-end')};
+  /* z-index: 99999; */
+  /* background-color: black; */
 `;
 const STTBalloonTip = styled.div`
   width: 0px;
@@ -121,7 +108,7 @@ const STTBalloonTip = styled.div`
   border-top: 5px solid transparent;
   border-right: 15px solid #f2f2f2;
   border-bottom: 10px solid transparent;
-  transform: ${(props: any) => (props.isLeftTip ? '' : 'rotate(180deg)')};
+  transform: ${(props: any) => (props.isrightTip ? '' : 'rotate(180deg)')};
 `;
 
 const BalloonContainer = styled.div`
@@ -135,7 +122,7 @@ const STTBalloon = styled.div`
   border-radius: 5px;
   /* box-shadow: 5px 5px 6px #b2b2b2; */
   box-shadow: ${(props: any) =>
-    props.isLeftShadow ? ' 2px 2px 3px #b2b2b2' : ' -2px 2px 3px #b2b2b2'};
+    props.isrightShadow ? ' 2px 2px 3px #b2b2b2' : ' -2px 2px 3px #b2b2b2'};
   height: auto;
   /* width: 425px; */
   padding: 3px 15px 7px 15px;
@@ -147,9 +134,8 @@ type STTData = {
   script?: string;
   ts: number;
   channel?: 'left' | 'right';
-  // script?: string;
+  isFinal: boolean;
   // endTimes: number;
-  // channel?: 'left' | 'right';
 };
 
 interface IFullSTTPage {
@@ -158,107 +144,21 @@ interface IFullSTTPage {
 
 // const FullSTTPage = () => {
 const FullSTTPage = ({ filteredData }: IFullSTTPage) => {
-  // 1. 전체화면STT 눌렀을때 쌓인 stt 불러오게 useEffect[]로 하고
-  // 2. 실시간은 내용 컴포넌트 렌더링
-  // 3. 파일 경로랑 FullSTT 이어주기
-
-  // const [sttLeftData, setSttLeftData] = useState<STTData[]>([]);
-  // const [sttRightData, setSttRightData] = useState<STTData[]>([]);
-  // // const [sttData, setSttData] = useState<STTData[]>([]);
-
-  // // window.sttChannel.sendSttFull('send-stt-full', (datas: any) => {
-  // //   console.log('FullSTTPage.tsx - ', datas);
-  // //   // dispatch(connectToggle(true));
-  // // });
-
-  // useEffect(() => {
-  //   const onSttRealTimeEvent = (e: any) => {
-  //     console.log(`***********sttRealTimeEvent***********`);
-  //     // console.log(e.detail);
-  //     // console.log(e.detail.sttBuffer);
-  //     // console.log(typeof e.detail.sttBuffer);
-  //     const { channel, endTime, script, isFinal } = e.detail;
-  //     // // setSttData.push(e.detail.sttBuffer);
-  //     // setSttData(e.detail.sttBuffer);
-  //     // // setSttData(e.detail.sttBuffer);
-  //     // console.log(sttData);
-
-  //     let setStateFn;
-  //     if (channel === 'left') {
-  //       setStateFn = setSttLeftData;
-  //     } else {
-  //       setStateFn = setSttRightData;
-  //     }
-
-  //     setStateFn((prev) => {
-  //       if (prev.length === 0) {
-  //         prev.push({
-  //           script,
-  //           ts: Date.now(),
-  //           channel,
-  //         });
-  //       } else {
-  //         prev[prev.length - 1].script = script;
-  //         prev[prev.length - 1].channel = channel;
-  //         if (prev[prev.length - 1].ts === -1) {
-  //           prev[prev.length - 1].ts = Date.now();
-  //         }
-  //       }
-
-  //       if (isFinal) {
-  //         prev.push({
-  //           ts: -1,
-  //         });
-  //         // console.log(prev);
-  //       }
-
-  //       return [...prev];
-  //     });
-
-  //     console.dir(`***********STTEvent1: ${e}`);
-  //     console.dir(`***********STTEvent2: ${e.detail}`);
-  //     console.dir(`***********STTEvent3: ${e.datas}`);
-  //     console.log(`${channel}, ${endTime}, ${script}`);
-  //     console.log(`***********sttRealTimeEvent***********`);
-  //   };
-
-  //   window.addEventListener('sttRealTimeEvent', onSttRealTimeEvent);
-
-  //   return () => {
-  //     window.removeEventListener('sttRealTimeEvent', onSttRealTimeEvent);
-  //   };
-  // }, []);
-
-  // const dataToPrint = React.useMemo(() => {
-  //   const data = [...sttLeftData, ...sttRightData];
-  //   // const data = [...sttData];
-  //   console.log('&&&&&&&&&&&&&&&&dataToPrint');
-  //   console.log(data);
-
-  //   data.map((d) => {
-  //     return console.log(`%%%%%%%%%%% ${d.channel} ${d.script}`);
-  //   });
-  //   const filtered = data.filter((d) => d.ts > -1 && d.script);
-  //   filtered.sort((d1, d2) => {
-  //     return d1.ts - d2.ts;
-  //   });
-
-  //   return filtered;
-  // }, [sttLeftData, sttRightData]);
-  // }, [sttData]);
-
-  // console.log(dataToPrint);
+  // const currentSTTDataIsFinal: boolean =
+  //   filteredData[filteredData.length - 1].isFinal;
   const renderScripts = React.useMemo(() => {
     console.log('^^^^^^^^^^^^^^^^^^^^^^renderScripts');
-    // return dataToPrint.map((d) => {
     return filteredData.map((d) => {
       console.log(`############## ${d.channel} ${d.script}`);
       return (
-        <STTContent key={`${d.channel}_${d.ts}`} isLeft={d.channel === 'left'}>
-          {d.channel === 'left' ? (
+        <STTContent
+          key={`${d.channel}_${d.ts}`}
+          isright={d.channel === 'right'}
+        >
+          {d.channel === 'right' ? (
             <BalloonContainer>
-              <STTBalloonTip isLeftTip />
-              <STTBalloon isLeftShadow>{d.script}</STTBalloon>
+              <STTBalloonTip isrightTip />
+              <STTBalloon isrightShadow>{d.script}</STTBalloon>
             </BalloonContainer>
           ) : (
             <BalloonContainer>
@@ -269,7 +169,6 @@ const FullSTTPage = ({ filteredData }: IFullSTTPage) => {
         </STTContent>
       );
     });
-    // }, [dataToPrint]);
   }, [filteredData]);
 
   const messagesEndRef = useRef(null);
@@ -277,10 +176,19 @@ const FullSTTPage = ({ filteredData }: IFullSTTPage) => {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollTo(0, messagesEndRef.current?.scrollHeight);
   };
+
+  const lastDataIsFinal = React.useMemo(() => {
+    if (filteredData.length > 0) {
+      return filteredData[filteredData.length - 1].isFinal;
+    }
+    return false;
+  }, [filteredData]);
+
   useEffect(() => {
     scrollToBottom();
-    // }, [dataToPrint]);
-  }, [filteredData]);
+    // const currentSTTDataIsFinal = filteredData[filteredData.length - 1].isFinal;
+    console.log('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
+  }, [lastDataIsFinal]);
 
   return (
     <FullContainer>
@@ -288,16 +196,15 @@ const FullSTTPage = ({ filteredData }: IFullSTTPage) => {
       <STTContainer>
         <STTContentContainer>
           <HeaderContainer>
-            <CallerHeaderContainer>
-              <ProfileImg src={UserImg2} />
-              <SpeakerSpan>Speaker 1</SpeakerSpan>
-            </CallerHeaderContainer>
             <ReceiverHeaderContainer>
-              <SpeakerSpan>Speaker 2</SpeakerSpan>
               <ProfileImg src={UserImg1} />
+              <SpeakerSpan>Speaker 1</SpeakerSpan>
             </ReceiverHeaderContainer>
+            <CallerHeaderContainer>
+              <SpeakerSpan>Speaker 2</SpeakerSpan>
+              <ProfileImg src={UserImg2} />
+            </CallerHeaderContainer>
           </HeaderContainer>
-
           <ScrollDiv ref={messagesEndRef}>{renderScripts}</ScrollDiv>
         </STTContentContainer>
       </STTContainer>
