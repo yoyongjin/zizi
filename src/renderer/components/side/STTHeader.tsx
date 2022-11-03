@@ -12,7 +12,7 @@ import closeImg from '../../../../assets/close@3x.png';
 const HeaderContainer = styled.div`
   box-sizing: border-box;
   width: 100%;
-  height: 50px;
+  height: 4%;
   display: flex;
   align-items: center;
   justify-content: space-between;
