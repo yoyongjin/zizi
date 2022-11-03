@@ -71,14 +71,14 @@ const SpeakerSpan = styled.span`
 `;
 
 const ScrollDiv = styled.div`
-  max-height: 75%;
+  max-height: 66%;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   padding: 3px 1rem;
   margin: 0px;
   flex: 1;
-  /* background-color: #bebe; */
+  background-color: #bebe;
   &::-webkit-scrollbar {
     border: 1px solid #ccc;
     border-radius: 2px;

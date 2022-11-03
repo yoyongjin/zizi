@@ -6,25 +6,17 @@ const SAMPLE_RATE = 16000;
 class Record {
   constructor() {
     console.log('=================================Record.js constructor');
-
     this.micCtx = null;
-
     this.micBuffer = [];
-
     this.recording = false;
-
     this.startDate = null;
-
     this.fileName = null;
-
     this.sttBuffer = [];
-
     this.sttLeftData = '';
-
     this.sttRightData = '';
 
-    // this.ziboxPacket = new window.ZiBoxPlayer('https://dev.zibox.celering.io');
-    this.ziboxPacket = new window.ZiBoxPlayer('http://127.0.0.1:5001');
+    this.ziboxPacket = new window.ZiBoxPlayer('https://dev.zibox.celering.io');
+    // this.ziboxPacket = new window.ZiBoxPlayer('http://127.0.0.1:5001');
 
     this.onSTTEvent();
   }
